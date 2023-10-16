@@ -36,7 +36,8 @@ public class CqnRemoteServiceHandler implements ToDoRemoteServiceHandler {
 
 
     @Override
-    public TodoEntryV2 addToDo(TodoEntryV2 toDo) {
+    public TodoEntryV2 addToDo(TodoEntryV2 toDo,String userName) {
+        //Todo: To pass along the userName as a userNav property
         var query = Insert.into(TodoEntryV2_.class).entry(toDo);
 
         return cqnToDoService.run(query).single(TodoEntryV2.class);

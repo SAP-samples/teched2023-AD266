@@ -7,7 +7,7 @@ import java.util.List;
 public interface ToDoRemoteServiceHandler {
     List<TodoEntryV2> getCurrentToDos();
 
-    TodoEntryV2 addToDo(TodoEntryV2 todo);
+    TodoEntryV2 addToDo(TodoEntryV2 todo,String userName);
 
     String quit();
 

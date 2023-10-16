@@ -5,6 +5,7 @@ import com.sap.cloud.sdk.cloudplatform.connectivity.DestinationAccessor;
 import com.sap.cloud.sdk.cloudplatform.connectivity.HttpDestination;
 import com.sap.cloud.sdk.datamodel.odata.client.exception.ODataResponseException;
 import com.sap.cloud.sdk.datamodel.odata.helper.batch.BatchResponse;
+import com.sap.cloud.sdk.demo.recap23.remote.utility.Helper;
 
 import cds.gen.todoentryv2.TodoEntryV2;
 import cloudsdk.gen.namespaces.todoentryv2.batch.TodoEntryV2ServiceBatch;
@@ -36,12 +37,14 @@ public class GeneratedCodeRemoteServiceHandler implements ToDoRemoteServiceHandl
 
 
     @Override
-    public TodoEntryV2 addToDo(TodoEntryV2 todo) {
+    public TodoEntryV2 addToDo(TodoEntryV2 todo, String userName) {
 
         final cloudsdk.gen.namespaces.todoentryv2.TodoEntryV2 vdmTodo = cloudsdk.gen.namespaces.todoentryv2.TodoEntryV2.builder()
                 .todoEntryName(todo.getTodoEntryName())
                 .status(todo.getStatus())
                 .build();
+
+        vdmTodo.setCustomField("userNav", Helper.getUserNav(userName));
 
         var destination = getDestination();
 

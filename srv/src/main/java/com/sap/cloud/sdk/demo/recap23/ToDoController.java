@@ -61,7 +61,8 @@ public class ToDoController implements EventHandler {
         toDo.setTodoEntryName(context.getTodo().getTitle());
         toDo.setStatus(3);
 
-        handler.addToDo(toDo);
+        //Todo: Fetch the userName from the context and use below instead
+        handler.addToDo(toDo, "userName");
 
         context.setCompleted();
     }
