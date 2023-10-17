@@ -26,7 +26,7 @@ public class GeneratedCodeRemoteServiceHandler implements ToDoRemoteServiceHandl
     }
 
     @Override
-    public List<TodoEntryV2> getCurrentToDos() {
+    public List<TodoEntryV2> getCurrentToDos(String userName) {
         var destination = getDestination();
 
         return service.getAllTodoEntryV2().executeRequest(destination)
@@ -53,7 +53,7 @@ public class GeneratedCodeRemoteServiceHandler implements ToDoRemoteServiceHandl
     }
 
     @Override
-    public String quit(){
+    public String quit(String userName){
         var destination = getDestination();
 
         var todos = service.getAllTodoEntryV2().executeRequest(destination);

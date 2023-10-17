@@ -27,7 +27,7 @@ public class CqnRemoteServiceHandler implements ToDoRemoteServiceHandler {
 
 
     @Override
-    public List<TodoEntryV2> getCurrentToDos() {
+    public List<TodoEntryV2> getCurrentToDos(String userName) {
         var query = Select.from(TodoEntryV2_.class).limit(10);
 
         var toDos = cqnToDoService.run(query).listOf(TodoEntryV2.class);
@@ -50,8 +50,8 @@ public class CqnRemoteServiceHandler implements ToDoRemoteServiceHandler {
 
 
     @Override
-    public String quit() {
-        var todos = getCurrentToDos();
+    public String quit(String userName) {
+        var todos = getCurrentToDos(userName);
 
         // delete all current todos
         var deleteRequests = todos.stream()

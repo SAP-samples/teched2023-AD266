@@ -6,6 +6,8 @@ import cds.gen.todogeneratorservice.GeneratedTodo;
 import cds.gen.todogeneratorservice.GetTodoSuggestionContext;
 import cds.gen.todogeneratorservice.QuitContext;
 import cds.gen.todogeneratorservice.TodoGeneratorService_;
+
+import com.sap.cds.services.EventContext;
 import com.sap.cds.services.handler.EventHandler;
 import com.sap.cds.services.handler.annotations.On;
 import com.sap.cds.services.handler.annotations.ServiceName;
@@ -30,14 +32,13 @@ public class ToDoController implements EventHandler {
     public void getTodoSuggestion(final GetTodoSuggestionContext context)
     {
         // ToDo: actually get the list of ToDos from the remote service
-        List<TodoEntryV2> toDos = handler.getCurrentToDos();
+        List<TodoEntryV2> toDos = handler.getCurrentToDos(extractUser(context));
 
         // Do some magic to combine existing todos into a suggestion for a new task
         GeneratedTodo suggestion = generateTodoSuggestion(toDos);
 
         context.setResult(suggestion);
     }
-
 
     private static GeneratedTodo generateTodoSuggestion(List<TodoEntryV2> input) {
         // TODO: Implement sophisticated algorithm to generate a ToDo suggestion based on the existing ToDos
@@ -61,11 +62,7 @@ public class ToDoController implements EventHandler {
         toDo.setTodoEntryName(context.getTodo().getTitle());
         toDo.setStatus(3);
 
-        String user = context.getParameterInfo().getQueryParameter("user");
-        if ( user == null ) {
-            user = "sfadmin";
-        }
-        handler.addToDo(toDo, user);
+        handler.addToDo(toDo, extractUser(context));
 
         context.setCompleted();
     }
@@ -74,7 +71,15 @@ public class ToDoController implements EventHandler {
 
     @On(event = QuitContext.CDS_NAME)
     public void quit( QuitContext context ) {
-        final String result = handler.quit();
+        final String result = handler.quit(extractUser(context));
         context.setResult(result);
+    }
+
+    private String extractUser(final EventContext context) {
+        String user = context.getParameterInfo().getQueryParameter("user");
+        if ( user == null ) {
+            user = "sfadmin";
+        }
+        return user;
     }
 }
