@@ -23,7 +23,7 @@ const todoApp = Vue.createApp({
   data() {
     return {
       todos: [],
-      user: undefined,
+      user: 'ALKHASLEY',
       language: languages.js,
       otherLanguage: languages.java,
       suggestion: { title: '', description: '' }
@@ -78,7 +78,7 @@ const todoApp = Vue.createApp({
 
     async addTodo() {
       await axios.post(
-        `${this.getTodoGeneratorService()}/addTodo`,
+        `${this.getTodoGeneratorService()}/addTodo?user=${todoApp.user}`,
         { todo: todoApp.suggestion },
         { 'content-type': 'application/json' }
       );

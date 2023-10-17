@@ -2,12 +2,14 @@ package com.sap.cloud.sdk.demo.recap23.remote;
 
 import cds.gen.todoentryv2.TodoEntryV2Model_;
 import cds.gen.todoentryv2.TodoEntryV2_;
+import com.google.gson.JsonObject;
 import com.sap.cds.ql.Delete;
 import com.sap.cds.ql.Insert;
 import com.sap.cds.ql.Select;
 import com.sap.cds.services.cds.CqnService;
 
 import cds.gen.todoentryv2.TodoEntryV2;
+import com.sap.cloud.sdk.demo.recap23.remote.utility.Helper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -37,7 +39,8 @@ public class CqnRemoteServiceHandler implements ToDoRemoteServiceHandler {
 
     @Override
     public TodoEntryV2 addToDo(TodoEntryV2 toDo,String userName) {
-        //Todo: To pass along the userName as a userNav property
+        final Object userNav = Helper.getUserNav(userName);
+        toDo.put("userNav",userNav);
         var query = Insert.into(TodoEntryV2_.class).entry(toDo);
 
         return cqnToDoService.run(query).single(TodoEntryV2.class);
