@@ -116,13 +116,16 @@
           </button>
         </div>
       </div>
-      <div class="align-center languageToggleView">
-        <label class="languageToggleLabel" :class="language.key"
-          >Using {{ language.name }} backend</label
-        >
-        <button class="round-button languageToggle" @click="toggleLanguage">
-          Switch to {{ otherLanguage.name }} backend
-        </button>
+      <div class="align-center userInput flex-row">
+        <form>
+          <label for="user" class="flex-large">User:</label>
+          <select v-model="selectedUser" id="user" class="flex-small" @change="fetchTodosForUser">
+            <option disabled selected>Please select</option>
+            <option value="ALKHASLEY">Alkhasley</option>
+            <option value="ALICE">Alice</option>
+            <option value="BOB">Bob</option>
+          </select>
+        </form>
       </div>
     </div>
   </body>
