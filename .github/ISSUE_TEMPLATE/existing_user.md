@@ -1,7 +1,7 @@
 ---
 name: User Feedback -- Existing User
 about: Provide feedback for the SAP Cloud SDK as an existing user
-title: User Feedback -- Existing User
+title: User Feedback
 labels: existing user
 assignees: ''
 ---
