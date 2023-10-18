@@ -13,5 +13,5 @@ assignees: ''
 2. How can we improve the SAP Cloud SDK to meet your expectation?
 <!-- Please provide your answer here.-->
 
-3. Please describe your top challenges/issues/problems and use cases, when working with SAP solutions. They do not have to be related to the SAP Cloud SDK.
+3. Please describe your main use cases for adopting the SAP Cloud SDK, as well as any issues you experience when working with the SDK and other SAP solutions.
 <!-- Please provide your answer here.-->
