@@ -1,7 +1,7 @@
 ---
 name: User Feedback -- Potential New User
 about: Provide feedback for the SAP Cloud SDK as a potential new user
-title: User Feedback -- Potential New User
+title: User Feedback
 labels: new user
 assignees: ''
 ---
@@ -10,8 +10,9 @@ assignees: ''
 1. What's your general feeling about the SAP Cloud SDK, after today's session?
 <!-- Please provide your answer here.-->
 
-2. Will you consider trying the SAP Cloud SDK? Why?
+2. On a scale of 1 (not at all likely) to 5 (extremely likely), how likely are you going to try out the SAP Cloud SDK? Please Explain why.
 <!-- Please provide your answer here.-->
 
-3. Please describe your top challenges/issues/problems and use cases, when working with SAP solutions. They do not have to be related to the SAP Cloud SDK.
+3. If you are going to use the SDK, please describe your major use cases, as well as potential challenges
+when working with the SDK and other SAP solutions.
 <!-- Please provide your answer here.-->
