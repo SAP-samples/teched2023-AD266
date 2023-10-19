@@ -1,4 +1,9 @@
 using { managed } from '@sap/cds/common';
+using { TodoEntryV2.TodoEntryV2 } from './external/TodoEntryV2';
+
+extend TodoEntryV2 with {
+    userId: String;
+}
 
 @path: 'TodoGeneratorService'
 service TodoGeneratorService {
@@ -10,4 +15,3 @@ service TodoGeneratorService {
     action addTodo(todo: GeneratedTodo);
     action quit() returns String;
 }
-
