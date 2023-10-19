@@ -7,9 +7,9 @@ assignees: ''
 ---
 
 ### Please answer the following questions
-1. On a scale of 1 (not at all likely) to 5 (extremely likely), how likely are you to recommend the SAP Cloud SDK to a potential user? Please explain why.
-
+1. On a scale of 1 (very dissatisfied) to 5 (very satisfied), how satisfied are you with the SAP Cloud SDK? Please explain why.
 <!-- Please provide your answer here.-->
+
 2. How can we improve the SAP Cloud SDK to meet your expectation?
 <!-- Please provide your answer here.-->
 
