@@ -5,10 +5,16 @@ cds:
   remote.services:
     - name: "TodoEntryV2"
       destination:
-        name: "TODO_SERVICE"
+        name: "SFSF-BASIC-ADMIN"
         type: "odata-v2"
         suffix: "/odata/v2"
         service: "TodoEntryV2"
+    - name: "Goal_101"
+      destination:
+        name: "SFSF-BASIC-ADMIN"
+        type: "odata-v2"
+        suffix: "/odata/v2"
+        service: "Goal_101"
 # ---
 # spring:
 #   config.activate.on-profile: local

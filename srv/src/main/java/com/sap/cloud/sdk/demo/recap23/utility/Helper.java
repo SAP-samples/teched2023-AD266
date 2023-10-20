@@ -1,6 +1,5 @@
-package com.sap.cloud.sdk.demo.recap23.remote.utility;
+package com.sap.cloud.sdk.demo.recap23.utility;
 
-import cds.gen.todoentryv2.TodoEntryV2;
 import cds.gen.todogeneratorservice.GeneratedTodo;
 import com.google.gson.JsonObject;
 import com.sap.cds.services.EventContext;
@@ -49,5 +48,4 @@ public class Helper {
         }
         return result;
     }
-
 }

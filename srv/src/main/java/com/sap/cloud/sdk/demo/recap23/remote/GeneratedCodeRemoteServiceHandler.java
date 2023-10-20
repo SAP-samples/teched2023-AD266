@@ -1,6 +1,5 @@
 package com.sap.cloud.sdk.demo.recap23.remote;
 
-
 import cds.gen.todogeneratorservice.QuitContext;
 import cds.gen.todogeneratorservice.TodoGeneratorService_;
 import cloudsdk.gen.services.DefaultTodoEntryV2Service;
@@ -13,10 +12,8 @@ import com.sap.cds.services.handler.annotations.ServiceName;
 import com.sap.cloud.sdk.cloudplatform.connectivity.DestinationAccessor;
 import com.sap.cloud.sdk.cloudplatform.connectivity.HttpDestination;
 import com.sap.cloud.sdk.datamodel.odata.client.exception.ODataResponseException;
-import com.sap.cloud.sdk.datamodel.odata.client.exception.ODataServiceErrorException;
 import com.sap.cloud.sdk.datamodel.odata.client.expression.FieldReference;
 import com.sap.cloud.sdk.datamodel.odata.client.expression.ValueBoolean;
-import com.sap.cloud.sdk.datamodel.odata.client.request.ODataRequestBatch;
 import com.sap.cloud.sdk.datamodel.odata.helper.ExpressionFluentHelper;
 import com.sap.cloud.sdk.datamodel.odata.helper.batch.BatchResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -24,8 +21,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static com.sap.cloud.sdk.demo.recap23.remote.utility.Helper.extractUser;
-
+import static com.sap.cloud.sdk.demo.recap23.utility.Helper.extractUser;
 
 @Slf4j
 @Component
