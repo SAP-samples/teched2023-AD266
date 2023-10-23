@@ -37,7 +37,7 @@ const todoApp = Vue.createApp({
     async getToDoSuggestion() {
       console.log("Fetching Todo suggestion for: ", this.selectedUser);
       const { data } = await axios.get(
-        `${this.getTodoGeneratorService()}/getTodoSuggestion()?user=${this.selectedUser}`
+        `${this.getTodoService()}/getTodoSuggestion()?user=${this.selectedUser}`
       );
       const { title, description } = data;
       todoApp.suggestion = { title, description };
@@ -54,7 +54,7 @@ const todoApp = Vue.createApp({
       if (!this.checkIfUserIsSelected()) return;
       if (!confirm('Are you sure?')) return;
       const { data } = await axios.post(
-        `${this.getTodoGeneratorService()}/quit?user=${this.selectedUser}`,
+        `${this.getTodoService()}/quit?user=${this.selectedUser}`,
         {},
         { 'content-type': 'application/json' }
       );
@@ -86,9 +86,9 @@ const todoApp = Vue.createApp({
       await this.getToDoSuggestion();
     },
 
-    getTodoGeneratorService() {
+    getTodoService() {
       return `${backend.url[this.getEnv()]
-        }/odata/v4/TodoGeneratorService`;
+        }/odata/v4/TodoService`;
     }
 
   }

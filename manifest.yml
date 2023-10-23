@@ -1,15 +1,8 @@
-# Generated manifest.yml based on template version 0.1.0
-# appName = recap23-java
-# language=java
-# multitenancy=false
 ---
 applications:
-# -----------------------------------------------------------------------------------
-# Backend Service
-# -----------------------------------------------------------------------------------
-- name: recap23-java-srv
-  random-route: true  # for development only
-  path: srv/target/recap23-java-exec.jar
+- name: ad266
+  random-route: true
+  path: srv/target/ad266-exec.jar
   memory: 1G
   disk_quota: 512M
   env:

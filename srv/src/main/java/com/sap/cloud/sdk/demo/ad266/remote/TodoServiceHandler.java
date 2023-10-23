@@ -1,19 +1,19 @@
-package com.sap.cloud.sdk.demo.recap23.remote;
+package com.sap.cloud.sdk.demo.ad266.remote;
 
 import cds.gen.todoentryv2.TodoEntryV2;
 import cds.gen.todoentryv2.TodoEntryV2Model_;
 import cds.gen.todoentryv2.TodoEntryV2_;
-import cds.gen.todogeneratorservice.AddTodoContext;
-import cds.gen.todogeneratorservice.GetTodoSuggestionContext;
-import cds.gen.todogeneratorservice.QuitContext;
-import cds.gen.todogeneratorservice.TodoGeneratorService_;
+import cds.gen.todoservice.AddTodoContext;
+import cds.gen.todoservice.GetTodoSuggestionContext;
+import cds.gen.todoservice.QuitContext;
+import cds.gen.todoservice.TodoService_;
 import com.sap.cds.ql.Insert;
 import com.sap.cds.ql.Select;
 import com.sap.cds.services.cds.CqnService;
 import com.sap.cds.services.handler.EventHandler;
 import com.sap.cds.services.handler.annotations.On;
 import com.sap.cds.services.handler.annotations.ServiceName;
-import com.sap.cloud.sdk.demo.recap23.utility.Helper;
+import com.sap.cloud.sdk.demo.ad266.utility.Helper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -21,33 +21,16 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static com.sap.cloud.sdk.demo.recap23.utility.Helper.extractUser;
-import static com.sap.cloud.sdk.demo.recap23.utility.Helper.generateTodoSuggestion;
+import static com.sap.cloud.sdk.demo.ad266.utility.Helper.extractUser;
 
 @Slf4j
 @Component
-@ServiceName(TodoGeneratorService_.CDS_NAME)
+@ServiceName(TodoService_.CDS_NAME)
 public class TodoServiceHandler implements EventHandler
 {
     @Autowired
     @Qualifier(TodoEntryV2Model_.CDS_NAME)
     private CqnService todoService;
-
-    @On( event = GetTodoSuggestionContext.CDS_NAME)
-    public void getTodoSuggestion(final GetTodoSuggestionContext context)
-    {
-        String user = extractUser(context);
-
-        var toDos = getTodos(user);
-
-        List<String> entryNames = toDos.stream()
-                .peek(e -> log.info("{}", e))
-                .map(TodoEntryV2::getTodoEntryName)
-                .toList();
-
-        var generatedTodo = generateTodoSuggestion(entryNames);
-        context.setResult(generatedTodo);
-    }
 
     private List<TodoEntryV2> getTodos(String user)
     {
@@ -66,7 +49,7 @@ public class TodoServiceHandler implements EventHandler
     {
         var toDo = TodoEntryV2.create();
 
-        var userNav = Helper.getUserNavMap(extractUser(context));
+        var userNav = Helper.getUserNavAsMap(extractUser(context));
         toDo.put("userNav", userNav);
         toDo.setStatus(3);
         toDo.setTodoEntryName(context.getTodo().getTitle());

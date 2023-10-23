@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.sap.cloud.sdk.demo</groupId>
-	<artifactId>recap23-java-parent</artifactId>
+	<artifactId>ad266-parent</artifactId>
 	<version>${revision}</version>
 	<packaging>pom</packaging>
 
-	<name>recap23-java parent</name>
+	<name>AD266 Parent</name>
 
 	<properties>
 		<!-- OUR VERSION -->

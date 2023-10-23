@@ -1,8 +1,9 @@
-package com.sap.cloud.sdk.demo.recap23.utility;
+package com.sap.cloud.sdk.demo.ad266.utility;
 
-import cds.gen.todogeneratorservice.GeneratedTodo;
+import cds.gen.todoservice.GeneratedTodo;
 import com.google.gson.JsonObject;
 import com.sap.cds.services.EventContext;
+import com.sap.cds.services.authentication.AuthenticationInfo;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.Map;
 
 public class Helper {
 
-    public static JsonObject getUserNav(String userName){
+    public static JsonObject getUserNavAsJson(String userName){
         JsonObject userNav = new JsonObject();
         JsonObject nestedUserNav = new JsonObject();
         nestedUserNav.addProperty("uri", "User('"+userName+"')");
@@ -19,7 +20,7 @@ public class Helper {
         return userNav;
     }
 
-    public static Map<String, Object> getUserNavMap(String userName){
+    public static Map<String, Object> getUserNavAsMap(String userName){
         Map<String, Object> userNav = new LinkedHashMap<>();
         Map<String, String> nestedUserNav = new LinkedHashMap<>();
         nestedUserNav.put("uri", "User('"+userName+"')");
@@ -28,24 +29,16 @@ public class Helper {
         return userNav;
     }
 
+    public static String getUser(final EventContext context)
+    {
+        // TODO extract SFSF user ID from the authenticated user's attributes
+        // context.getUserInfo().getAttributes();
 
-    public static String extractUser(final EventContext context) {
+        // for testing use a query parameter or a default value
         String user = context.getParameterInfo().getQueryParameter("user");
         if ( user == null ) {
-            user = "sfadmin";
+            user = "SF0001";
         }
         return user;
-    }
-
-    public static GeneratedTodo generateTodoSuggestion(List<String> input) {
-        // TODO: Implement sophisticated algorithm to generate a ToDo suggestion based on the existing ToDos
-        var result = GeneratedTodo.create();
-        result.setTitle("Hello World!");
-        if( input.isEmpty() ) {
-            result.setDescription("Write a 'Hello World!' application with CAP Java.");
-        } else {
-            result.setDescription("Write a 'Hello World!' application with CAP Java, then finish the other " + input.size() + " ToDos ;)");
-        }
-        return result;
     }
 }

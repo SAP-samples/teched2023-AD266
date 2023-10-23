@@ -1,5 +1,5 @@
 /*
-package com.sap.cloud.sdk.demo.recap23.remote;
+package com.sap.cloud.sdk.demo.ad266.remote;
 
 import cds.gen.TodoEntryV2.Todo;
 import cds.gen.TodoEntryV2.TodoEntryV2;

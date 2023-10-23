@@ -1,7 +1,7 @@
-package com.sap.cloud.sdk.demo.recap23.remote;
+package com.sap.cloud.sdk.demo.ad266.remote;
 
-import cds.gen.todogeneratorservice.QuitContext;
-import cds.gen.todogeneratorservice.TodoGeneratorService_;
+import cds.gen.todoservice.QuitContext;
+import cds.gen.todoservice.TodoService_;
 import cloudsdk.gen.services.DefaultTodoEntryV2Service;
 import cloudsdk.gen.services.TodoEntryV2Service;
 import cloudsdk.gen.namespaces.todoentryv2.TodoEntryV2;
@@ -21,17 +21,17 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static com.sap.cloud.sdk.demo.recap23.utility.Helper.extractUser;
+import static com.sap.cloud.sdk.demo.ad266.utility.Helper.extractUser;
 
 @Slf4j
 @Component
-@ServiceName(TodoGeneratorService_.CDS_NAME)
+@ServiceName(TodoService_.CDS_NAME)
 public class GeneratedCodeRemoteServiceHandler implements EventHandler
 {
     private static final TodoEntryV2Service service = new DefaultTodoEntryV2Service().withServicePath("/odata/v2/TodoEntryV2");
 
     private HttpDestination getDestination() {
-        return DestinationAccessor.getDestination("TODO_SERVICE").asHttp();
+        return DestinationAccessor.getDestination("SFSF-BASIC-ADMIN").asHttp();
     }
 
     public List<TodoEntryV2> getCurrentToDos(String userName) {

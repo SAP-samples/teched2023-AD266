@@ -4,15 +4,15 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<artifactId>recap23-java-parent</artifactId>
+		<artifactId>ad266-parent</artifactId>
 		<groupId>com.sap.cloud.sdk.demo</groupId>
 		<version>${revision}</version>
 	</parent>
 
-	<artifactId>recap23-java</artifactId>
+	<artifactId>ad266</artifactId>
 	<packaging>jar</packaging>
 
-	<name>recap23-java</name>
+	<name>AD266</name>
 
 	<!-- ACTUAL DEPENDENCIES -->
 	<dependencies>
