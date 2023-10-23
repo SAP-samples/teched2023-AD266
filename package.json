@@ -10,9 +10,9 @@
         "kind": "odata-v2",
         "model": "srv/external/TodoEntryV2"
       },
-      "Goal_101": {
+      "Goal": {
         "kind": "odata-v2",
-        "model": "srv/external/Goal_101"
+        "model": "srv/external/Goal"
       }
     }
   }

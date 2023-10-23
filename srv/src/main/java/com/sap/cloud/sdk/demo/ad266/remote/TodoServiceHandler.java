@@ -3,25 +3,17 @@ package com.sap.cloud.sdk.demo.ad266.remote;
 import cds.gen.todoentryv2.TodoEntryV2;
 import cds.gen.todoentryv2.TodoEntryV2Model_;
 import cds.gen.todoentryv2.TodoEntryV2_;
-import cds.gen.todoservice.AddTodoContext;
-import cds.gen.todoservice.GetTodoSuggestionContext;
-import cds.gen.todoservice.QuitContext;
 import cds.gen.todoservice.TodoService_;
-import com.sap.cds.ql.Insert;
 import com.sap.cds.ql.Select;
 import com.sap.cds.services.cds.CqnService;
 import com.sap.cds.services.handler.EventHandler;
-import com.sap.cds.services.handler.annotations.On;
 import com.sap.cds.services.handler.annotations.ServiceName;
-import com.sap.cloud.sdk.demo.ad266.utility.Helper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-
-import static com.sap.cloud.sdk.demo.ad266.utility.Helper.extractUser;
 
 @Slf4j
 @Component
@@ -44,12 +36,12 @@ public class TodoServiceHandler implements EventHandler
         return toDos;
     }
 
-    @On( event = AddTodoContext.CDS_NAME)
+    /*@On( event = AddTodoContext.CDS_NAME)
     public void addSuggestedToDo(final AddTodoContext context)
     {
         var toDo = TodoEntryV2.create();
 
-        var userNav = Helper.getUserNavAsMap(extractUser(context));
+        var userNav = Helper.getUserNavAsMap(getUser(context));
         toDo.put("userNav", userNav);
         toDo.setStatus(3);
         toDo.setTodoEntryName(context.getTodo().getTitle());
@@ -62,8 +54,8 @@ public class TodoServiceHandler implements EventHandler
 
     @On(event = QuitContext.CDS_NAME)
     public void quit( QuitContext context )
-    {
-        return;
+    {*/
+        // return;
         /*final List<TodoEntryV2> todos = getTodoEntryV2s(extractUser(context));
 
         var deleteRequests = todos.stream()
@@ -85,6 +77,6 @@ public class TodoServiceHandler implements EventHandler
         log.info(resultMessage);
         if (failedDeletes > 0) {
             resultMessage += String.format(" Failed to delete %s ToDos from the server.", failedDeletes);
-        }*/
     }
+        }*/
 }

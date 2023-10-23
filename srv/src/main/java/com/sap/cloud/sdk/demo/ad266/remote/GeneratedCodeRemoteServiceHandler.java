@@ -1,27 +1,20 @@
 package com.sap.cloud.sdk.demo.ad266.remote;
 
-import cds.gen.todoservice.QuitContext;
 import cds.gen.todoservice.TodoService_;
+import cloudsdk.gen.namespaces.todoentryv2.TodoEntryV2;
 import cloudsdk.gen.services.DefaultTodoEntryV2Service;
 import cloudsdk.gen.services.TodoEntryV2Service;
-import cloudsdk.gen.namespaces.todoentryv2.TodoEntryV2;
-
 import com.sap.cds.services.handler.EventHandler;
-import com.sap.cds.services.handler.annotations.On;
 import com.sap.cds.services.handler.annotations.ServiceName;
 import com.sap.cloud.sdk.cloudplatform.connectivity.DestinationAccessor;
 import com.sap.cloud.sdk.cloudplatform.connectivity.HttpDestination;
-import com.sap.cloud.sdk.datamodel.odata.client.exception.ODataResponseException;
 import com.sap.cloud.sdk.datamodel.odata.client.expression.FieldReference;
 import com.sap.cloud.sdk.datamodel.odata.client.expression.ValueBoolean;
 import com.sap.cloud.sdk.datamodel.odata.helper.ExpressionFluentHelper;
-import com.sap.cloud.sdk.datamodel.odata.helper.batch.BatchResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-
-import static com.sap.cloud.sdk.demo.ad266.utility.Helper.extractUser;
 
 @Slf4j
 @Component
@@ -44,11 +37,11 @@ public class GeneratedCodeRemoteServiceHandler implements EventHandler
                 .executeRequest(destination);
     }
 
-
+/*
     @On(event = QuitContext.CDS_NAME)
     public void quit( QuitContext context )
     {
-        var todos = getCurrentToDos(extractUser(context));
+        var todos = getCurrentToDos(Helper.getUser(context));
 
         var changeSet = service.batch().beginChangeSet();
         todos.forEach(changeSet::deleteTodoEntryV2);
@@ -76,5 +69,5 @@ public class GeneratedCodeRemoteServiceHandler implements EventHandler
             resultMessage += String.format(" Failed to delete %s ToDos from the server.", failedDeletes);
         }
         context.setResult(resultMessage);
-    }
+    }*/
 }

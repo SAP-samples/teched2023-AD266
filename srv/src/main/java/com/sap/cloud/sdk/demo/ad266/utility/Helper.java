@@ -1,12 +1,9 @@
 package com.sap.cloud.sdk.demo.ad266.utility;
 
-import cds.gen.todoservice.GeneratedTodo;
 import com.google.gson.JsonObject;
 import com.sap.cds.services.EventContext;
-import com.sap.cds.services.authentication.AuthenticationInfo;
 
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Helper {
