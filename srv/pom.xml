@@ -73,40 +73,25 @@
 
 
 
-		<!-- Cloud SDK OData & Destinations -->
+		<!-- Cloud SDK OpenAPI & Destinations -->
 		<dependency>
 			<groupId>com.sap.cloud.sdk.datamodel</groupId>
-			<artifactId>odata-client</artifactId>
+			<artifactId>openapi-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.sap.cloud.sdk.frameworks</groupId>
+			<artifactId>apache-httpclient5</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.sap.cloud.sdk.cloudplatform</groupId>
 			<artifactId>cloudplatform-connectivity</artifactId>
 		</dependency>
 
-
-
-
-
-		<!-- Cloud SDK OData Generated VDM -->
-		<!--<dependency>
-			<groupId>com.sap.cloud.sdk.datamodel</groupId>
-			<artifactId>odata-v4-core</artifactId>
-		</dependency>-->
-		<dependency>
-			<groupId>com.sap.cloud.sdk.datamodel</groupId>
-			<artifactId>odata-core</artifactId>
-		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
-			<groupId>javax.inject</groupId>
-			<artifactId>javax.inject</artifactId>
-			<scope>provided</scope>
-		</dependency>
-
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
@@ -192,25 +177,22 @@
 			<!-- Cloud SDK OData VDM Generator -->
 			<plugin>
 				<groupId>com.sap.cloud.sdk.datamodel</groupId>
-				<artifactId>odata-generator-maven-plugin</artifactId>
+				<artifactId>openapi-generator-maven-plugin</artifactId>
 				<version>4.24.0</version>
 				<executions>
 					<execution>
-						<id>generate-consumption</id>
+						<id>generate-signup-service</id>
 						<phase>generate-sources</phase>
 						<goals>
 							<goal>generate</goal>
 						</goals>
 						<configuration>
-							<inputDirectory>${project.basedir}/external/TodoEntryV2.edmx</inputDirectory>
+							<inputSpec>${project.basedir}/external/signup.json</inputSpec>
 							<outputDirectory>${project.basedir}/src/gen/java</outputDirectory>
 							<deleteOutputDirectory>false</deleteOutputDirectory>
-							<packageName>cloudsdk.gen</packageName>
-							<defaultBasePath>odata/v2/</defaultBasePath>
+							<apiPackage>cloudsdk.gen.signupservice</apiPackage>
+							<modelPackage>cloudsdk.gen.signupservice</modelPackage>
 							<compileScope>COMPILE</compileScope>
-							<serviceMethodsPerEntitySet>true</serviceMethodsPerEntitySet>
-							<serviceNameMappingFile>${project.build.directory}/serviceNameMappings.properties</serviceNameMappingFile>
-							<overwriteFiles>true</overwriteFiles>
 						</configuration>
 					</execution>
 				</executions>

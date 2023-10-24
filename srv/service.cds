@@ -1,20 +1,9 @@
 using { managed } from '@sap/cds/common';
-using { TodoEntryV2.TodoEntryV2 } from './external/TodoEntryV2';
 using { Goal.Goal_101, Goal.GoalTask_101 } from './external/Goal';
 
 @path: 'SignupService'
 service SignupService {
     action signUp(session: String);
-}
-
-
-extend Goal_101 with {
-  weight: Double;
-}
-
-extend GoalTask_101 with {
-  description: String;
-  done: Double;
 }
 
 @path: 'GoalService'
@@ -26,15 +15,11 @@ service GoalService {
         }
 }
 
-extend TodoEntryV2 with {
-    userId: String;
+extend Goal_101 with {
+  weight: Double;
 }
 
-@path: 'TodoService'
-service TodoService {
-    entity Todo as projection on TodoEntryV2 {
-            todoEntryId as id,
-            todoEntryName as title,
-            status,
-        }
+extend GoalTask_101 with {
+  description: String;
+  done: Double;
 }

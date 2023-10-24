@@ -1,18 +1,17 @@
 package com.sap.cloud.sdk.demo.ad266.remote;
 
 import cds.gen.goal.Goal101;
+import cds.gen.goal.Goal101_;
 import cds.gen.goal.GoalTask101;
 import cds.gen.goal.GoalTask101_;
-import cds.gen.goal.Goal_;
-import cds.gen.goal.Goal101_;
 import cds.gen.goalservice.Goal;
+import cds.gen.goalservice.Goal_;
 import cds.gen.goalservice.GoalService_;
 import com.sap.cds.Result;
 import com.sap.cds.ql.CQL;
 import com.sap.cds.ql.Insert;
 import com.sap.cds.ql.Select;
 import com.sap.cds.ql.StructuredType;
-import com.sap.cds.ql.cqn.CqnPredicate;
 import com.sap.cds.services.cds.CdsCreateEventContext;
 import com.sap.cds.services.cds.CdsDeleteEventContext;
 import com.sap.cds.services.cds.CdsReadEventContext;
@@ -23,7 +22,6 @@ import com.sap.cds.services.handler.annotations.ServiceName;
 import com.sap.cds.services.runtime.CdsRuntime;
 import com.sap.cloud.sdk.cloudplatform.connectivity.DestinationAccessor;
 import com.sap.cloud.sdk.cloudplatform.connectivity.DestinationProperty;
-import com.sap.cloud.sdk.demo.ad266.utility.Helper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -38,10 +36,10 @@ import java.util.List;
 @ServiceName(GoalService_.CDS_NAME)
 public class GoalServiceHandler implements EventHandler
 {
-    private static final String DEMO_ID = "ID01"; // TODO replace with your demo ID
+    private static final String DEMO_ID = "ID00"; // TODO replace with your demo ID
 
     @Autowired
-    @Qualifier(Goal_.CDS_NAME)
+    @Qualifier(cds.gen.goal.Goal_.CDS_NAME)
     private CqnService goalService;
 
     @Autowired
@@ -55,7 +53,7 @@ public class GoalServiceHandler implements EventHandler
         context.setResult(goals.stream().map(GoalServiceHandler::toSimpleGoal).toList());
     }
 
-    public List<Goal101> getLearningGoals( )
+    private List<Goal101> getLearningGoals()
     {
         var user = getUser();
         var query = CQL.get(Goal101.CATEGORY).eq("Learning and Growth")
@@ -119,7 +117,6 @@ public class GoalServiceHandler implements EventHandler
         var insert = Insert.into(GoalTask101_.CDS_NAME).entry(task);
 
         goalService.run(insert).single(Goal101.class);
-
     }
 
     @On( event = CqnService.EVENT_DELETE, entity = Goal_.CDS_NAME)
@@ -142,6 +139,7 @@ public class GoalServiceHandler implements EventHandler
 
         var email = DestinationAccessor.getDestination(destinationName)
                 .get(DestinationProperty.BASIC_AUTH_USERNAME).get();
+
         return email.split("@")[0];
     }
 

@@ -6,8 +6,7 @@ import com.sap.cds.services.handler.EventHandler;
 import com.sap.cds.services.handler.annotations.On;
 import com.sap.cds.services.handler.annotations.ServiceName;
 import com.sap.cloud.sdk.demo.ad266.remote.GoalServiceHandler;
-import com.sap.cloud.sdk.demo.ad266.remote.TodoServiceHandler;
-import com.sap.cloud.sdk.demo.ad266.utility.Helper;
+import com.sap.cloud.sdk.demo.ad266.remote.SignupServiceHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,18 +17,16 @@ import org.springframework.stereotype.Component;
 public class SignupHandler implements EventHandler
 {
     @Autowired
-    TodoServiceHandler todoService;
+    private SignupServiceHandler signupService;
 
     @Autowired
-    GoalServiceHandler goalService;
+    private GoalServiceHandler goalService;
 
     @On( event = SignUpContext.CDS_NAME)
     public void signUp(SignUpContext context)
     {
-        var goal = goalService.getLearningGoal();
-        if ( goal == null ) {
-            goal = goalService.createGoal();
-        }
+        // sign up for the event and the session
+        signupService.signUpForTechEd();
 
         String session;
         if (context.getSession() != null) {
@@ -37,6 +34,15 @@ public class SignupHandler implements EventHandler
         } else {
             session = "Attend the TechEd 2023 Opening Keynote";
         }
+        signupService.signUpForSession(session);
+
+        // create a goal and related tasks in SFSF
+        var goal = goalService.getLearningGoal();
+
+        if ( goal == null ) {
+            goal = goalService.createGoal();
+        }
+
         goalService.createSubGoal(goal, session);
 
         context.setCompleted();
