@@ -1,10 +1,15 @@
 using { managed } from '@sap/cds/common';
 using { TodoEntryV2.TodoEntryV2 } from './external/TodoEntryV2';
-using { Goal.Goal_101 } from './external/Goal';
+using { Goal.Goal_101, Goal.GoalTask_101 } from './external/Goal';
 
 @path: 'SignupService'
 service SignupService {
     action signUp(session: String);
+}
+
+extend GoalTask_101 with {
+  description: String;
+  done: Double;
 }
 
 @path: 'GoalService'

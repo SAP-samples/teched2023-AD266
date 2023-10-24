@@ -2,6 +2,7 @@ package com.sap.cloud.sdk.demo.ad266.remote;
 
 import cds.gen.goal.Goal101;
 import cds.gen.goal.GoalTask101;
+import cds.gen.goal.GoalTask101_;
 import cds.gen.goal.Goal_;
 import cds.gen.goal.Goal101_;
 import cds.gen.goalservice.Goal;
@@ -49,7 +50,8 @@ public class GoalServiceHandler implements EventHandler
         context.setResult(goals.stream().map(GoalServiceHandler::toSimpleGoal).toList());
     }
 
-    public List<Goal101> getLearningGoals( String user) {
+    public List<Goal101> getLearningGoals( String user)
+    {
         var query = CQL.get(Goal101.CATEGORY).eq("Learning and Growth")
                 .and( CQL.get(Goal101.NAME).eq("Learn something at TechEd 2023"))
                 .and( CQL.get(Goal101.USER_ID).eq(user));
@@ -68,7 +70,7 @@ public class GoalServiceHandler implements EventHandler
     }
 
     public Goal101 getLearningGoal(String user) {
-        return getLearningGoals(user).get(0);
+        return getLearningGoals(user).stream().findFirst().orElse(null);
     }
 
     @On( event = CqnService.EVENT_CREATE, entity = Goal_.CDS_NAME)
@@ -100,14 +102,14 @@ public class GoalServiceHandler implements EventHandler
     public void createSubGoal( Goal101 goal, String title )
     {
         var task = GoalTask101.create();
-        task.setModifier("modifier");
-        goal.getTasks().add(task);
+        task.setObjId(goal.getId());
+        task.setDescription(title);
+        task.setDone(10d);
 
-        var update = Update.entity(Goal101_.CDS_NAME).entry(goal);
+        var insert = Insert.into(GoalTask101_.CDS_NAME).entry(task);
 
-        var result = goalService.run(update).single(Goal101.class);
+        goalService.run(insert).single(Goal101.class);
 
-        log.info("Created the following Goal in SFSF: {}", result);
     }
 
     @On( event = CqnService.EVENT_DELETE, entity = Goal_.CDS_NAME)
