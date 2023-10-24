@@ -26,18 +26,18 @@ public class SignupHandler implements EventHandler
     @On( event = SignUpContext.CDS_NAME)
     public void signUp(SignUpContext context)
     {
-        var user = Helper.getUser(context);
-
-        var goal = goalService.getLearningGoal(user);
+        var goal = goalService.getLearningGoal();
         if ( goal == null ) {
-            goal = goalService.createGoal(user);
+            goal = goalService.createGoal();
         }
 
-        var sessionTitle = context.getParameterInfo().getQueryParameter("title");
-        if ( sessionTitle == null ) {
-            sessionTitle = "test sub goal";
+        String session;
+        if (context.getSession() != null) {
+            session = context.getSession();
+        } else {
+            session = "Attend the TechEd 2023 Opening Keynote";
         }
-        goalService.createSubGoal(goal, sessionTitle);
+        goalService.createSubGoal(goal, session);
 
         context.setCompleted();
     }

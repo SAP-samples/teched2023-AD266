@@ -7,6 +7,11 @@ service SignupService {
     action signUp(session: String);
 }
 
+
+extend Goal_101 with {
+  weight: Double;
+}
+
 extend GoalTask_101 with {
   description: String;
   done: Double;
