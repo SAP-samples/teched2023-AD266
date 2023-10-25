@@ -2,18 +2,31 @@ package com.sap.cloud.sdk.demo.ad266.utility;
 
 import cloudsdk.gen.namespaces.goal.GoalTask_101;
 import cloudsdk.gen.namespaces.goal.Goal_101;
+import com.sap.cds.services.request.RequestContext;
+import com.sap.cds.services.runtime.CdsRuntime;
+import com.sap.cloud.sdk.cloudplatform.connectivity.DestinationHeaderProvider;
+import com.sap.cloud.sdk.cloudplatform.connectivity.DestinationRequestContext;
+import com.sap.cloud.sdk.cloudplatform.connectivity.Header;
+import com.sap.cloud.sdk.cloudplatform.requestheader.RequestHeaderAccessor;
+import com.sap.cloud.sdk.cloudplatform.requestheader.RequestHeaderContainer;
+import io.vavr.control.Try;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.function.ServerRequest;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -21,6 +34,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
 import java.util.regex.Pattern;
 
 @RestController
@@ -30,13 +44,26 @@ public class MockGoalService {
     private final Map<Long, List<GoalTask_101>> tasks = new ConcurrentHashMap<>();
     private final Random rnd = new Random();
 
+    public static class FlakyHeaderProvider implements DestinationHeaderProvider {
+        @Nonnull
+        @Override
+        public List<Header> getHeaders(@Nonnull DestinationRequestContext context ) {
+            var result = new ArrayList<Header>();
+            var headers = RequestHeaderAccessor.getHeaderContainer();
+            headers.getHeaderValues("delay").forEach(s -> result.add(new Header("delay", s)));
+            headers.getHeaderValues("fault").forEach(s -> result.add(new Header("fault", s)));
+            return result;
+        }
+    }
+
     @GetMapping("Goal_101")
     protected ResponseEntity<?> getGoals(
             @RequestParam(value = "$top", defaultValue = "100") Integer top,
-            @RequestParam(value = "$filter", defaultValue = "") String filter
+            @RequestParam(value = "$filter", defaultValue = "") String filter,
+            @RequestHeader HttpHeaders headers
     ) {
         var userId = filter.replaceFirst("^userId eq \\W(.*)\\W$", "$1");
-        userId = flaky(userId);
+        flaky(headers);
         var entries = goals.get(userId);
         return ResponseEntity.ok(
             Collections.singletonMap("d",
@@ -45,13 +72,14 @@ public class MockGoalService {
     }
 
     @GetMapping("Goal_101({id})")
-    protected ResponseEntity<?> getGoal( @PathVariable String id ) {
+    protected ResponseEntity<?> getGoal( @PathVariable String id,
+                                         @RequestHeader HttpHeaders headers ) {
         var numMach = Pattern.compile("\\d+(\\.[fd]\\d+)?").matcher(id);
         if(!numMach.find()) {
             throw new IllegalArgumentException("Invalid id.");
         }
-        var goalId = flaky(numMach.group());
-        var num = Long.valueOf(goalId);
+        flaky(headers);
+        var num = Long.valueOf(numMach.group());
         var goal = goals.values().stream().flatMap(List::stream).filter(g -> num.equals(g.getId())).findFirst();
         if(goal.isEmpty()) {
             throw new IllegalArgumentException("Goal not found.");
@@ -62,12 +90,13 @@ public class MockGoalService {
 
     @PostMapping("Goal_101")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    protected void postGoal( @RequestBody Goal_101 goal ) {
+    protected void postGoal( @RequestBody Goal_101 goal,
+                             @RequestHeader HttpHeaders headers ) {
         var userId = goal.getUserId();
         if(userId==null) {
             throw new IllegalArgumentException("Missing userId.");
         }
-        userId = flaky(userId);
+        flaky(headers);
         var goals = this.goals.computeIfAbsent(userId, id -> new ArrayList<>());
         var baseId = Math.abs(userId.hashCode()%1000000L);
         goal.setId(baseId+goals.size());
@@ -76,23 +105,26 @@ public class MockGoalService {
 
     @DeleteMapping("Goal_101({id})")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    protected void deleteGoal( @PathVariable String id ) {
+    protected void deleteGoal( @PathVariable String id,
+                               @RequestHeader HttpHeaders headers ) {
         var numMach = Pattern.compile("\\d+(\\.[fd]\\d+)?").matcher(id);
         if(!numMach.find()) {
             throw new IllegalArgumentException("Invalid id.");
         }
-        var goalId = flaky(numMach.group());
-        var num = Long.valueOf(goalId);
+        flaky(headers);
+        var num = Long.valueOf(numMach.group());
         goals.values().forEach(list -> list.removeIf(goal -> num.equals(goal.getId())));
     }
 
     @PostMapping("GoalTask_101")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    protected void postTask( @RequestBody GoalTask_101 task ) {
+    protected void postTask( @RequestBody GoalTask_101 task,
+                             @RequestHeader HttpHeaders headers ) {
         var goalId = task.getObjId();
         if(goalId==null) {
             throw new IllegalArgumentException("Missing objId.");
         }
+        flaky(headers);
         var tasks = this.tasks.computeIfAbsent(goalId, id -> new ArrayList<>());
         var baseId = Math.abs(goalId.hashCode()%1000000L);
         task.setId(baseId+tasks.size());
@@ -101,13 +133,14 @@ public class MockGoalService {
 
     @DeleteMapping("GoalTask_101({id})")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    protected void deleteTask( @PathVariable String id ) {
+    protected void deleteTask( @PathVariable String id,
+                               @RequestHeader HttpHeaders headers ) {
         var numMach = Pattern.compile("\\d+(\\.[fd]\\d+)?").matcher(id);
         if(!numMach.find()) {
             throw new IllegalArgumentException("Invalid id.");
         }
-        var goalId = flaky(numMach.group());
-        var num = Long.valueOf(goalId);
+        flaky(headers);
+        var num = Long.valueOf(numMach.group());
         tasks.values().forEach(list -> list.removeIf(t -> num.equals(t.getId())));
     }
 
@@ -115,20 +148,13 @@ public class MockGoalService {
         g.setCustomField("tasks", Collections.singletonMap("results", tasks.get(g.getId())));
     }
 
-    private String flaky(String id) {
-        var flakyMatch = Pattern.compile("\\.([df])(\\d+)$").matcher(id);
-        if(!flakyMatch.find()) {
-            return id;
-        }
-        var num = Integer.parseInt(flakyMatch.group(2));
-        switch (flakyMatch.group(1)) {
-            case "d":
-                try { Thread.sleep(num); } catch (InterruptedException e) { /* delay interrupted */ }
-                break;
-            case "f":
-                if(rnd.nextInt(100)< num) { throw new RuntimeException("Flaky service."); }
-                break;
-        }
-        return id.substring(0, flakyMatch.start());
+    private void flaky(Map<String,List<String>> headers) {
+        Optional.ofNullable(headers.get("delay")).ifPresent(v -> {
+            try { Thread.sleep(Integer.parseInt(v.get(0))); } catch (InterruptedException e) { /* delay interrupted */ }
+        });
+
+        Optional.ofNullable(headers.get("fault")).ifPresent(v -> {
+            if( rnd.nextInt(100)<Integer.parseInt(v.get(0))) { throw new RuntimeException("Flaky service."); }
+        });
     }
 }
