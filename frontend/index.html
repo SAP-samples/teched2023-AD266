@@ -42,6 +42,7 @@
     label:hover { cursor: pointer; }
     label > input { display: none; }
     label > input:checked + *:before { content:'✔️'; }
+    label > input:active + *:before { content:'➕️'; }
     label > input + *:before { content:'✖️'; vertical-align: top; display: inline-block; padding: 0.3em 0.3em 0 0; font-size:0.6em; }
     label { display:block; margin: 1em; }
   </style>
@@ -50,13 +51,15 @@
 <h1>Event Registration</h1>
 <div id="eventList">
   <!-- Events will be displayed here -->
+  <!--
   <label for="a" onchange="registerForEvent('a')"><input id="a" type="radio"/><span>Fooo</span></label>
   <label for="b" onchange="registerForEvent('b')"><input id="b" type="radio"/><span>Bar</span></label>
+  -->
 </div>
 
 <script>
   // Fetch events from your API and populate the list
-  fetch('https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/api/v1/events')
+  fetch('https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/events')
     .then((response) => response.json())
     .then((events) => {
       const eventList = document.getElementById('eventList');
