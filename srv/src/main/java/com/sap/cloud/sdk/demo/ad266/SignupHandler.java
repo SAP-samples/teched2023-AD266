@@ -6,7 +6,7 @@ import com.sap.cds.services.handler.EventHandler;
 import com.sap.cds.services.handler.annotations.On;
 import com.sap.cds.services.handler.annotations.ServiceName;
 import com.sap.cloud.sdk.demo.ad266.remote.GoalServiceHandler;
-import com.sap.cloud.sdk.demo.ad266.remote.SignupServiceHandler;
+import com.sap.cloud.sdk.demo.ad266.remote.RegistrationServiceHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 public class SignupHandler implements EventHandler
 {
     @Autowired
-    private SignupServiceHandler signupService;
+    private RegistrationServiceHandler signupService;
 
     @Autowired
     private GoalServiceHandler goalService;

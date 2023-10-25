@@ -1,6 +1,6 @@
 const express = require('express');
 const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./signup.json');
+const swaggerDocument = require('./registration.json');
 
 const app = express();
 const port = process.env.PORT || 5000;

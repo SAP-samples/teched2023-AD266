@@ -187,7 +187,7 @@
 							<goal>generate</goal>
 						</goals>
 						<configuration>
-							<inputSpec>${project.basedir}/external/signup.json</inputSpec>
+							<inputSpec>${project.basedir}/external/registration.json</inputSpec>
 							<outputDirectory>${project.basedir}/src/gen/java</outputDirectory>
 							<deleteOutputDirectory>false</deleteOutputDirectory>
 							<apiPackage>cloudsdk.gen.signupservice</apiPackage>
