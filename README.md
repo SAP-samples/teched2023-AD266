@@ -1,18 +1,23 @@
 [![REUSE status](https://api.reuse.software/badge/github.com/SAP-samples/teched2023-AD266)](https://api.reuse.software/info/github.com/SAP-samples/teched2023-AD266)
 
-# Session ID - Session Title
+# AD266 - Learn Once, Apply Everywhere: Code-First Extensions Across SAP Solutions
 
 ## Description
 
-This repository contains the material for the SAP TechEd 2022 session called Session ID - Session Title.  
+This repository contains the material for the SAP TechEd 2023 session AD266 - Learn Once, Apply Everywhere: Code-First Extensions Across SAP Solutions.
 
 ## Overview
 
-This session introduces attendees to...
+This session dives into how tools such as SAP Cloud Application Programming Model, SAP Cloud SDK, and others can be used to develop applications that connect to SAP applications of any kind through APIs.
 
 ## Requirements
 
-The requirements to follow the exercises in this repository are...
+The requirements to follow the exercises in this repository are:
+
+- Java 17
+- Maven 3.9
+- Node 18
+- NPM 10
 
 ## Exercises
 
