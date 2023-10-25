@@ -5,8 +5,8 @@ import cds.gen.goal.Goal101_;
 import cds.gen.goal.GoalTask101;
 import cds.gen.goal.GoalTask101_;
 import cds.gen.goalservice.Goal;
-import cds.gen.goalservice.Goal_;
 import cds.gen.goalservice.GoalService_;
+import cds.gen.goalservice.Goal_;
 import com.sap.cds.Result;
 import com.sap.cds.ql.CQL;
 import com.sap.cds.ql.Insert;
@@ -45,14 +45,6 @@ public class GoalServiceHandler implements EventHandler
     @Autowired
     private CdsRuntime cdsRuntime;
 
-    @On( event = CqnService.EVENT_READ, entity = Goal_.CDS_NAME)
-    public void getLearningGoals(CdsReadEventContext context)
-    {
-       var goals = getLearningGoals();
-
-        context.setResult(goals.stream().map(GoalServiceHandler::toSimpleGoal).toList());
-    }
-
     private List<Goal101> getLearningGoals()
     {
         var user = getUser();
@@ -75,21 +67,13 @@ public class GoalServiceHandler implements EventHandler
                 .filter(g -> g.getPermissionNav().getView())
                 .toList();
 
-        log.info("Got the following ToDos from the server: {}", visibleGoals);
+        log.info("Got the following goals from the server: {}", visibleGoals);
 
         return visibleGoals;
     }
 
     public Goal101 getLearningGoal() {
         return getLearningGoals().stream().findFirst().orElse(null);
-    }
-
-    @On( event = CqnService.EVENT_CREATE, entity = Goal_.CDS_NAME)
-    public void createGoal( CdsCreateEventContext context, Goal goal )
-    {
-        var result = createGoal(getUser(), goal);
-
-        context.setResult(Collections.singleton(toSimpleGoal(result)));
     }
 
     public Goal101 createGoal( ) {
@@ -107,24 +91,17 @@ public class GoalServiceHandler implements EventHandler
         return result;
     }
 
-    public void createSubGoal( Goal101 goal, String title )
+    public void createTask(Goal101 goal, String title )
     {
+        var description = "Attend session the session '" + title + "' and share what you learned!";
         var task = GoalTask101.create();
         task.setObjId(goal.getId());
-        task.setDescription(title);
+        task.setDescription(description);
         task.setDone(10d);
 
         var insert = Insert.into(GoalTask101_.CDS_NAME).entry(task);
 
         goalService.run(insert).single(Goal101.class);
-    }
-
-    @On( event = CqnService.EVENT_DELETE, entity = Goal_.CDS_NAME)
-    public void deleteGoal( CdsDeleteEventContext context )
-    {
-        Result result = goalService.run(context.getCqn());
-
-        context.setResult(result);
     }
 
     private String getUser()
@@ -141,6 +118,30 @@ public class GoalServiceHandler implements EventHandler
                 .get(DestinationProperty.BASIC_AUTH_USERNAME).get();
 
         return email.split("@")[0];
+    }
+
+    @On( event = CqnService.EVENT_READ, entity = Goal_.CDS_NAME)
+    public void getLearningGoals(CdsReadEventContext context)
+    {
+        var goals = getLearningGoals();
+
+        context.setResult(goals.stream().map(GoalServiceHandler::toSimpleGoal).toList());
+    }
+
+    @On( event = CqnService.EVENT_CREATE, entity = Goal_.CDS_NAME)
+    public void createGoal( CdsCreateEventContext context, Goal goal )
+    {
+        var result = createGoal(getUser(), goal);
+
+        context.setResult(Collections.singleton(toSimpleGoal(result)));
+    }
+
+    @On( event = CqnService.EVENT_DELETE, entity = Goal_.CDS_NAME)
+    public void deleteGoal( CdsDeleteEventContext context )
+    {
+        Result result = goalService.run(context.getCqn());
+
+        context.setResult(result);
     }
 
     private static Goal101 draftGoal(Goal draft, String user)

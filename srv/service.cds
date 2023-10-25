@@ -3,7 +3,7 @@ using { Goal.Goal_101, Goal.GoalTask_101 } from './external/Goal';
 
 @path: 'SignupService'
 service SignupService {
-    action signUp(session: String);
+    action signUp(session: String) returns String;
 }
 
 @path: 'GoalService'

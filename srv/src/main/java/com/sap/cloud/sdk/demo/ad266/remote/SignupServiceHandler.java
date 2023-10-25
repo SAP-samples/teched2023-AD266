@@ -2,18 +2,18 @@ package com.sap.cloud.sdk.demo.ad266.remote;
 
 import cloudsdk.gen.signupservice.Event;
 import cloudsdk.gen.signupservice.SignupApi;
+import com.sap.cloud.sdk.cloudplatform.connectivity.Destination;
 import com.sap.cloud.sdk.cloudplatform.connectivity.DestinationAccessor;
-import com.sap.cloud.sdk.cloudplatform.connectivity.HttpDestination;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Component
-@RestController("/rest/v1")
+@RestController
 public class SignupServiceHandler {
 
-    private HttpDestination getDestination() {
-        return DestinationAccessor.getDestination("Signup-Service").asHttp();
+    private Destination getDestination() {
+        return DestinationAccessor.getDestination("Signup-Service");
     }
 
     public void signUpForTechEd() {
@@ -21,6 +21,7 @@ public class SignupServiceHandler {
         var api = new SignupApi(getDestination());
         api.eventSignup(event.getId());
     }
+
     public void signUpForSession(String sessionName) {
         var event = getTechEdEvent();
 
@@ -34,7 +35,7 @@ public class SignupServiceHandler {
         api.sessionSignup(event.getId(), session.getId());
     }
 
-    @GetMapping("/getTechEdEvent")
+    @GetMapping( path = "/rest/v1/getTechEdEvent", produces = "application/json")
     public Event getTechEdEvent() {
         var api = new SignupApi(getDestination());
         return api.getEvents()
