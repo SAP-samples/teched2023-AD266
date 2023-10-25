@@ -187,7 +187,7 @@
 							<goal>generate</goal>
 						</goals>
 						<configuration>
-							<inputSpec>${project.basedir}/external/</inputSpec>
+							<inputSpec>${project.basedir}/external/signup.json</inputSpec>
 							<outputDirectory>${project.basedir}/src/gen/java</outputDirectory>
 							<deleteOutputDirectory>false</deleteOutputDirectory>
 							<apiPackage>cloudsdk.gen.signupservice</apiPackage>
@@ -210,7 +210,7 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputDirectory>${project.basedir}/external/</inputDirectory>
+                            <inputDirectory>${project.basedir}/external/Goal.edmx</inputDirectory>
                             <outputDirectory>${project.basedir}/src/gen/java</outputDirectory>
                             <deleteOutputDirectory>false</deleteOutputDirectory>
                             <packageName>cloudsdk.gen</packageName>
