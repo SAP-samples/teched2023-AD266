@@ -1,7 +1,8 @@
 ---
 applications:
-- name: ad266
-  random-route: true
+- name: backend
+  routes:
+    - route: ad266-backend.cfapps.eu10-004.hana.ondemand.com
   path: srv/target/ad266-exec.jar
   memory: 1G
   disk_quota: 512M
@@ -11,4 +12,5 @@ applications:
     JBP_CONFIG_SAP_MACHINE_JRE: '{ use_offline_repository: false, version: 17.+ }'
   buildpack: sap_java_buildpack
   services:
-    - destination-service
+    - ad266-dest
+    - xsuaa

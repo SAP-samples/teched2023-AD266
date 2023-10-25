@@ -3,12 +3,6 @@ cds:
   datasource:
     auto-config.enabled: false
   remote.services:
-    - name: "TodoEntryV2"
-      destination:
-        name: "SFSF-BASIC-ADMIN"
-        type: "odata-v2"
-        suffix: "/odata/v2"
-        service: "TodoEntryV2"
     - name: "Goal"
       destination:
         name: "SFSF-BASIC-ADMIN"
