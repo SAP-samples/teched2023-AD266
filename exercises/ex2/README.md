@@ -14,7 +14,7 @@ From your project's source directory (`src`), run `mvn clean compile` and you ca
 Services are one of the core concepts of CAP, they are declared in [CDS](https://cap.cloud.sap/docs/about/#service-definitions-in-cds), and they dispatch events to `Event Handlers`.
 Let's examine the `/srv/service.cds` file which defines the services exposed by our application:
    
-1. We will examine the `SignupService` and the `GoalService`. 
+1. The services are defined after the keyword `service` like `SignupService` and the `GoalService`. 
 
 2. The `SignupService` is a service that just exposes an OData v4 action. The action takes a `String` session as input.
    ```
@@ -40,7 +40,7 @@ Let's examine the `/srv/service.cds` file which defines the services exposed by 
    ```
    The `GoalService` would be available when the application starts up at path: `{application-hostname}/odata/v4/GoalService/`
 
-4. You can also see some extensions on the existing entities using `extend`. These are used to add additional fields to the existing entities.
+4. You can also see some extensions on the existing entities using `extend`. These are used to add additional custom fields to the existing entities.
 
 ## Exercise 2.3 Understanding EventHandlers
 
