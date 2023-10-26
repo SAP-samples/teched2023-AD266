@@ -1,10 +1,10 @@
-# Exercise 2 - Understand the existing Project setup
+# Exercise 2 - Understand the existing CAP project setup
 
 In this exercise, we will look at existing files to understand the project structure.
 
 ## Exercise 2.1 CDS Maven Plugin
 
-In your application's pom.xml, under the `plugins` section you can see the [`cds-maven-plugin`](https://cap.cloud.sap/docs/java/assets/cds-maven-plugin-site/plugin-info.html) entry.
+In your application's root `pom.xml`, under the `plugins` section you can see the [`cds-maven-plugin`](https://cap.cloud.sap/docs/java/assets/cds-maven-plugin-site/plugin-info.html) entry.
 The interesting part here is the `generate` goal which is responsible for scanning project directories for CDS files and generating Java POJOs for type-safe access to the CDS model.
 
 From your project's source directory, run `mvn clean compile` and you can see the generated classes being added to `srv/src/gen/java`.
