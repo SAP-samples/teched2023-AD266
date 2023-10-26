@@ -1,22 +1,22 @@
 # Exercise 3 - Add functionality to Event Handlers: Part 1- Use SAP Cloud SDK
 
-In this exercise, we will look at adapting `RegistrationServiceHandler` to add functionality to our application.
+In this exercise, we will look at adapting `RegistrationServiceHandler` ([RegistrationServiceHandler.java](../../srv/src/main/java/com/sap/cloud/sdk/demo/ad266/remote/RegistrationServiceHandler.java)) to add functionality to our application.
 
 Let us outline the scenario we want to build.
 
-We want a user to be able to sign up for an event and when they do so the following things should happen:
-1. The user should get registered for the event
+We want a user to be able to sign up for an event and when they do, the following things should happen:
+1. The user should get registered for the event.
 2. A learning goal should be automatically created for them in SuccessFactors.
 3. Any subsequent sessions that a user signs up for should also be registered and added as sub-goals to the goal.
 
 The `SignupHandler` is the entry point of the application. And `signUp` is the action that will be called when a user signs up for an event or a session.
 
 `RegistrationServiceHandler` would take care of registering the user. We would be interacting with a synthetic OpenAPI service to achieve this.
-In this exercise, we will learn how you can leverage SAP Cloud SDK to consume a remote OpenAPI service.
+In this exercise, we will learn how you can leverage the SAP Cloud SDK to consume a remote OpenAPI service.
 
 ## Exercise 3.1 - Familiarising yourself with the remote OpenAPI service
 
-1. The OpenAPI service is available at `https://ad266-signup.cfapps.eu10-004.hana.ondemand.com`.For the sake of simplicity, we will assume that you don't have to authenticate yourself to access the service. 
+1. The OpenAPI service is available at `https://ad266-signup.cfapps.eu10-004.hana.ondemand.com`. For the sake of simplicity, we will assume that you don't have to authenticate yourself to access the service. 
 
 2. You can find all the available endpoints of the service at: `https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/api-docs`
 
@@ -75,7 +75,7 @@ In this exercise, we will learn how you can leverage SAP Cloud SDK to consume a 
    
    You could find more details about the plugin parameters [here](https://sap.github.io/cloud-sdk/docs/java/v5/features/rest/generate-rest-client#available-parameters)
 
-  Note: We are managing the versions of the artifacts we imported above using the SAP Cloud SDK BOM, you can find this already added in your project's `<dependencyManagement>` section in the root `pom.xml`:
+  **Note:** We are managing the versions of the artifacts we imported above using the SAP Cloud SDK BOM, you can find this already added in your project's `<dependencyManagement>` section in the root `pom.xml`:
     
 ```xml
     <!-- Cloud SDK -->
@@ -95,7 +95,7 @@ In this exercise, we will learn how you can leverage SAP Cloud SDK to consume a 
 ## Exercise 3.3 - Use typed client to consume remote OpenAPI service
 
 1. Let's start using the generated client in the `RegistrationServiceHandler` and first try to fetch a destination for the remote OpenAPI service.
-   Add the following code inside the class. 
+   Add (Rather _"replace"_ as the method stub is there already) the following code inside the class. 
    ```java
     private Destination getDestination() {
         return DestinationAccessor.getDestination("Signup-Service");
@@ -127,11 +127,11 @@ In this exercise, we will learn how you can leverage SAP Cloud SDK to consume a 
         var event = getTechEdEvent();
         var api = new EventRegistrationApi(getDestination());
         api.registerForEvent(event.getId()); //Use the generated client to register for the event
-        }   
+    }
 ```
    Here we are using the generated client to register for the TechEd event, this piece of code would in the end call `https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/events/{eventId}/register` end point of the service. 
 
-4. Let's now use the generated client to register for a session in the TechEd event.   
+4. Finally, use the generated client to register for a session in the TechEd event.   
    
    Registering for a session in TechEd: (Populate the `signUpForSession(sessionName)` method with the following code)
 ```java
@@ -146,7 +146,7 @@ In this exercise, we will learn how you can leverage SAP Cloud SDK to consume a 
         .orElseThrow();
 
         api.registerForSession(event.getId(), session.getId());
-        }
+    }
 ```
    Here we are using the generated client to register for a session in TechEd event, this piece of code would in the end call `https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/events/{eventId}/sessions/{sessionId}/register` end point of the service.
 
@@ -158,8 +158,11 @@ In this exercise, we will learn how you can leverage SAP Cloud SDK to consume a 
     ```bash
     set destinations=[{name: "Signup-Service", url: "https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/"}]
     ```
+   (The command above didn't work for me.
+   What I had to use was `Set-Item -Path "Env:destinations" -Value "[{'name': 'Signup-Service', 'url': 'https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/'}]"`)
+
    Remember to use the same name as the destination name that is defined in the `RegistrationServiceHandler`.
-   export destinations= '[{name: "Signup-Service", url: "https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/"}]'
+   (What is the following used for?) export destinations= '[{name: "Signup-Service", url: "https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/"}]'
 
 3. Now run the application with `mvn spring-boot:run`
 
@@ -170,6 +173,6 @@ In this exercise, we will learn how you can leverage SAP Cloud SDK to consume a 
 
 ## Summary
 
-You've now successfully learnt how to use SAP Cloud SDK to consume a remote OpenAPI service in a type safe manner.
+You've now successfully learned how to use the SAP Cloud SDK to consume a remote OpenAPI service in a type safe manner.
 
 Continue to - [Exercise 4 - Add functionality to Event Handlers: Part 2- Use CAP Remote Services](../ex4/README.md)
