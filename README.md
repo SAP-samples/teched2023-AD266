@@ -19,12 +19,12 @@ CAP internally uses the SAP Cloud SDK for service consumption.
 
 Over the course of this workshop, you will create an application that consumes both an OpenAPI and an OData service. 
 
-For the OData part, you will learn how to fetch data from SAP SuccessFactors [Goal Plan API](https://api.sap.com/api/PerformanceandGoalsPMGM/overview) service by using CAP's [Remote Services](https://cap.cloud.sap/docs/java/remote-services#configuring-remote-services).
+For the OData part, you will learn how to fetch data from SAP SuccessFactors [Goal Plan API](https://api.sap.com/api/PerformanceandGoalsPMGM/overview) by using CAP's [Remote Services](https://cap.cloud.sap/docs/java/remote-services#configuring-remote-services).
 You will also add functionality to create goals and sub-goals and delete them by interacting with the SuccessFactors service via the application.
 
 For the OpenAPI part, you will learn how to use the SAP Cloud SDK to conveniently interact with the service in a type-safe manner. 
 
-You could then follow similar steps to connect to any other SAP application that exposes an API and easily build extensions for them in the cloud.
+You could then follow similar steps to connect to other SAP services that offer OData and OpenAPI based APIs and easily build extensions for them in the cloud.
 
 ## Requirements
 
@@ -32,8 +32,8 @@ The requirements to follow the exercises in this repository are:
 
 - Java 17
 - Maven 3.9
-- Node 18+
-- NPM 9+
+- Node 18
+- NPM 9
 
 ## Exercises
 
