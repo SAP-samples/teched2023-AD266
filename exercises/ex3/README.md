@@ -1,6 +1,6 @@
 # Exercise 3 - Add functionality to Event Handlers: Part 1- Use SAP Cloud SDK
 
-In this exercise, we will look at adapting `SignupHandler` and `RegistrationServiceHandler` to add functionality to our application.
+In this exercise, we will look at adapting `RegistrationServiceHandler` to add functionality to our application.
 
 Let us outline the scenario we want to build.
 
