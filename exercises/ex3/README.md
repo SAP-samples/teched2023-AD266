@@ -92,7 +92,7 @@ For the sake of simplicity, we assume that you don't have to authenticate yourse
     </dependency>
 ```
 
-2. Compile the application now using `mvn compile` from which path?, you can see that under `srv/src/gen/java/cloudsdk.gen.signupservice` folder the typed OpenAPI client classes are generated. 
+2. Compile the application now using `mvn compile` from <please add path>, you can see that under `srv/src/gen/java/cloudsdk.gen.signupservice` folder the typed OpenAPI client classes are generated. 
 
 3. You can now use the generated client to consume the Registration Service for the next exercise.
 
