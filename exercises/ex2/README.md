@@ -16,11 +16,11 @@ Let's examine the `/srv/service.cds` file which defines the services exposed by 
    
 1. We will examine the `SignupService` and the `GoalService`. 
 
-2. The `SignupService` is a service that just exposes an action. The action takes a `String` session as input.
+2. The `SignupService` is a service that just exposes an OData v4 action. The action takes a `String` session as input.
    ```
    @path: 'SignupService'
    service SignupService {
-   action signUp(session: String);
+     action signUp(session: String);
    }
    ```
    The `@path` argument allows you to provide a custom path for the exposed service. 
