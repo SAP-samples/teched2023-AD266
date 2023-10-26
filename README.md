@@ -66,6 +66,9 @@ The requirements to follow the exercises in this repository are:
 
 Your repo must contain the .reuse and LICENSES folder and the License section below. DO NOT REMOVE the section or folders/files. Also, remove all unused template assets(images, folders, etc) from the exercises folder. 
 
+## Useful Links
+- [SAP Customer Influence](https://influence.sap.com/sap/ino/#/campaign/1175) for SAP S/4HANA Cloud APIs.
+
 ## Contributing
 Please read the [CONTRIBUTING.md](./CONTRIBUTING.md) to understand the contribution guidelines.
 
