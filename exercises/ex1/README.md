@@ -1,6 +1,9 @@
 # Exercise 1 - Get and Import SuccessFactors Goal Plan Service
 
-In this exercise, we will get the SuccessFactors Goal Plan Service API definition and import the service into our project.
+In this exercise, you will learn the following:
+- how to download the SuccessFactors Goal Plan Service API specification file, which is needed by CAP runtime.
+- how to import the specification file into your CAP project
+- how to configure the Goal Plan Service as a destination in your CAP project
 
 ## Exercise 1.1 Download specification from SAP Business Accelerator Hub
 
@@ -67,7 +70,7 @@ Additionally, the file will be registered as service definition in the `package.
 
 Destinations are used to define connections from your application to remote systems, and as we are trying to connect to a remote API, we need to define a destination for it.
 
-1. In your application's `application.yaml` (src/main/resources/application.yaml) also add a destination for the imported service under `remote.services`:
+1. Open the CAP `application.yaml` (`src/main/resources/application.yaml`) and add a `destination` for the imported service under `remote.services`:
 
 ```yaml
 cds:
@@ -89,7 +92,7 @@ The `suffix` property value would be appended to the url obtained from the desti
 
 ## Summary
 
-You've now successfully added the SuccessFactors Goal Plan Service to your project.
+You've now successfully added the SuccessFactors Goal Plan Service to your CAP project and configured a new destination in the `application.yaml`.
 
 Continue to - [Exercise 2 - Understand the existing Project setup](../ex2/README.md)
 
