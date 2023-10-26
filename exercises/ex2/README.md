@@ -87,4 +87,4 @@ INFO 57513 --- [  restartedMain] c.sap.cloud.sdk.demo.ad266.Application   : Star
 
 You've now successfully understood the CAP project strucrure. Let's now add some code to get the application working.
 
-Continue to - [Exercise 3 - Add functionality to Event Handlers](../ex3_/README.md)
+Continue to - [Exercise 3 - Add functionality to Event Handlers](../ex3/README.md)
