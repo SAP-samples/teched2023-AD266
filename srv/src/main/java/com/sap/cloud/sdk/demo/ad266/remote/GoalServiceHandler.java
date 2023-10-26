@@ -99,6 +99,8 @@ public class GoalServiceHandler implements EventHandler
         return email.split("@")[0];
     }
 
+    // I'm not a fan of the method ordering. I'd expect the event handlers to be rather towards the top of this file.
+    // Also: this file could be a bit smaller. Did you consider splitting out the actual logic for the individual events into separate service classes?
     @On( event = CqnService.EVENT_READ, entity = Goal_.CDS_NAME)
     public void getLearningGoals(CdsReadEventContext context)
     {
