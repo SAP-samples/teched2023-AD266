@@ -1,6 +1,6 @@
 # Exercise 3 - Add functionality to Event Handlers: Part 1- Use SAP Cloud SDK
 
-In this exercise, we will inplement our business logic in `***Handler` classes.
+In this exercise, we will inplement our business logic in the `RegistrationServiceHandler` class.
 
 ### Requirement
 Let us outline the scenario we want to build.
@@ -23,13 +23,14 @@ For the sake of simplicity, we assume that you don't have to authenticate yourse
 2. You can find all the available endpoints of the service at: `https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/api-docs`
 
 3. The most important endpoints, that we will be consuming in our application are:
-   1. Lists all the available events: `https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/events`.
-   2. Register for an event for yourself: `https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/events/{eventId}/register`.
-   3. register for a session for yourself: `https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/events/{eventId}/sessions/{sessionId}/register`.
+   1. List all the available events: `https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/events`.
+   2. List all the available sessions from a given event: `https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/events/{eventId}/sessions`.
+   3. Register for an event for yourself: `https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/events/{eventId}/register`.
+   4. register for a session for yourself: `https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/events/{eventId}/sessions/{sessionId}/register`.
 
 ## Exercise 3.2 - Add SAP Cloud SDK to your project and generate a typed OpenAPI client
 
-1. In your project's application `pom.xml`(/srv/pom.xml) you can already find the following Cloud SDK dependencies in the dependencies section. :
+1. In the CAP project `pom.xml`(`/srv/pom.xml`), you can already find the following Cloud SDK dependencies like below:
 ```xml
         <!-- Cloud SDK OpenAPI & Destinations -->
         <dependency>
@@ -48,7 +49,7 @@ For the sake of simplicity, we assume that you don't have to authenticate yourse
    These dependencies are required to consume a remote OpenAPI service.
    Additionally, for type safe access to the remote OpenAPI service, we will generate a [typed OpenAPI client](https://sap.github.io/cloud-sdk/docs/java/v5/features/rest/overview).
    
-   You can also already find the following lines under the `<plugin>` section in your application `pom.xml` file.
+   You can also already find the following lines under the `<plugin>` section in the CAP project `pom.xml`(`/srv/pom.xml`) file.
 
 ```xml
             <!-- Cloud SDK OData VDM Generator -->
@@ -91,9 +92,9 @@ For the sake of simplicity, we assume that you don't have to authenticate yourse
     </dependency>
 ```
 
-2. Compile the application now using `mvn compile` from your IDE's terminal, you can see that under `srv/src/gen/java/cloudsdk.gen.signupservice` folder the typed OpenAPI client classes are generated. 
+2. Compile the application now using `mvn compile` from which path?, you can see that under `srv/src/gen/java/cloudsdk.gen.signupservice` folder the typed OpenAPI client classes are generated. 
 
-3. You can now use the generated client to consume the remote OpenAPI service for the next exercise.
+3. You can now use the generated client to consume the Registration Service for the next exercise.
 
 ## Exercise 3.3 - Use typed client to consume remote OpenAPI service
 
@@ -112,15 +113,15 @@ For the sake of simplicity, we assume that you don't have to authenticate yourse
 ```java
     @GetMapping( path = "/rest/v1/getTechEdEvent", produces = "application/json")
     public Event getTechEdEvent() {
-        var api = new EventRegistrationApi(getDestination());   //Instantiate the generated client with the destination
-        return api.getEvents()
+        var api = new EventRegistrationApi(getDestination());   // Instantiate the generated client with the destination
+        return api.getEvents()                                  // GET https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/events
                 .stream()
-                .filter(e -> e.getName().equals("TechEd 2023"))
+                .filter(e -> e.getName().equals("TechEd 2023")) // Filter by name from client side
                 .findFirst()
                 .orElseThrow();
     }
 ```
-   Here we are using the generated client to fetch the TechEd event from the remote OpenAPI service. 
+   Here we are using the generated client to fetch the TechEd event from the Registration Service.
 
 3. Let's now use the generated client to register for the TechEd event.
    
@@ -129,10 +130,9 @@ For the sake of simplicity, we assume that you don't have to authenticate yourse
     public void signUpForTechEd() {
         var event = getTechEdEvent();
         var api = new EventRegistrationApi(getDestination());
-        api.registerForEvent(event.getId()); //Use the generated client to register for the event
-        }   
+        api.registerForEvent(event.getId()); // POST https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/events/{eventId}/register
+    }   
 ```
-   Here we are using the generated client to register for the TechEd event, this piece of code would in the end call `https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/events/{eventId}/register` end point of the service. 
 
 4. Let's now use the generated client to register for a session in the TechEd event.   
    
@@ -142,16 +142,15 @@ For the sake of simplicity, we assume that you don't have to authenticate yourse
         var event = getTechEdEvent();
 
         var api = new EventRegistrationApi(getDestination());
-        var session = api.getSessions(event.getId())
-        .stream()
-        .filter(s -> s.getTitle().equalsIgnoreCase(sessionName))
-        .findFirst()
-        .orElseThrow();
+        var session = api.getSessions(event.getId())                 // GET https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/events/{eventId}/sessions
+            .stream()
+            .filter(s -> s.getTitle().equalsIgnoreCase(sessionName)) // Filter by name from client side
+            .findFirst()
+            .orElseThrow();
 
-        api.registerForSession(event.getId(), session.getId());
-        }
+        api.registerForSession(event.getId(), session.getId());      // POST https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/events/{eventId}/sessions/{sessionId}/register
+    }
 ```
-   Here we are using the generated client to register for a session in TechEd event, this piece of code would in the end call `https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/events/{eventId}/sessions/{sessionId}/register` end point of the service.
 
 ## Exercise 3.4 - Run your application locally
 
@@ -163,15 +162,15 @@ For the sake of simplicity, we assume that you don't have to authenticate yourse
     ```
    Remember to use the same name as the destination name that is defined in the `RegistrationServiceHandler`.
 
-3. Now run the application with `mvn spring-boot:run`
+3. Now run the application with `mvn spring-boot:run` (from which path?)
 
-4. You can run `http://localhost:8080/rest/v1/getTechEdEvent` in your browser to see if the TechEd event details are fetched from the remote OpenAPI service correctly.
+4. You can run `http://localhost:8080/rest/v1/getTechEdEvent` in your browser to see if the TechEd event details are fetched from the Registration Service correctly.
    (This should return the same results as `https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/events/1`)
 
 5. We will not test the endpoints for registering for TechEd or a session in TechEd now, but will do this is the subsequent exercises.
 
 ## Summary
 
-You've now successfully learnt how to use SAP Cloud SDK to consume a remote OpenAPI service in a type safe manner.
+You've now successfully learnt how to use SAP Cloud SDK to consume a remote OpenAPI service (Registration Service) in a type safe manner.
 
 Continue to - [Exercise 4 - Add functionality to Event Handlers: Part 2- Use CAP Remote Services](../ex4/README.md)
