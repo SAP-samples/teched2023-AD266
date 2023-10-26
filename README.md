@@ -17,8 +17,12 @@ It guides developers through proven best practices and accelerates the developme
 [SAP Cloud SDK](https://sap.github.io/cloud-sdk/docs/overview/overview-cloud-sdk) is a set of libraries and tools for developers to build cloud-native applications on the SAP Business Technology Platform (SAP BTP).
 CAP internally uses the SAP Cloud SDK for service consumption.
 
-Over the course of this workshop, you will create an application that fetches data from SAP SuccessFactors [Goal Plan API](https://api.sap.com/api/PerformanceandGoalsPMGM/overview) service by using CAP's [Remote Services](https://cap.cloud.sap/docs/java/remote-services#configuring-remote-services).
-You will also add functionality to create goals and tasks and delete them by interacting with the SuccessFactors service via the application.
+Over the course of this workshop, you will create an application that consumes both an OpenAPI and an OData service. 
+
+For the OData part, you will learn how to fetch data from SAP SuccessFactors [Goal Plan API](https://api.sap.com/api/PerformanceandGoalsPMGM/overview) service by using CAP's [Remote Services](https://cap.cloud.sap/docs/java/remote-services#configuring-remote-services).
+You will also add functionality to create goals and sub-goals and delete them by interacting with the SuccessFactors service via the application.
+
+For the OpenAPI part, you will learn how to use the SAP Cloud SDK to conveniently interact with the service in a type-safe manner. 
 
 You could then follow similar steps to connect to any other SAP application that exposes an API and easily build extensions for them in the cloud.
 
@@ -42,11 +46,16 @@ The requirements to follow the exercises in this repository are:
     - [Exercise 2.1 - CDS Maven Plugin](exercises/ex2#exercise-21-cds-maven-plugin)
     - [Exercise 2.2 - Understanding Service Definitions](exercises/ex2#exercise-22-understanding-service-definitions)
     - [Exercise 2.3 - Understanding Event Handlers](exercises/ex2#exercise-23-understanding-event-handlers)
-- [Exercise 3 - Add functionality to Event Handlers](exercises/ex3/)
-  - [Exercise 3.1 - Add Business Logic to GoalServiceHandler](exercises/ex3#exercise-31---add-business-logic-to-goalservicehandler)
-  - [Exercise 3.2 - Add Business Logic to SignupHandler](exercises/ex3#exercise-32---add-business-logic-to-signuphandler)
-  - [Exercise 3.3 - Run your application locally](exercises/ex3#exercise-33---run-your-application-locally)
-- [Exercise 4 - Use SAP Cloud SDK](exercises/ex4/)
+    - [Exercise 2.4 - Run your application locally](exercises/ex2#exercise-24---run-your-application-locally)
+- [Exercise 3 - Add functionality to Event Handlers: Part 1- Use SAP Cloud SDK](exercises/ex3_/)
+  - [Exercise 3.1 - Familiarising yourself with the remote OpenAPI Service](exercises/ex4#exercise-31---add-business-logic-to-goalservicehandler)
+  - [Exercise 3.2 - Add SAP Cloud SDK to your project and generate a typed OpenAPI client](exercises/ex4#exercise-32---add-business-logic-to-signuphandler)
+  - [Exercise 3.3 - Use Typed OData client to consume remote OpenAPI service](exercises/ex4#exercise-33---run-your-application-locally)
+  - [Exercise 3.4 - Run the application locally](exercises/ex4#exercise-33---run-your-application-locally)
+- [Exercise 4 - Add functionality to Event Handlers: Part 2- Use CAP Remote Services](exercises/ex3_/)
+  - [Exercise 4.1 - Add Business Logic to GoalServiceHandler](exercises/ex4#exercise-31---add-business-logic-to-goalservicehandler)
+  - [Exercise 4.2 - Add Business Logic to SignupHandler](exercises/ex4#exercise-32---add-business-logic-to-signuphandler)
+  - [Exercise 4.3 - Run the application locally](exercises/ex4#exercise-33---run-your-application-locally)
 - [Exercise 5 - Deploying the application to SAP Business Technology Platform](exercises/ex5/)
   - [Exercise 5.1 - Creating a destination for SuccessFactors API endpoint](exercises/ex5#exercise-41-creating-a-destination-for-successfactors-api-endpoint)
   - [Exercise 5.2 - Creating a destination service instance](exercises/ex5#exercise-42-creating-a-destination-service-instance)

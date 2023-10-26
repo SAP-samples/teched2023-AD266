@@ -16,14 +16,15 @@ Let's examine the `/srv/service.cds` file which defines the services exposed by 
    
 1. We will examine the `SignupService` and the `GoalService`. 
 
-2. The `SignupService` is a service that just exposes an action. The action takes a `String` Session as input.
+2. The `SignupService` is a service that just exposes an action. The action takes a `String` session as input.
    ```
    @path: 'SignupService'
    service SignupService {
    action signUp(session: String);
    }
    ```
-   The `@path` argument allows you to provide a custom path for the exposed service. The `SignupService` would be available when the application starts up at path: //Todo
+   The `@path` argument allows you to provide a custom path for the exposed service. 
+   The `SignupService` would be available when the application starts up at path: `{application-hostname}/odata/v4/SignupService/`
 
 3. The `GoalService` is a service that exposes an entity `Goal` which is a projection on the `Goal_101` entity exposed by the SuccessFactors Goal Plan API.
    ```
@@ -37,7 +38,9 @@ Let's examine the `/srv/service.cds` file which defines the services exposed by 
      }
    }
    ```
-   The `GoalService` would be available when the application starts up at path: //Todo
+   The `GoalService` would be available when the application starts up at path: `{application-hostname}/odata/v4/GoalService/`
+
+4. You can also see some extensions on the existing entities using `extend`. These are used to add additional fields to the existing entities.
 
 ## Exercise 2.3 Understanding EventHandlers
 
@@ -62,10 +65,24 @@ Event handlers are the ones that then implement the behaviour of the service.
 7. The only difference here is that we define methods for handling Create (`CqnService.EVENT_CREATE`), Read (`CqnService.EVENT_READ`) and Delete (`CqnService.EVENT_DELETE`) events instead using `@On` annotation.
    In the upcoming exercises we will write the business logic for all these methods.
 
-//TODO maybe the participants should run the app once here and call an endpoint just to see the handler is invoked?
+## Exercise 2.4 Run your application locally
+
+1. From the root directory of your project,in your IDE's terminal, run `mvn clean spring-boot:run` to start the application locally.
+
+2. Examine the logs of the application, you should something like this:
+```json
+INFO 57513 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+INFO 57513 --- [  restartedMain] c.sap.cloud.sdk.demo.ad266.Application   : Started Application in 2.348 seconds (process running for 2.759)
+```
+
+4. You can now access the application endpoints `http://localhost:8080/odata/v4/SignupService/$metadata` and `http://localhost:8080/odata/v4/GoalService/$metadata` and see the metadata of the services.
+
+5. The endpoints for fetching goals `http://localhost:8080/odata/v4/GoalService/Goal` and signing up `http://localhost:8080/odata/v4/SignupService/signUp` are also available, but still won't work as we haven't implemented the business logic yet. 
+
+   We will do this in the upcoming exercises. You can stop the application by pressing `Ctrl+C` in the terminal.
 
 ## Summary
 
 You've now successfully understood the existing files in your project. Let's now go add some code to get the application working.
 
-Continue to - [Exercise 3 - Add functionality to Event Handlers](../ex3/README.md)
+Continue to - [Exercise 3 - Add functionality to Event Handlers](../ex3_/README.md)
