@@ -64,7 +64,7 @@ public class MockGoalService {
     ) {
         var userId = filter.replaceFirst("^userId eq \\W(.*)\\W$", "$1");
         flaky(headers);
-        var entries = goals.get(userId);
+        var entries = goals.computeIfAbsent(userId, id -> new ArrayList<>());
         return ResponseEntity.ok(
             Collections.singletonMap("d",
                 Collections.singletonMap("results",
@@ -145,7 +145,8 @@ public class MockGoalService {
     }
 
     private void augmentTasks(Goal_101 g) {
-        g.setCustomField("tasks", Collections.singletonMap("results", tasks.get(g.getId())));
+        var tasks = this.tasks.getOrDefault(g.getId(), Collections.emptyList());
+        g.setCustomField("tasks", Collections.singletonMap("results", tasks));
     }
 
     private void flaky(Map<String,List<String>> headers) {
