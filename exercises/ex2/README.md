@@ -4,7 +4,7 @@ In this exercise, we will look at existing files to understand the CAP project s
 
 ## Exercise 2.1 CAP CDS Maven Plugin
 
-In the root `pom.xml`, under the `plugins` section you can see the [`cds-maven-plugin`](https://cap.cloud.sap/docs/java/assets/cds-maven-plugin-site/plugin-info.html) entry.
+In the CAP application `pom.xml` (please add path), under the `plugins` section you can see the [`cds-maven-plugin`](https://cap.cloud.sap/docs/java/assets/cds-maven-plugin-site/plugin-info.html) entry.
 The interesting part here is the `generate` goal which is responsible for scanning project directories for CDS files and generating Java POJOs for type-safe access to the CDS model.
 
 From your project's source directory (`src`), run `mvn clean compile` and you can see the generated classes being added to `srv/src/gen/java`.
