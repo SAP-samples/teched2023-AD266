@@ -4,7 +4,7 @@ In this exercise, we will get the SuccessFactors Goal Plan Service API definitio
 
 ## Exercise 1.1 Download specification from SAP Business Accelerator Hub
 
-1.  Visit [SAP Business Accelerator Hub](https://api.sap.com/) and search with the keyword goal. You will find the listing for SAP SuccessFactors [Goal Plan OData v2 service](https://api.sap.com/api/PerformanceandGoalsPMGM/overview).
+1.  Visit [SAP Business Accelerator Hub](https://api.sap.com/) and search for the keyword _"goal"_. You will find the listing for SAP SuccessFactors [Goal Plan OData v2 service](https://api.sap.com/api/PerformanceandGoalsPMGM/overview). (Why let the user search if the API is linked here anyways?)
 Click on the listing and you will be redirected to the API specification page. You should see results like below:
 
 ![](images/01_01.png)
