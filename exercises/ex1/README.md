@@ -30,7 +30,7 @@ You can use it directly for the next steps.
 This dependency is required to [enable CAP Remote Services](https://cap.cloud.sap/docs/java/remote-services#enabling-remote-services).
 In layman terms, `Remote Services` are simply clients to consume remote APIs.
 
-2. From your project's root folder (this is not the `srv` folder, it is `teched2023-AD266` folder), run the `cds import` with the path to the downloaded service definition file as a parameter. 
+2. From your project's root directory (`teched2023-AD266` instead of `srv`), run the `cds import` with the path to the downloaded service definition file as a parameter. 
 
 ```bash
 cds import /path-to-edmx-file/Goal.edmx --as cds
