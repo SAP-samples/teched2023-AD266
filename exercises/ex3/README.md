@@ -160,7 +160,6 @@ In this exercise, we will learn how you can leverage SAP Cloud SDK to consume a 
     set destinations=[{name: "Signup-Service", url: "https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/"}]
     ```
    Remember to use the same name as the destination name that is defined in the `RegistrationServiceHandler`.
-   export destinations= '[{name: "Signup-Service", url: "https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/"}]'
 
 3. Now run the application with `mvn spring-boot:run`
 
