@@ -5,11 +5,11 @@ cds:
   datasource:
     auto-config.enabled: false
   remote.services:
-#    - name: "Goal"
-#      destination:
-#        name: "SFSF-BASIC-ADMIN"
-#        type: "odata-v2"
-#        service: "/odata/v2"
+    - name: "Goal"
+      destination:
+        name: "SFSF-BASIC-ADMIN"
+        type: "odata-v2"
+        suffix: "/odata/v2"
 # ---
 # spring:
 #   config.activate.on-profile: local
