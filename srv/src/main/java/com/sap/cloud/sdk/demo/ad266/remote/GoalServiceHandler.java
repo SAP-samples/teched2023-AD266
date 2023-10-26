@@ -47,29 +47,8 @@ public class GoalServiceHandler implements EventHandler
 
     private List<Goal101> getLearningGoals()
     {
-        var user = getUser();
-        var query = CQL.get(Goal101.CATEGORY).eq("Learning and Growth")
-                .and( CQL.get(Goal101.NAME).eq(DEMO_ID + ": Learn something at TechEd 2023"))
-                .and( CQL.get(Goal101.STATE).ne("Completed"))
-                .and(CQL.get(Goal101.USER_ID).eq(user));
-
-        var select = Select.from(Goal101_.class)
-                .columns(
-                        StructuredType::_all,
-                        g -> g.tasks().expand(),
-                        g -> g.permissionNav().expand())
-                .where(query);
-
-        var goals = goalService.run(select).listOf(Goal101.class);
-
-        var visibleGoals = goals
-                .stream()
-                .filter(g -> g.getPermissionNav().getView())
-                .toList();
-
-        log.info("Got the following goals from the server: {}", visibleGoals);
-
-        return visibleGoals;
+        //Todo: implement
+        return Collections.emptyList();
     }
 
     public Goal101 getLearningGoal() {

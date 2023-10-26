@@ -36,25 +36,14 @@ public class SignupHandler implements EventHandler
 
         updateSFSF(session);
 
-        context.setResult("Yay, we successfully signed you up for the session: " + session + ".\n"
-                + "Also, we created an entry in your 'Learning and Growth' section in SAP SuccessFactors to reflect your efforts.");
+        context.setResult("Signup will work with exercise completion");
     }
 
     private void register(String session) {
-        // sign up for the event and the session
-        signupService.signUpForTechEd();
-
-        signupService.signUpForSession(session);
+        //Todo: implement
     }
 
     private void updateSFSF(String session) {
-        // create a goal and related tasks in SFSF
-        var goal = goalService.getLearningGoal();
-
-        if ( goal == null ) {
-            goal = goalService.createGoal();
-        }
-
-        goalService.createTask(goal, session);
+        //Todo: implement
     }
 }

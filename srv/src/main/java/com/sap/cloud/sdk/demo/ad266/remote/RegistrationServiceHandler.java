@@ -13,35 +13,21 @@ import org.springframework.web.bind.annotation.RestController;
 public class RegistrationServiceHandler {
 
     private Destination getDestination() {
-        return DestinationAccessor.getDestination("Signup-Service");
+        //Todo: implement
+        return null;
     }
 
     public void signUpForTechEd() {
-        var event = getTechEdEvent();
-        var api = new EventRegistrationApi(getDestination());
-        api.registerForEvent(event.getId());
+        //Todo: implement
     }
 
     public void signUpForSession(String sessionName) {
-        var event = getTechEdEvent();
-
-        var api = new EventRegistrationApi(getDestination());
-        var session = api.getSessions(event.getId())
-                .stream()
-                .filter(s -> s.getTitle().equalsIgnoreCase(sessionName))
-                .findFirst()
-                .orElseThrow();
-
-        api.registerForSession(event.getId(), session.getId());
+        //Todo: implement
     }
 
     @GetMapping( path = "/rest/v1/getTechEdEvent", produces = "application/json")
     public Event getTechEdEvent() {
-        var api = new EventRegistrationApi(getDestination());
-        return api.getEvents()
-                .stream()
-                .filter(e -> e.getName().equals("TechEd 2023"))
-                .findFirst()
-                .orElseThrow();
+        //Todo: implement
+        return null;
     }
 }
