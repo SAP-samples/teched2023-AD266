@@ -1,29 +1,31 @@
 # Exercise 3 - Add functionality to Event Handlers: Part 1- Use SAP Cloud SDK
 
-In this exercise, we will inplement our business logic in the `RegistrationServiceHandler`.
+In this exercise, we will inplement our business logic in `***Handler` classes.
 
+### Requirement
 Let us outline the scenario we want to build.
 
-We want a user to be able to sign up for an event and when they do so the following things should happen:
-1. The user should get registered for the event
-2. A learning goal should be automatically created for them in SuccessFactors.
-3. Any subsequent sessions that a user signs up for should also be registered and added as sub-goals to the goal.
+An end user will sign up for an event (e.g., TechEd 2023) and the backend should handle the following:
+1. The end user should get registered for the event. (OpenAPI based Registration Service consumption)
+2. A learning goal (with user id) should be automatically created for them in SuccessFactors. (SuccessFactors OData v2 service consumption)
+3. Any subsequent sessions (e.g., AD266) that a user signs up for should also be registered and added as sub-goals to the goal. (SuccessFactors OData v2 service consumption)
 
-The `SignupHandler` is the entry point of the application. And `signUp` is the action that will be called when a user signs up for an event or a session.
+The `SignupHandler` class (please add the path) contains the implementation of the `SignupService` endpoint (OData v4 action). And `signUp` is the function that will be called when an end user signs up for an event or a session.
 
-`RegistrationServiceHandler` would take care of registering the user. We would be interacting with a synthetic OpenAPI service to achieve this.
+The `RegistrationServiceHandler` (please add the path) would take care of registering the user (`#1` in the requirement). We would be interacting with a synthetic OpenAPI service to achieve this.
 In this exercise, we will learn how you can leverage SAP Cloud SDK to consume a remote OpenAPI service.
 
-## Exercise 3.1 - Familiarising yourself with the remote OpenAPI service
+## Exercise 3.1 - Familiarise yourself with the Registration Service
 
-1. The OpenAPI service is available at `https://ad266-signup.cfapps.eu10-004.hana.ondemand.com`.For the sake of simplicity, we will assume that you don't have to authenticate yourself to access the service. 
+1. The OpenAPI based Registration service is available at `https://ad266-signup.cfapps.eu10-004.hana.ondemand.com`.
+For the sake of simplicity, we assume that you don't have to authenticate yourself to access the service. 
 
 2. You can find all the available endpoints of the service at: `https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/api-docs`
 
 3. The most important endpoints, that we will be consuming in our application are:
-   1. `https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/events`: Lists all the events available.
-   2. `https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/events/{eventId}/register`: Allows you to register for an event.
-   3. `https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/events/{eventId}/sessions/{sessionId}/register`: Allows you to register for a session.
+   1. Lists all the available events: `https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/events`.
+   2. Register for an event for yourself: `https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/events/{eventId}/register`.
+   3. register for a session for yourself: `https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/events/{eventId}/sessions/{sessionId}/register`.
 
 ## Exercise 3.2 - Add SAP Cloud SDK to your project and generate a typed OpenAPI client
 
