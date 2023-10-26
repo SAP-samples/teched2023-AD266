@@ -1,5 +1,6 @@
 package com.sap.cloud.sdk.demo.ad266.utility;
 
+import cloudsdk.gen.namespaces.goal.GoalPermission_101;
 import cloudsdk.gen.namespaces.goal.GoalTask_101;
 import cloudsdk.gen.namespaces.goal.Goal_101;
 import com.sap.cds.services.request.RequestContext;
@@ -50,6 +51,7 @@ public class MockGoalService {
         public List<Header> getHeaders(@Nonnull DestinationRequestContext context ) {
             var result = new ArrayList<Header>();
             var headers = RequestHeaderAccessor.getHeaderContainer();
+            // consider dest filter
             headers.getHeaderValues("delay").forEach(s -> result.add(new Header("delay", s)));
             headers.getHeaderValues("fault").forEach(s -> result.add(new Header("fault", s)));
             return result;
@@ -62,7 +64,7 @@ public class MockGoalService {
             @RequestParam(value = "$filter", defaultValue = "") String filter,
             @RequestHeader HttpHeaders headers
     ) {
-        var userId = filter.replaceFirst("^userId eq \\W(.*)\\W$", "$1");
+        var userId = filter.replaceFirst(".*userId eq \\W(.*?)\\W.*", "$1");
         flaky(headers);
         var entries = goals.computeIfAbsent(userId, id -> new ArrayList<>());
         return ResponseEntity.ok(
@@ -89,9 +91,8 @@ public class MockGoalService {
     }
 
     @PostMapping("Goal_101")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    protected void postGoal( @RequestBody Goal_101 goal,
-                             @RequestHeader HttpHeaders headers ) {
+    protected ResponseEntity<?> postGoal( @RequestBody Goal_101 goal,
+                                          @RequestHeader HttpHeaders headers ) {
         var userId = goal.getUserId();
         if(userId==null) {
             throw new IllegalArgumentException("Missing userId.");
@@ -100,7 +101,9 @@ public class MockGoalService {
         var goals = this.goals.computeIfAbsent(userId, id -> new ArrayList<>());
         var baseId = Math.abs(userId.hashCode()%1000000L);
         goal.setId(baseId+goals.size());
+        goal.setPermissionNav(GoalPermission_101.builder().view(true).build());
         goals.add(goal);
+        return ResponseEntity.ok(Collections.singletonMap("d", goal));
     }
 
     @DeleteMapping("Goal_101({id})")
@@ -117,9 +120,8 @@ public class MockGoalService {
     }
 
     @PostMapping("GoalTask_101")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    protected void postTask( @RequestBody GoalTask_101 task,
-                             @RequestHeader HttpHeaders headers ) {
+    protected ResponseEntity<?> postTask( @RequestBody GoalTask_101 task,
+                                          @RequestHeader HttpHeaders headers ) {
         var goalId = task.getObjId();
         if(goalId==null) {
             throw new IllegalArgumentException("Missing objId.");
@@ -129,6 +131,7 @@ public class MockGoalService {
         var baseId = Math.abs(goalId.hashCode()%1000000L);
         task.setId(baseId+tasks.size());
         tasks.add(task);
+        return ResponseEntity.ok(Collections.singletonMap("d", task));
     }
 
     @DeleteMapping("GoalTask_101({id})")
