@@ -45,6 +45,8 @@
     label > input:active + *:before { content:'➕️'; }
     label > input + *:before { content:'✖️'; vertical-align: top; display: inline-block; padding: 0.3em 0.3em 0 0; font-size:0.6em; }
     label { display:block; margin: 1em; }
+
+    #eventList > div:before { content: attr(alt); font-size: 1.5em; border-bottom: 2px dashed; }
   </style>
 </head>
 <body>
@@ -58,23 +60,35 @@
 </div>
 
 <script>
-  // Fetch events from your API and populate the list
+  function serialize(session) {
+    return '<label for="i'+session.id+'" onchange="registerForEvent(\''+session.id+'\',\''+session.title+'\')">'
+      + '<input id="i'+session.id+'" type="radio"/>'
+      + '<span>'+session.title+'</span>'
+      + '</label>'
+  }
+
   fetch('https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/events')
     .then((response) => response.json())
     .then((events) => {
       const eventList = document.getElementById('eventList');
       events.forEach((event) => {
         const eventDiv = document.createElement('div');
-        eventDiv.innerHTML = '<label for="i'+event.id+'" onchange="registerForEvent(\'i'+event.id+'\')"><input id="i'+event.id+'" type="radio"/><span>'+event.name+'</span></label>';
+        eventDiv.setAttribute('id', event.id);
+        eventDiv.setAttribute('alt', event.name);
+        eventDiv.innerHTML = event.sessions.map(serialize).join('');
         eventList.appendChild(eventDiv);
       });
     })
     .catch((error) => console.error('Error fetching events:', error));
 
+
   // Function to register for an event
-  function registerForEvent(eventId) {
-    // You can add registration logic here, or simply display a message.
-    alert(`Registered for Event ${eventId}`);
+  function registerForEvent(eventId, eventName) {
+    fetch("/odata/v4/SignupService/signUp", {
+      method: "POST",
+      body: JSON.stringify({ session: eventName }),
+      headers: { "Content-type": "application/json; charset=UTF-8" }
+    });
   }
 </script>
 </body>
