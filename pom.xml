@@ -90,6 +90,7 @@
 				<version>${spring.boot.version}</version>
 				<configuration>
 					<skip>true</skip>
+					<workingDirectory>..</workingDirectory>
 				</configuration>
 			</plugin>
 

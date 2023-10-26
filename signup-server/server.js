@@ -1,8 +1,10 @@
 const express = require('express');
 const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./signup.json');
+const swaggerDocument = require('./registration.json');
+const cors = require('cors');
 
 const app = express();
+app.use(cors());
 const port = process.env.PORT || 5000;
 
 // Serve the Swagger UI

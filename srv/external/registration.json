@@ -1,8 +1,8 @@
 {
   "openapi": "3.0.3",
   "info": {
-    "title": "Signup Service",
-    "description": "This service is used to sign up users to events and sessions. Happy learning 📚",
+    "title": "Event Registration Service",
+    "description": "This service is used to sign up users to events and sessions. Happy learning!",
     "termsOfService": "https://github.com/SAP-samples/teched2023-AD266",
     "contact": {
       "email": "cloudsdk@sap.com"
@@ -15,13 +15,13 @@
   },
   "servers": [
     {
-      "url": "https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/rest/v1"
+      "url": "https://ad266-signup.cfapps.eu10-004.hana.ondemand.com"
     }
   ],
   "paths": {
     "/events": {
       "get": {
-        "x-sap-cloud-sdk-api-name": "SignupApi",
+        "x-sap-cloud-sdk-api-name": "EventRegistrationApi",
         "x-sap-cloud-sdk-operation-name": "getEvents",
         "summary": "Get a list of events",
         "responses": {
@@ -65,7 +65,7 @@
         }
       ],
       "get": {
-        "x-sap-cloud-sdk-api-name": "SignupApi",
+        "x-sap-cloud-sdk-api-name": "EventRegistrationApi",
         "x-sap-cloud-sdk-operation-name": "getEventById",
         "summary": "Get event details by ID",
         "responses": {
@@ -113,12 +113,12 @@
         }
       ],
       "post": {
-        "x-sap-cloud-sdk-api-name": "SignupApi",
-        "x-sap-cloud-sdk-operation-name": "eventSignup",
-        "summary": "Sign up for this event",
+        "x-sap-cloud-sdk-api-name": "EventRegistrationApi",
+        "x-sap-cloud-sdk-operation-name": "registerForEvent",
+        "summary": "Register for this event",
         "responses": {
           "201": {
-            "description": "Sign up successful"
+            "description": "Registration successful"
           }
         }
       }
@@ -136,7 +136,7 @@
         }
       ],
       "get": {
-        "x-sap-cloud-sdk-api-name": "SignupApi",
+        "x-sap-cloud-sdk-api-name": "EventRegistrationApi",
         "x-sap-cloud-sdk-operation-name": "getSessions",
         "summary": "Get a list of sessions for an event",
         "responses": {
@@ -192,12 +192,12 @@
         }
       ],
       "post": {
-        "x-sap-cloud-sdk-api-name": "SignupApi",
-        "x-sap-cloud-sdk-operation-name": "sessionSignup",
-        "summary": "Sign up for a session",
+        "x-sap-cloud-sdk-api-name": "EventRegistrationApi",
+        "x-sap-cloud-sdk-operation-name": "registerForSession",
+        "summary": "Register for a session",
         "responses": {
           "201": {
-            "description": "Signed up for the session successfully"
+            "description": "Successfully Registered for the session"
           }
         }
       }

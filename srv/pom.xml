@@ -96,11 +96,6 @@
 			<artifactId>lombok</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<scope>runtime</scope>
-		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -160,8 +155,6 @@
 						<configuration>
 							<commands>
 								<command>build --for java</command>
-								<command>deploy --to h2 --dry >
-									"${project.basedir}/src/main/resources/schema.sql"</command>
 							</commands>
 						</configuration>
 					</execution>
@@ -191,7 +184,7 @@
 							<goal>generate</goal>
 						</goals>
 						<configuration>
-							<inputSpec>${project.basedir}/external/signup.json</inputSpec>
+							<inputSpec>${project.basedir}/external/registration.json</inputSpec>
 							<outputDirectory>${project.basedir}/src/gen/java</outputDirectory>
 							<deleteOutputDirectory>false</deleteOutputDirectory>
 							<apiPackage>cloudsdk.gen.signupservice</apiPackage>
