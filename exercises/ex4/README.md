@@ -52,6 +52,7 @@ Let's enhance the `GoalServiceHandler` first.
 
 ## Summary
 
-You've now successfully added business logic to your application and tested it locally.
+You've now successfully used CAP Remote services to consume SuccessFactors Goal Plan service. 
 
-Continue to - [Exercise 4 - Use SAP Cloud SDK](/README.md)
+Continue to - [Exercise 5 - Deploying the application to SAP Business Technology Platform](../ex5/README.md)
+

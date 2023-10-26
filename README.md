@@ -52,7 +52,7 @@ The requirements to follow the exercises in this repository are:
   - [Exercise 3.2 - Add SAP Cloud SDK to your project and generate a typed OpenAPI client](exercises/ex3#exercise-32---add-sap-cloud-sdk-to-your-project-and-generate-a-typed-openapi-client)
   - [Exercise 3.3 - Use Typed OData client to consume remote OpenAPI service](exercises/ex3#exercise-33---use-typed-odata-client-to-consume-remote-openapi-service)
   - [Exercise 3.4 - Run the application locally](exercises/ex3#exercise-34---run-the-application-locally)
-- [Exercise 4 - Add functionality to Event Handlers: Part 2- Use CAP Remote Services](exercises/ex3_/)
+- [Exercise 4 - Add functionality to Event Handlers: Part 2- Use CAP Remote Services](exercises/ex4/)
   - [Exercise 4.1 - Add Business Logic to GoalServiceHandler](exercises/ex4#exercise-41---add-business-logic-to-goalservicehandler)
   - [Exercise 4.2 - Add Business Logic to SignupHandler](exercises/ex4#exercise-42---add-business-logic-to-signuphandler)
   - [Exercise 4.3 - Run the application locally](exercises/ex4#exercise-43---run-your-application-locally)

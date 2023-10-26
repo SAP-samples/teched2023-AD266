@@ -170,6 +170,6 @@ In this exercise, we will learn how you can leverage SAP Cloud SDK to consume a 
 
 ## Summary
 
-You've now successfully learnt how to use SAP Cloud SDK to consume SuccessFactors OData service in a type safe manner.
+You've now successfully learnt how to use SAP Cloud SDK to consume a remote OpenAPI service in a type safe manner.
 
-Continue to - [Exercise 5 - Deploying the application to SAP Business Technology Platform](../ex5/README.md)
+Continue to - [Exercise 4 - Add functionality to Event Handlers: Part 2- Use CAP Remote Services](../ex4/README.md)
