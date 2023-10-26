@@ -10,9 +10,9 @@ Before getting started with the exercise, let's check if you have all the prereq
       - `java -version`
     - Maven 3.9+ 
       - `mvn -version`
-    - Node 18+
+    - Node 18
       - `node --version`
-    - Npm 9+
+    - Npm 9
       - `npm --version`
     - cdsdk 7.0+
       - `cds --version`
