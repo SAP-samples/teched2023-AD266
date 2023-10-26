@@ -17,7 +17,7 @@ If you are facing issues with logging in, for your convenience we have also incl
 
 You can use it directly for the next steps.
 
-## Exercise 1.2 Add the Goal Plan service to your project
+## Exercise 1.2 Add the Goal Plan service to your CAP project
 
 1. In your application's `pom.xml` (srv/pom.xml) file you can find the following dependency:
 ```xml
