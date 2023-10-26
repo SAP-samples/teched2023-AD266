@@ -14,7 +14,7 @@ The `SignupHandler` is the entry point of the application. And `signUp` is the a
 `RegistrationServiceHandler` would take care of registering the user. We would be interacting with a synthetic OpenAPI service to achieve this.
 In this exercise, we will learn how you can leverage SAP Cloud SDK to consume a remote OpenAPI service.
 
-## Exercise 3.1 - Familiarising yourself with the remote OpenAPI Service
+## Exercise 3.1 - Familiarising yourself with the remote OpenAPI service
 
 1. The OpenAPI service is available at `https://ad266-signup.cfapps.eu10-004.hana.ondemand.com`.For the sake of simplicity, we will assume that you don't have to authenticate yourself to access the service. 
 
@@ -92,7 +92,7 @@ In this exercise, we will learn how you can leverage SAP Cloud SDK to consume a 
 
 3. You can now use the generated client to consume the remote OpenAPI service for the next exercise.
 
-## Exercise 3.3 - Use Typed OData client to consume remote OpenAPI service
+## Exercise 3.3 - Use typed client to consume remote OpenAPI service
 
 1. Let's start using the generated client in the `RegistrationServiceHandler` and first try to fetch a destination for the remote OpenAPI service.
    Add the following code inside the class. 
@@ -150,7 +150,7 @@ In this exercise, we will learn how you can leverage SAP Cloud SDK to consume a 
 ```
    Here we are using the generated client to register for a session in TechEd event, this piece of code would in the end call `https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/events/{eventId}/sessions/{sessionId}/register` end point of the service.
 
-## Exercise 3.4 - Run the application locally
+## Exercise 3.4 - Run your application locally
 
 1. To run your application, you need to first define a destination.
 
