@@ -74,18 +74,18 @@ Let's enhance the `GoalServiceHandler` first.
    ```
    
 3. We want to call this method when there is a Read event for the `Goal` entity. On the method `getLearningGoals(context)` annotated with `@On( event = CqnService.EVENT_READ, entity = Goal_.CDS_NAME)` add the following code:
-```java
-    @On( event = CqnService.EVENT_READ, entity = Goal_.CDS_NAME)
-    public void getLearningGoals(CdsReadEventContext context)
-    {
-        var goals = getLearningGoals();
-
-        context.setResult(goals.stream().map(GoalServiceHandler::toSimpleGoal).toList());
-    }
-```
+   ```java
+       @On( event = CqnService.EVENT_READ, entity = Goal_.CDS_NAME)
+       public void getLearningGoals(CdsReadEventContext context)
+       {
+           var goals = getLearningGoals();
+   
+           context.setResult(goals.stream().map(GoalServiceHandler::toSimpleGoal).toList());
+       }
+   ```
    `toSimpleGoal(goal)` method above just converts the fetched `Goal101` SuccessFactor entity to a `Goal` projection object we defined in the earlier exercises in `srv/service.cds` file.
 
-4. You can run the application at this point, and try to fetch the goals for a user. You would get an empty list. This is because we haven't created a goal for the user yet.
+5. You can run the application at this point, and try to fetch the goals for a user. You would get an empty list. This is because we haven't created a goal for the user yet.
 
    To run the application follow Exercise 4.5 and then open `http://localhost:8080/odata/v4/GoalService/Goal` in your browser to test the fetch goals endpoint.
 
@@ -99,31 +99,31 @@ Let's enhance the `GoalServiceHandler` first.
 1. The first time you try to fetch the goals, you would get an empty list. This is because we haven't created a goal for the user yet. Let's add the functionality to create a goal for the user.
 
 2. We want to create a goal when there is a Create event for the `Goal` entity. On the method `createGoal( CdsCreateEventContext context, Goal goal )` annotated with `@On` add the following code:
-```java
-    @On
-    public void createGoal( CdsCreateEventContext context, Goal goal )
-    {
-        var result = createGoal(getUser(), goal);
-
-        return toSimpleGoal(result);
-    }
-```
+   ```java
+       @On
+       public void createGoal( CdsCreateEventContext context, Goal goal )
+       {
+           var result = createGoal(getUser(), goal);
+   
+           return toSimpleGoal(result);
+       }
+   ```
 
 3. Let's add the `createGoal(user,goal)` method. Add the following code snippet inside the `createGoal(user,goal)` method:
 
-```java
-    private Goal101 createGoal(String user, Goal goal)
-    {
-        var draft = draftGoal(goal, user);
-        var query = Insert.into(GOAL101).entry(draft);
-
-        var result = goalService.run(query).single(Goal101.class);
-
-        log.info("Created the following Goal in SFSF: {}", result);
-        return result;
-    }
-```
-    `draftGoal(Goal draft, String user)` method just creates a `Goal101` object with some predefined values. You can find the code for this method in the `GoalServiceHandler` class.
+   ```java
+       private Goal101 createGoal(String user, Goal goal)
+       {
+           var draft = draftGoal(goal, user);
+           var query = Insert.into(GOAL101).entry(draft);
+   
+           var result = goalService.run(query).single(Goal101.class);
+   
+           log.info("Created the following Goal in SFSF: {}", result);
+           return result;
+       }
+   ```
+   `draftGoal(Goal draft, String user)` method just creates a `Goal101` object with some predefined values. You can find the code for this method in the `GoalServiceHandler` class.
 
     We use a CQL Statement builder [Insert](https://cap.cloud.sap/docs/java/query-api#single-insert) to build the insert query and using the `goalService` Remote service object again, we run the query and parse the response into a `Goal101` object.
 
@@ -133,19 +133,19 @@ Let's enhance the `GoalServiceHandler` first.
 
 2. Add the following code snippet inside the `createTask(goal, title )` method:
 
-```java
-    public void createTask(Goal101 goal, String title )
-        {
-        var description = "Attend the session '" + title + "' and share what you learned!";
-        var task = GoalTask101.create();
-        task.setObjId(goal.getId());
-        task.setDescription(description);
-        task.setDone(10d);
-
-        var insert = Insert.into(GOAL_TASK101).entry(task);
-        goalService.run(insert);
-        }
-```
+   ```java
+       public void createTask(Goal101 goal, String title )
+           {
+           var description = "Attend the session '" + title + "' and share what you learned!";
+           var task = GoalTask101.create();
+           task.setObjId(goal.getId());
+           task.setDescription(description);
+           task.setDone(10d);
+   
+           var insert = Insert.into(GOAL_TASK101).entry(task);
+           goalService.run(insert);
+           }
+   ```
     We use a CQL Statement builder [Insert](https://cap.cloud.sap/docs/java/query-api#single-insert) to build the insert query and using the `goalService` Remote service object again.
 
 ## Exercise 4.4 - Add functionality to SignupHandler
@@ -156,15 +156,15 @@ As we now have all parts to create a goal and sub-goals, let's add the functiona
 
 2. Add the following code snippet inside the `register(String session)` method:
 
-```java
-    private void register(String session) {
-        // sign up for the event and the key note session
-        signupService.signUpForTechEd();
-
-        //signup for any additional sessions
-        signupService.signUpForSession(session);
-        }
-```
+   ```java
+       private void register(String session) {
+           // sign up for the event and the key note session
+           signupService.signUpForTechEd();
+   
+           //signup for any additional sessions
+           signupService.signUpForSession(session);
+           }
+   ```
     We use the `signupService` to call the methods we built in the earlier exercises to sign up for TechEd and sessions.
 
 3. Add the following code snippet inside the `updateSFSF(String session)` method:
@@ -190,7 +190,7 @@ As we now have all parts to create a goal and sub-goals, let's add the functiona
 
 2. Enhance the already created destination environment variable in your terminal using:
 
-    ```bash
+    ```shell
     set destinations=[{"name":"SFSF-BASIC-ADMIN", "url":"https://apisalesdemo8.successfactors.com/", "type": "HTTP", "user": USER, "password":password, "URL.headers.accept-encoding": "identity"}, {"name":"Signup-Service","url":"https://ad266-signup.cfapps.eu10-004.hana.ondemand.com"}]
     ```
 
@@ -204,12 +204,11 @@ As we now have all parts to create a goal and sub-goals, let's add the functiona
 1. For your convenience, we have a built a small UI to test the signup functionality. You can access it at `http://localhost:8080/`.
 
 2. Click on any of the sessions to register for it. You can see the following logs in your IDE's terminal:
-```
- DEBUG 77782 --- [nio-8080-exec-2] com.sap.cds.services.impl.ServiceImpl    : Finished emit of 'Goal' for event 'CREATE', entity 'Goal.GoalTask_101'
- DEBUG 77782 --- [nio-8080-exec-2] com.sap.cds.services.impl.ServiceImpl    : Finished emit of 'SignupService' for event 'signUp', entity ''
-
-```
-
+   ```
+    DEBUG 77782 --- [nio-8080-exec-2] com.sap.cds.services.impl.ServiceImpl    : Finished emit of 'Goal' for event 'CREATE', entity 'Goal.GoalTask_101'
+    DEBUG 77782 --- [nio-8080-exec-2] com.sap.cds.services.impl.ServiceImpl    : Finished emit of 'SignupService' for event 'signUp', entity ''
+   ```
+   
 3. You can now log in to [SuccessFactors](https://pmsalesdemo8.successfactors.com/) with USER and PASSWORD provided and check if the goal and sub-goal have been created for the user.
 
 ## Summary
