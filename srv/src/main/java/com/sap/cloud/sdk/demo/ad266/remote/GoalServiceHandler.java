@@ -61,26 +61,13 @@ public class GoalServiceHandler implements EventHandler
 
     private Goal101 createGoal(String user, Goal goal)
     {
-        var draft = draftGoal(goal, user);
-        var query = Insert.into(Goal101_.class).entry(draft);
-
-        var result = goalService.run(query).single(Goal101.class);
-
-        log.info("Created the following Goal in SFSF: {}", result);
-        return result;
+        //Todo: implement
+        return null;
     }
 
     public void createTask(Goal101 goal, String title )
     {
-        var description = "Attend session the session '" + title + "' and share what you learned!";
-        var task = GoalTask101.create();
-        task.setObjId(goal.getId());
-        task.setDescription(description);
-        task.setDone(10d);
-
-        var insert = Insert.into(GoalTask101_.CDS_NAME).entry(task);
-
-        goalService.run(insert).single(Goal101.class);
+        //Todo: implement
     }
 
     private String getUser()
@@ -102,17 +89,13 @@ public class GoalServiceHandler implements EventHandler
     @On( event = CqnService.EVENT_READ, entity = Goal_.CDS_NAME)
     public void getLearningGoals(CdsReadEventContext context)
     {
-        var goals = getLearningGoals();
-
-        context.setResult(goals.stream().map(GoalServiceHandler::toSimpleGoal).toList());
+        //Todo: implement
     }
 
     @On( event = CqnService.EVENT_CREATE, entity = Goal_.CDS_NAME)
     public void createGoal( CdsCreateEventContext context, Goal goal )
     {
-        var result = createGoal(getUser(), goal);
-
-        context.setResult(Collections.singleton(toSimpleGoal(result)));
+        //Todo: implement
     }
 
     @On( event = CqnService.EVENT_DELETE, entity = Goal_.CDS_NAME)
