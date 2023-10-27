@@ -87,7 +87,7 @@ Let's enhance the `GoalServiceHandler` first.
 
 5. You can run the application at this point, and try to fetch the goals for a user. You would get an empty list. This is because we haven't created a goal for the user yet.
 
-   To run the application follow [Exercise 4.5](exercises/ex4#exercise-45---run-your-application-locally) and then open `http://localhost:8080/odata/v4/GoalService/Goal` in your browser to test the fetch goals endpoint.
+   To run the application follow [Exercise 4.5](../exercise-45---run-your-application-locally) and then open `http://localhost:8080/odata/v4/GoalService/Goal` in your browser to test the fetch goals endpoint.
 
    You can also see the following logs in your IDE's terminal which confirms that no goal were fetched from SuccessFactors:
    ```
