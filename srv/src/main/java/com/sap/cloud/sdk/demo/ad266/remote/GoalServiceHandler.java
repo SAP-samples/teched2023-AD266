@@ -89,12 +89,14 @@ public class GoalServiceHandler implements EventHandler
     public List<Goal> getLearningGoals(CdsReadEventContext context)
     {
         //Todo: implement
+        return Collections.emptyList(); // without this, the code doesn't compile OOTB
     }
 
     @On
     public Goal createGoal( CdsCreateEventContext context, Goal goal )
     {
         //Todo: implement
+        return null; // without this, the code doesn't compile OOTB
     }
 
     @On( entity = Goal_.CDS_NAME )
