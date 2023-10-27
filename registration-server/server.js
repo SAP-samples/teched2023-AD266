@@ -1,8 +1,10 @@
 const express = require('express');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./registration.json');
+const cors = require('cors');
 
 const app = express();
+app.use(cors());
 const port = process.env.PORT || 5000;
 
 // Serve the Swagger UI
@@ -15,11 +17,11 @@ const sampleSessions = [
 const techEd = {
     id: 1,
     name: 'TechEd 2023',
-    sessions: sampleSessions,
+    sessionIDs: [101, 102],
   };
 const sampleEvents = [
     techEd,
-    { id: 2, name: 'Some other Event' }
+    { id: 2, name: 'Some other Event', sessionIDs: [] },
   ];
 
 // Implement endpoints
@@ -39,8 +41,11 @@ app.post('/events/:eventId/register', (req, res) => {
 
 app.get('/events/:eventId/sessions', (req, res) => {
   const eventId = req.params.eventId;
-  sampleEvents.find(event => event.id == eventId).sessions;
-  res.json(sampleSessions);
+  const event = sampleEvents.find(event => event.id == eventId);
+  const sessionIDs = event.sessionIDs;
+  const sessions = sessionIDs.map(sessionID => sampleSessions.find(session => session.id == sessionID));
+
+  res.json(sessions);
 });
 
 app.post('/events/:eventId/sessions/:sessionId/register', (req, res) => {

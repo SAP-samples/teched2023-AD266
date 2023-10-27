@@ -7,22 +7,20 @@ import com.sap.cds.services.handler.annotations.On;
 import com.sap.cds.services.handler.annotations.ServiceName;
 import com.sap.cloud.sdk.demo.ad266.remote.GoalServiceHandler;
 import com.sap.cloud.sdk.demo.ad266.remote.RegistrationServiceHandler;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Slf4j
 @Component
 @ServiceName(SignupService_.CDS_NAME)
 public class SignupHandler implements EventHandler
 {
     @Autowired
-    private RegistrationServiceHandler signupService;
+    private RegistrationServiceHandler registrationService;
 
     @Autowired
     private GoalServiceHandler goalService;
 
-    @On( event = SignUpContext.CDS_NAME)
+    @On
     public void signUp(SignUpContext context)
     {
         String session;
@@ -42,9 +40,9 @@ public class SignupHandler implements EventHandler
 
     private void register(String session) {
         // sign up for the event and the session
-        signupService.signUpForTechEd();
+        registrationService.signUpForTechEd();
 
-        signupService.signUpForSession(session);
+        registrationService.signUpForSession(session);
     }
 
     private void updateSFSF(String session) {

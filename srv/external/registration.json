@@ -2,7 +2,7 @@
   "openapi": "3.0.3",
   "info": {
     "title": "Event Registration Service",
-    "description": "This service is used to sign up users to events and sessions. Happy learning 📚",
+    "description": "This service is used to sign up users to events and sessions. Happy learning!",
     "termsOfService": "https://github.com/SAP-samples/teched2023-AD266",
     "contact": {
       "email": "cloudsdk@sap.com"
@@ -15,7 +15,7 @@
   },
   "servers": [
     {
-      "url": "https://ad266-signup.cfapps.eu10-004.hana.ondemand.com"
+      "url": "https://ad266-registration.cfapps.eu10-004.hana.ondemand.com"
     }
   ],
   "paths": {
@@ -39,11 +39,13 @@
                 "example": [
                   {
                     "id": 1,
-                    "name": "Event 1"
+                    "name": "Event 1",
+                    "sessionIDs": [101, 102]
                   },
                   {
                     "id": 2,
-                    "name": "Event 2"
+                    "name": "Event 2",
+                    "sessionIDs": []
                   }
                 ]
               }
@@ -216,10 +218,10 @@
             "type": "string",
             "description": "The name of the event"
           },
-          "sessions": {
+          "sessionIDs": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Session"
+              "type": "integer"
             }
           }
         }

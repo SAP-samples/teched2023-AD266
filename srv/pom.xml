@@ -91,11 +91,6 @@
 			<artifactId>lombok</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<scope>runtime</scope>
-		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -155,8 +150,6 @@
 						<configuration>
 							<commands>
 								<command>build --for java</command>
-								<command>deploy --to h2 --dry >
-									"${project.basedir}/src/main/resources/schema.sql"</command>
 							</commands>
 						</configuration>
 					</execution>

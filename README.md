@@ -17,8 +17,12 @@ It guides developers through proven best practices and accelerates the developme
 [SAP Cloud SDK](https://sap.github.io/cloud-sdk/docs/overview/overview-cloud-sdk) is a set of libraries and tools for developers to build cloud-native applications on the SAP Business Technology Platform (SAP BTP).
 CAP internally uses the SAP Cloud SDK for service consumption.
 
-Over the course of this workshop, you will create an application that fetches data from SAP SuccessFactors [Goal Plan API](https://api.sap.com/api/PerformanceandGoalsPMGM/overview) service by using CAP's [Remote Services](https://cap.cloud.sap/docs/java/remote-services#configuring-remote-services).
-You will also add functionality to create goals and tasks and delete them by interacting with the SuccessFactors service via the application.
+Over the course of this workshop, you will create an application that consumes both an OpenAPI and an OData service. 
+
+For the OData part, you will learn how to fetch data from SAP SuccessFactors [Goal Plan API](https://api.sap.com/api/PerformanceandGoalsPMGM/overview) service by using CAP's [Remote Services](https://cap.cloud.sap/docs/java/remote-services#configuring-remote-services).
+You will also add functionality to create goals and sub-goals and delete them by interacting with the SuccessFactors service via the application.
+
+For the OpenAPI part, you will learn how to use the SAP Cloud SDK to conveniently interact with the service in a type-safe manner. 
 
 You could then follow similar steps to connect to any other SAP application that exposes an API and easily build extensions for them in the cloud.
 
@@ -30,6 +34,8 @@ The requirements to follow the exercises in this repository are:
 - Maven 3.9
 - Node 18+
 - NPM 9+
+- cdsdk 7.0+
+- cf cli 7.7+
 
 ## Exercises
 
@@ -42,20 +48,31 @@ The requirements to follow the exercises in this repository are:
     - [Exercise 2.1 - CDS Maven Plugin](exercises/ex2#exercise-21-cds-maven-plugin)
     - [Exercise 2.2 - Understanding Service Definitions](exercises/ex2#exercise-22-understanding-service-definitions)
     - [Exercise 2.3 - Understanding Event Handlers](exercises/ex2#exercise-23-understanding-event-handlers)
-- [Exercise 3 - Add functionality to Event Handlers](exercises/ex3/)
-  - [Exercise 3.1 - Add Business Logic to GoalServiceHandler](exercises/ex3#exercise-31---add-business-logic-to-goalservicehandler)
-  - [Exercise 3.2 - Add Business Logic to SignupHandler](exercises/ex3#exercise-32---add-business-logic-to-signuphandler)
-  - [Exercise 3.3 - Run your application locally](exercises/ex3#exercise-33---run-your-application-locally)
-- [Exercise 4 - Use SAP Cloud SDK](exercises/ex4/)
-- [Exercise 5 - Deploying the application to SAP Business Technology Platform](exercises/ex5/)
-  - [Exercise 5.1 - Creating a destination for SuccessFactors API endpoint](exercises/ex5#exercise-41-creating-a-destination-for-successfactors-api-endpoint)
-  - [Exercise 5.2 - Creating a destination service instance](exercises/ex5#exercise-42-creating-a-destination-service-instance)
-  - [Exercise 5.3 Adjusting the deployment descriptor - manifest.yml](exercises/ex5#exercise-43-adjusting-the-deployment-descriptor---manifestyml)
-  - [Exercise 5.4 Deploy the application and Testing](exercises/ex5#exercise-44-deploy-the-application-and-testing)
+    - [Exercise 2.4 - Run your application locally](exercises/ex2#exercise-24---run-your-application-locally)
+- [Exercise 3 - Add functionality to Event Handlers: Part 1- Use SAP Cloud SDK](exercises/ex3/)
+  - [Exercise 3.1 - Familiarising yourself with the remote OpenAPI Service](exercises/ex3#exercise-31---familiarising-yourself-with-the-remote-openapi-service)
+  - [Exercise 3.2 - Add SAP Cloud SDK to your project and generate a typed OpenAPI client](exercises/ex3#exercise-32---add-sap-cloud-sdk-to-your-project-and-generate-a-typed-openapi-client)
+  - [Exercise 3.3 - Use typed client to consume remote OpenAPI service](exercises/ex3#exercise-33---use-typed-client-to-consume-remote-openapi-service)
+  - [Exercise 3.4 - Run your application locally](exercises/ex3#exercise-34---run-your-application-locally)
+- [Exercise 4 - Add functionality to Event Handlers: Part 2- Use CAP Remote Services](exercises/ex4/)
+  - [Exercise 4.1 - Fetch all learning goals of a user in GoalServiceHandler](exercises/ex4#exercise-41---fetch-all-learning-goals-of-a-user-in-goalservicehandler)
+  - [Exercise 4.2 - Create a learning goal for a user via GoalServiceHandler](exercises/ex4#exercise-42---create-a-learning-goal-for-a-user-via-goalservicehandler)
+  - [Exercise 4.3 - Create a sub goal for a user via GoalServiceHandler](exercises/ex4#exercise-43---create-a-sub-goal-for-a-user-via-goalservicehandler)
+  - [Exercise 4.4 - Add functionality to SignupHandler](exercises/ex4#exercise-44---add-functionality-to-signuphandler)
+  - [Exercise 4.5 - Run your application locally](exercises/ex4#exercise-45---run-your-application-locally)
+  - [Exercise 4.6 - Testing SignupHandler](exercises/ex4#exercise-46---testing-signuphandler)
+- [Exercise 5 - (Optional) Deploying the application to SAP Business Technology Platform](exercises/ex5/)
+  - [Exercise 5.1 - Creating a destination for SuccessFactors API endpoint](exercises/ex5#exercise-51-creating-a-destination-for-successfactors-api-endpoint)
+  - [Exercise 5.2 - Creating a destination service instance](exercises/ex5#exercise-52-creating-a-destination-service-instance)
+  - [Exercise 5.3 Adjusting the deployment descriptor - manifest.yml](exercises/ex5#exercise-53-adjusting-the-deployment-descriptor---manifestyml)
+  - [Exercise 5.4 Deploy the application and Testing](exercises/ex5#exercise-54-deploy-the-application-and-testing)
 
 **IMPORTANT**
 
 Your repo must contain the .reuse and LICENSES folder and the License section below. DO NOT REMOVE the section or folders/files. Also, remove all unused template assets(images, folders, etc) from the exercises folder. 
+
+## Useful Links
+- [SAP Customer Influence](https://influence.sap.com/sap/ino/#/campaign/1175) for SAP S/4HANA Cloud APIs.
 
 ## Contributing
 Please read the [CONTRIBUTING.md](./CONTRIBUTING.md) to understand the contribution guidelines.
