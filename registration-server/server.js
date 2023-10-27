@@ -17,11 +17,11 @@ const sampleSessions = [
 const techEd = {
     id: 1,
     name: 'TechEd 2023',
-    sessions: sampleSessions,
+    sessionIDs: [101, 102],
   };
 const sampleEvents = [
     techEd,
-    { id: 2, name: 'Some other Event' }
+    { id: 2, name: 'Some other Event', sessionIDs: [] },
   ];
 
 // Implement endpoints
@@ -41,8 +41,8 @@ app.post('/events/:eventId/register', (req, res) => {
 
 app.get('/events/:eventId/sessions', (req, res) => {
   const eventId = req.params.eventId;
-  sampleEvents.find(event => event.id == eventId).sessions;
-  res.json(sampleSessions);
+  const sessions = sampleEvents.find(event => event.id == eventId).sessions;
+  res.json(sessions);
 });
 
 app.post('/events/:eventId/sessions/:sessionId/register', (req, res) => {
