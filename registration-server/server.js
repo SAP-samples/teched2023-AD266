@@ -41,7 +41,10 @@ app.post('/events/:eventId/register', (req, res) => {
 
 app.get('/events/:eventId/sessions', (req, res) => {
   const eventId = req.params.eventId;
-  const sessions = sampleEvents.find(event => event.id == eventId).sessions;
+  const event = sampleEvents.find(event => event.id == eventId);
+  const sessionIDs = event.sessionIDs;
+  const sessions = sessionIDs.map(sessionID => sampleSessions.find(session => session.id == sessionID));
+
   res.json(sessions);
 });
 

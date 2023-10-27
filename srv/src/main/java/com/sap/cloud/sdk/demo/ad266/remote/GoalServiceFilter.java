@@ -31,5 +31,4 @@ public class GoalServiceFilter implements EventHandler
 
         ctx.setCqn(enhancedSelect);
     }
-
 }
