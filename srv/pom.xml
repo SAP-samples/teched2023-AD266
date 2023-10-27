@@ -216,6 +216,11 @@
                             <serviceMethodsPerEntitySet>true</serviceMethodsPerEntitySet>
                             <serviceNameMappingFile>${project.build.directory}/serviceNameMappings.properties</serviceNameMappingFile>
                             <overwriteFiles>true</overwriteFiles>
+							<includeEntitySets>
+								<param>Goal_101</param>
+								<param>GoalTask_101</param>
+								<param>GoalPermission_101</param>
+							</includeEntitySets>
                         </configuration>
                     </execution>
                 </executions>
