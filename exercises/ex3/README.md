@@ -27,7 +27,7 @@ In this exercise, we will learn how you can leverage SAP Cloud SDK to consume a 
 
 ## Exercise 3.2 - Add SAP Cloud SDK to your project and generate a typed OpenAPI client
 
-1. In your project's application `pom.xml`(/srv/pom.xml) file add the following dependency to the dependencies section:
+1. In your project's application `pom.xml`(/srv/pom.xml) you can already find the following Cloud SDK dependencies in the dependencies section. :
 ```xml
         <!-- Cloud SDK OpenAPI & Destinations -->
         <dependency>
@@ -43,9 +43,10 @@ In this exercise, we will learn how you can leverage SAP Cloud SDK to consume a 
             <artifactId>cloudplatform-connectivity</artifactId>
         </dependency>
 ```
+   These dependencies are required to consume a remote OpenAPI service.
    Additionally, for type safe access to the remote OpenAPI service, we will generate a [typed OpenAPI client](https://sap.github.io/cloud-sdk/docs/java/v5/features/rest/overview).
    
-   Add the following lines under the `<plugin>` section in your application `pom.xml` file.
+   You can also already find the following lines under the `<plugin>` section in your application `pom.xml` file.
 
 ```xml
             <!-- Cloud SDK OData VDM Generator -->
@@ -74,7 +75,7 @@ In this exercise, we will learn how you can leverage SAP Cloud SDK to consume a 
 ```
    
    You could find more details about the plugin parameters [here](https://sap.github.io/cloud-sdk/docs/java/v5/features/rest/generate-rest-client#available-parameters)
-
+   The input specification file is the OpenAPI specification of the remote service and is already available under `external/registration.json` in your project.
   Note: We are managing the versions of the artifacts we imported above using the SAP Cloud SDK BOM, you can find this already added in your project's `<dependencyManagement>` section in the root `pom.xml`:
     
 ```xml
@@ -159,7 +160,6 @@ In this exercise, we will learn how you can leverage SAP Cloud SDK to consume a 
     set destinations=[{name: "Signup-Service", url: "https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/"}]
     ```
    Remember to use the same name as the destination name that is defined in the `RegistrationServiceHandler`.
-   export destinations= '[{name: "Signup-Service", url: "https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/"}]'
 
 3. Now run the application with `mvn spring-boot:run`
 

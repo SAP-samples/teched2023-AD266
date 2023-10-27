@@ -1,7 +1,6 @@
 package com.sap.cloud.sdk.demo.ad266.utility;
 
 import com.google.gson.JsonObject;
-import com.sap.cds.services.EventContext;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

@@ -1,17 +1,16 @@
 package com.sap.cloud.sdk.demo.ad266.remote;
 
+import static cds.gen.goal.Goal_.GOAL101;
+import static cds.gen.goal.Goal_.GOAL_TASK101;
+
 import cds.gen.goal.Goal101;
-import cds.gen.goal.Goal101_;
 import cds.gen.goal.GoalTask101;
-import cds.gen.goal.GoalTask101_;
 import cds.gen.goalservice.Goal;
 import cds.gen.goalservice.GoalService_;
 import cds.gen.goalservice.Goal_;
 import com.sap.cds.Result;
-import com.sap.cds.ql.CQL;
 import com.sap.cds.ql.Insert;
 import com.sap.cds.ql.Select;
-import com.sap.cds.ql.StructuredType;
 import com.sap.cds.services.cds.CdsCreateEventContext;
 import com.sap.cds.services.cds.CdsDeleteEventContext;
 import com.sap.cds.services.cds.CdsReadEventContext;
@@ -86,24 +85,22 @@ public class GoalServiceHandler implements EventHandler
         return email.split("@")[0];
     }
 
-    @On( event = CqnService.EVENT_READ, entity = Goal_.CDS_NAME)
-    public void getLearningGoals(CdsReadEventContext context)
+    @On( entity = Goal_.CDS_NAME )
+    public List<Goal> getLearningGoals(CdsReadEventContext context)
     {
         //Todo: implement
     }
 
-    @On( event = CqnService.EVENT_CREATE, entity = Goal_.CDS_NAME)
-    public void createGoal( CdsCreateEventContext context, Goal goal )
+    @On
+    public Goal createGoal( CdsCreateEventContext context, Goal goal )
     {
         //Todo: implement
     }
 
-    @On( event = CqnService.EVENT_DELETE, entity = Goal_.CDS_NAME)
-    public void deleteGoal( CdsDeleteEventContext context )
+    @On( entity = Goal_.CDS_NAME )
+    public Result deleteGoal( CdsDeleteEventContext context )
     {
-        Result result = goalService.run(context.getCqn());
-
-        context.setResult(result);
+        return goalService.run(context.getCqn());
     }
 
     private static Goal101 draftGoal(Goal draft, String user)
@@ -132,7 +129,7 @@ public class GoalServiceHandler implements EventHandler
     }
 
     private static Goal toSimpleGoal( Goal101 goal ) {
-        var simpleGoal = cds.gen.goalservice.Goal.create();
+        var simpleGoal = Goal.create();
         simpleGoal.setTitle(goal.getName());
         simpleGoal.setDescription(goal.getMetric());
         return simpleGoal;

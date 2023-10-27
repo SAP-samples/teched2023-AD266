@@ -27,7 +27,7 @@
       50% { background-position: 100% 100%; }
       100% { background-position: 0% 0%; }
     }
-    span {
+    #eventList span {
       display: inline-block;
       padding: 0.5em 1em;
       font-size: 1.5em;
@@ -38,13 +38,30 @@
       font-weight: bold;
       box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
     }
-    label:hover span { background-position: 100% 0; box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15); }
-    label:hover { cursor: pointer; }
-    label > input { display: none; }
-    label > input:checked + *:before { content:'✔️'; }
-    label > input:active + *:before { content:'➕️'; }
-    label > input + *:before { content:'✖️'; vertical-align: top; display: inline-block; padding: 0.3em 0.3em 0 0; font-size:0.6em; }
-    label { display:block; margin: 1em; }
+    #eventList label:hover span { background-position: 100% 0; box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15); }
+    #eventList label:hover { cursor: pointer; }
+    #eventList label > input { display: none; }
+    #eventList label > input[disabled]:checked + *:before { content:'✔️'; transform: rotate(0); }
+    #eventList label > input:checked + *:before { content:'⌛'; transform: rotate(10deg); }
+    #eventList label > input:active + *:before { content:'⌛'; transform: rotate(-10deg); }
+    #eventList label > input + *:before { content:'✖️'; vertical-align: top; display: inline-block; margin: 0.3em 0.3em 0 0; font-size:0.6em; }
+    #eventList label { display:block; margin: 1em; }
+    #eventList > div:before { content: attr(alt); font-size: 1.5em; border-bottom: 2px dashed; }
+
+    #resilience {
+      display: none;
+      width: 13em;
+      position: absolute;
+      top: 2em;
+      right: 2em;
+      border: 1px solid #333;
+      background: rgba(120, 120, 120, 0.3);
+      padding: 1em;
+      border-radius: 0.5em;
+    }
+    #resilience:target { display: block; }
+    #resilience > label { display: inline-block; width: 60%; padding: 0.3em 0; }
+    #resilience > input { display: inline-block; width: 30%; }
   </style>
 </head>
 <body>
@@ -57,24 +74,57 @@
   -->
 </div>
 
+<div id="resilience">
+  <label for="delay">Delay (ms):</label>
+  <input type="number" id="delay" value="0" min="0" max="60000" step="500"/>
+  <label for="fault">Fault rate (%):</label>
+  <input type="number" id="fault" value="0" min="0" max="100" step="10"/>
+</div>
+
 <script>
-  // Fetch events from your API and populate the list
+  function serialize(session) {
+    return '<label for="i'+session.id+'" onchange="registerForEvent(\''+session.id+'\',\''+session.title+'\')">'
+      + '<input id="i'+session.id+'" type="radio"/>'
+      + '<span>'+session.title+'</span>'
+      + '</label>'
+  }
+
   fetch('https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/events')
     .then((response) => response.json())
     .then((events) => {
       const eventList = document.getElementById('eventList');
       events.forEach((event) => {
         const eventDiv = document.createElement('div');
-        eventDiv.innerHTML = '<label for="i'+event.id+'" onchange="registerForEvent(\'i'+event.id+'\')"><input id="i'+event.id+'" type="radio"/><span>'+event.name+'</span></label>';
+        eventDiv.setAttribute('id', event.id);
+        eventDiv.setAttribute('alt', event.name);
+        eventDiv.innerHTML = event.sessions.map(serialize).join('');
         eventList.appendChild(eventDiv);
       });
     })
-    .catch((error) => console.error('Error fetching events:', error));
+    .catch((error) => alert('Error fetching events:', error));
+
 
   // Function to register for an event
-  function registerForEvent(eventId) {
-    // You can add registration logic here, or simply display a message.
-    alert(`Registered for Event ${eventId}`);
+  function registerForEvent(eventId, eventName) {
+    const delay = document.getElementById('delay').value;
+    const fault = document.getElementById('fault').value;
+    fetch("/odata/v4/SignupService/signUp", {
+      method: "POST",
+      body: JSON.stringify({ session: eventName }),
+      headers: { "Content-type": "application/json; charset=UTF-8", delay: delay, fault: fault }
+    })
+    .then((response) => response.json())
+    .then((response) => {
+      if(response.error) {
+        throw new Error("Unable to register for session: " + response.error.message);
+      }
+      document.getElementById('i'+eventId).disabled = true;
+      return response.value;
+    })
+    .catch((error) => {
+      alert('Error.\n' + error.message);
+      document.getElementById('i'+eventId).checked = false;
+    });
   }
 </script>
 </body>

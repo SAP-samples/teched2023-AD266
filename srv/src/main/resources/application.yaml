@@ -2,8 +2,6 @@
 spring:
   web.resources.static-locations: "file:./frontend"
 cds:
-  datasource:
-    auto-config.enabled: false
   remote.services:
 #    - name: "Goal"
 #      destination:
