@@ -184,6 +184,12 @@ As we now have all parts to create a goal and sub-goals, let's add the functiona
    ```
     We use the `goalService` to call the methods we built in the earlier exercises to create a goal and sub-goal for the user.
 
+4. Inside the `signUp(SignUpContext context)` method change the result set in the context to the following:
+   ```java
+        context.setResult("Yay, we successfully signed you up for the session: " + session + ".\n"
+                + "Also, we created an entry in your 'Learning and Growth' section in SAP SuccessFactors to reflect your efforts.");   
+   ```
+
 ## Exercise 4.5 - Run your application locally
 
 1. You need to first define a destination for the SuccessFactors remote service(if not already created).
