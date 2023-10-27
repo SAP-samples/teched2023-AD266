@@ -89,7 +89,7 @@
       + '</label>'
   }
 
-  fetch('https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/events')
+  fetch('https://ad266-registration.cfapps.eu10-004.hana.ondemand.com/events')
     .then((response) => response.json())
     .then((events) => {
       const eventList = document.getElementById('eventList');
@@ -97,11 +97,19 @@
         const eventDiv = document.createElement('div');
         eventDiv.setAttribute('id', event.id);
         eventDiv.setAttribute('alt', event.name);
-        eventDiv.innerHTML = event.sessions.map(serialize).join('');
+
         eventList.appendChild(eventDiv);
       });
     })
     .catch((error) => alert('Error fetching events:', error));
+
+    fetch('https://ad266-registration.cfapps.eu10-004.hana.ondemand.com/events/1/sessions')
+    .then((response) => response.json())
+    .then((sessions) => {
+      // TODO: Display sessions
+      });
+    })
+    .catch((error) => alert('Error fetching sessions:', error));
 
 
   // Function to register for an event

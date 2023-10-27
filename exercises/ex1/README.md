@@ -7,7 +7,11 @@ In this exercise, you will learn the following:
 
 ## Exercise 1.1 Download specification from SAP Business Accelerator Hub
 
-1.  Open the SAP SuccessFactors [Goal Plan OData v2 service](https://api.sap.com/api/PerformanceandGoalsPMGM/overview) overview page on the [SAP Business Accelerator Hub](https://api.sap.com/).
+
+1. Visit SAP Business Accelerator Hub to fetch the [SuccessFactors Goal Plan](https://api.sap.com/api/PerformanceandGoalsPMGM/overview) API specification. 
+   You should see results like below:
+
+![](images/01_01.png)
 
 2. Scroll down the page to find API specification of the service listed. Download the EDMX file by clicking on the download button.
 ![](images/01_02.png)
