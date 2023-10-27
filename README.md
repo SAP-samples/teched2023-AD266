@@ -34,6 +34,8 @@ The requirements to follow the exercises in this repository are:
 - Maven 3.9
 - Node 18+
 - NPM 9+
+- cdsdk 7.0+
+- cf cli 7.7+
 
 ## Exercises
 
