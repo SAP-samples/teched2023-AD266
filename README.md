@@ -66,6 +66,7 @@ The requirements to follow the exercises in this repository are:
   - [Exercise 5.2 - Creating a destination service instance](exercises/ex5#exercise-52-creating-a-destination-service-instance)
   - [Exercise 5.3 Adjusting the deployment descriptor - manifest.yml](exercises/ex5#exercise-53-adjusting-the-deployment-descriptor---manifestyml)
   - [Exercise 5.4 Deploy the application and Testing](exercises/ex5#exercise-54-deploy-the-application-and-testing)
+- [Share your feedback](https://github.com/SAP-samples/teched2023-AD266/issues/new/choose)
 
 **IMPORTANT**
 
