@@ -81,7 +81,7 @@ INFO 57513 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomc
 INFO 57513 --- [  restartedMain] c.sap.cloud.sdk.demo.ad266.Application   : Started Application in 2.348 seconds (process running for 2.759)
 ```
 
-4. You can now access the application endpoints `http://localhost:8080/odata/v4/SignupService/$metadata` and `http://localhost:8080/odata/v4/GoalService/$metadata` and see the metadata of the services.
+4. You can now access the application endpoints http://localhost:8080/odata/v4/SignupService/$metadata and http://localhost:8080/odata/v4/GoalService/$metadata and see the metadata of the services.
 
 5. The endpoints for fetching goals `http://localhost:8080/odata/v4/GoalService/Goal` and signing up `http://localhost:8080/odata/v4/SignupService/signUp` are also available, but still won't work as we haven't implemented the business logic yet. 
 
@@ -91,4 +91,4 @@ INFO 57513 --- [  restartedMain] c.sap.cloud.sdk.demo.ad266.Application   : Star
 
 You've now successfully understood the existing files in your project. Let's now go add some code to get the application working.
 
-Continue to - [Exercise 3 - Add functionality to Event Handlers](../ex3_/README.md)
+Continue to - [Exercise 3 - Add functionality to Event Handlers](../ex3/README.md)
