@@ -18,7 +18,7 @@ In this exercise, we will learn how you can leverage SAP Cloud SDK to consume a 
 
 1. The OpenAPI service is available at `https://ad266-signup.cfapps.eu10-004.hana.ondemand.com`.For the sake of simplicity, we will assume that you don't have to authenticate yourself to access the service. 
 
-2. You can find all the available endpoints of the service at: `https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/api-docs`
+2. You can find all the available endpoints of the service at: https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/api-docs
 
 3. The most important endpoints, that we will be consuming in our application are:
    1. `https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/events`: Lists all the events available.

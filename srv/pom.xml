@@ -16,6 +16,25 @@
 
 	<!-- ACTUAL DEPENDENCIES -->
 	<dependencies>
+		<!-- below dependencies are already present in the pom. -->
+		<dependency>
+			<groupId>com.sap.cds</groupId>
+			<artifactId>cds-feature-remote-odata</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<!-- Cloud SDK OpenAPI & Destinations -->
+		<dependency>
+			<groupId>com.sap.cloud.sdk.datamodel</groupId>
+			<artifactId>openapi-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.sap.cloud.sdk.cloudplatform</groupId>
+			<artifactId>connectivity-apache-httpclient5</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.sap.cloud.sdk.cloudplatform</groupId>
+			<artifactId>cloudplatform-connectivity</artifactId>
+		</dependency>
 		<!-- CDS SPRING BOOT STARTER -->
 		<dependency>
 			<groupId>com.sap.cds</groupId>
@@ -109,6 +128,30 @@
 	<build>
 		<finalName>${project.artifactId}</finalName>
 		<plugins>
+			<!-- the plugin is already present. -->
+			<!-- Cloud SDK OData VDM Generator -->
+			<plugin>
+				<groupId>com.sap.cloud.sdk.datamodel</groupId>
+				<artifactId>openapi-generator-maven-plugin</artifactId>
+				<version>5.0.0-SNAPSHOT</version>
+				<executions>
+					<execution>
+						<id>generate-signup-service</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<inputSpec>${project.basedir}/external/registration.json</inputSpec>
+							<outputDirectory>${project.basedir}/src/gen/java</outputDirectory>
+							<deleteOutputDirectory>false</deleteOutputDirectory>
+							<apiPackage>cloudsdk.gen.signupservice</apiPackage>
+							<modelPackage>cloudsdk.gen.signupservice</modelPackage>
+							<compileScope>COMPILE</compileScope>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 			<!-- SPRING BOOT PLUGIN -->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
