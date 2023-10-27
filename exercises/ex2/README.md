@@ -65,6 +65,12 @@ Event handlers are the ones that then implement the behaviour of the service.
 7. The only difference here is that we define methods for handling Create (`CqnService.EVENT_CREATE`), Read (`CqnService.EVENT_READ`) and Delete (`CqnService.EVENT_DELETE`) events instead using `@On` annotation.
    In the upcoming exercises we will write the business logic for all these methods.
 
+8. **Note:** Currently, the project does not compile successfully yet, please also additionally assign a value for `DEMO_ID` in the file `/srv/GoalServiceHandler.java`:
+   ```java
+   private static final String DEMO_ID = "ID"+"<add your desk number here>";
+   ```
+   We will explain, why this is necessary in a subsequent exercise.
+
 ## Exercise 2.4 Run your application locally
 
 1. From the root directory of your project,in your IDE's terminal, run `mvn clean spring-boot:run` to start the application locally.

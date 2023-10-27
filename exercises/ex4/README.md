@@ -20,7 +20,13 @@ Let's enhance the `GoalServiceHandler` first.
 
 ## Exercise 4.1 - Fetch all learning goals of a user in GoalServiceHandler
 
-1. Let's start by trying to fetch all Learning goals for a user from SuccessFactors named "<your-DEMO_ID>: Learn something at TechEd 2023". 
+1. If not already done yet, please also additionally assign a value for `DEMO_ID` at the top of the `GoalServiceHandler` class.
+```java
+private static final String DEMO_ID = "ID"+"<add your desk number here>";
+```
+   This is necessary because all participants will use the same credentials for the SuccessFactors system and we need to make sure that the goals created by each participant are unique.
+
+2. Let's start by trying to fetch all Learning goals for a user from SuccessFactors named "<your-DEMO_ID>: Learn something at TechEd 2023". 
    
    Add the following code snippet inside the `getLearningGoals()`  method:
 
@@ -86,7 +92,7 @@ Let's enhance the `GoalServiceHandler` first.
 
    You can also see the following logs in your IDE's terminal which confirms that no goal were fetched from SuccessFactors:
    ```
-   2023-10-27T06:44:31.532+02:00  INFO 75073 --- [nio-8080-exec-1] c.s.c.s.d.a.remote.GoalServiceHandler    : Got the following goals from the server: []
+   INFO 75073 --- [nio-8080-exec-1] c.s.c.s.d.a.remote.GoalServiceHandler    : Got the following goals from the server: []
    ```
 
 ## Exercise 4.2 - Create a learning goal for a user via GoalServiceHandler
@@ -188,11 +194,22 @@ As we now have all parts to create a goal and sub-goals, let's add the functiona
     ```bash
     set destinations=[{"name":"SFSF-BASIC-ADMIN", "url":"https://apisalesdemo8.successfactors.com/", "type": "HTTP", "user": USER, "password":password, "URL.headers.accept-encoding": "identity"}, {"name":"Signup-Service","url":"https://ad266-signup.cfapps.eu10-004.hana.ondemand.com"}]
     ```
-   username:"sfadmin@SFEDU028064",password: "TECH@dm01”, User:"sfadmin@SFEDU028064”}
+
 3. Replace USER and PASSWORD with the credentials provided to you.
    Remember to use the same name as the destination name that is defined in the `application.yaml` file.
 
 4. Now run the application with `mvn spring-boot:run`
+
+## Exercise 4.6 - Testing SignupHandler
+
+1. For your convenience, we have a built a small UI to test the signup functionality. You can access it at `http://localhost:8080/`.
+2. Click on any of the sessions to register for it. You can see the following logs in your IDE's terminal:
+```
+ DEBUG 77782 --- [nio-8080-exec-2] com.sap.cds.services.impl.ServiceImpl    : Finished emit of 'Goal' for event 'CREATE', entity 'Goal.GoalTask_101'
+ DEBUG 77782 --- [nio-8080-exec-2] com.sap.cds.services.impl.ServiceImpl    : Finished emit of 'SignupService' for event 'signUp', entity ''
+
+```
+3. You can now log in to [SuccessFactors](https://pmsalesdemo8.successfactors.com/) with USER and PASSWORD provided and check if the goal and sub-goal have been created for the user.
 
 ## Summary
 
