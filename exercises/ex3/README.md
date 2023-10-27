@@ -157,14 +157,14 @@ In this exercise, we will learn how you can leverage SAP Cloud SDK to consume a 
 
 2. Create a destination environment variable in your terminal using:
     ```bash
-    set destinations=[{name: "Signup-Service", url: "https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/"}]
+    $env:destinations='[{name: "Signup-Service", url: "https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/"}]'
     ```
    Remember to use the same name as the destination name that is defined in the `RegistrationServiceHandler`.
 
 3. Now run the application with `mvn spring-boot:run`
 
-4. You can run `http://localhost:8080/rest/v1/getTechEdEvent` in your browser to see if the TechEd event details are fetched from the remote OpenAPI service correctly.
-   (This should return the same results as `https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/events/1`)
+4. You can run http://localhost:8080/rest/v1/getTechEdEvent in your browser to see if the TechEd event details are fetched from the remote OpenAPI service correctly.
+   (This should return the same results as https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/events/1)
 
 5. We will not test the endpoints for registering for TechEd or a session in TechEd now, but will do this is the subsequent exercises.
 

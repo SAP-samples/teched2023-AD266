@@ -25,6 +25,8 @@ public class RegistrationServiceHandler {
         //Todo: implement
     }
 
+    // this method is the second one to be modified by the attendees, yet it is the last method in this file.
+    // consider moving it up
     @GetMapping( path = "/rest/v1/getTechEdEvent", produces = "application/json")
     public Event getTechEdEvent() {
         //Todo: implement
