@@ -59,7 +59,7 @@ The requirements to follow the exercises in this repository are:
   - [Exercise 4.4 - Add functionality to SignupHandler](exercises/ex4#exercise-44---add-functionality-to-signuphandler)
   - [Exercise 4.5 - Run your application locally](exercises/ex4#exercise-45---run-your-application-locally)
   - [Exercise 4.6 - Testing SignupHandler](exercises/ex4#exercise-46---testing-signuphandler)
-- [Exercise 5 - Deploying the application to SAP Business Technology Platform](exercises/ex5/)
+- [Exercise 5 - (Optional) Deploying the application to SAP Business Technology Platform](exercises/ex5/)
   - [Exercise 5.1 - Creating a destination for SuccessFactors API endpoint](exercises/ex5#exercise-51-creating-a-destination-for-successfactors-api-endpoint)
   - [Exercise 5.2 - Creating a destination service instance](exercises/ex5#exercise-52-creating-a-destination-service-instance)
   - [Exercise 5.3 Adjusting the deployment descriptor - manifest.yml](exercises/ex5#exercise-53-adjusting-the-deployment-descriptor---manifestyml)

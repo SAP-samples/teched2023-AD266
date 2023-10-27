@@ -1,51 +1,62 @@
-# Exercise 5 - Deploying the application to SAP Business Technology Platform
+# Exercise 5 - (Optional) Deploying the application to SAP Business Technology Platform
 
 In this exercise, we will look at the steps required to deploy the application to SAP Business Technology Platform.
 
-## Exercise 5.1 Creating a destination for SuccessFactors API endpoint
+## Exercise 5.1 Creating a destination for SuccessFactors API endpoint and Synthetic OpenAPI service
 
 1. Please follow [this](https://developers.sap.com/tutorials/cp-cf-create-destination.html) tutorial to create a destination in your BTP Trial account cockpit with the following details:
 
-```
-Name: SFSF-BASIC-ADMIN
-Type: HTTP
-Url: https://apisalesdemo8.successfactors.com/
-Proxy Type: Internet
-Authentication: BasicAuthentication
-User: <username-supplied-in-the-session>
-Password: <password-supplied-in-the-session>
-```
+   ```
+   Name: SFSF-BASIC-ADMIN
+   Type: HTTP
+   Url: https://apisalesdemo8.successfactors.com/
+   Proxy Type: Internet
+   Authentication: BasicAuthentication
+   User: <username-supplied-in-the-session>
+   Password: <password-supplied-in-the-session>
+   ```
 
-The resulting destination should look like this:
-![](images/05_01.png)
+   The resulting destination should look like this:
+   ![](images/05_01.png)
+
+   Also, create a destination for the `Signup-Service` service with the following details:
+
+   ```
+   Name: Signup-Service
+   Type: HTTP
+   Url: https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/
+   Proxy Type: Internet
+   Authentication: NoAuthentication
+   ```
+   ![](images/05_01_02.png)
 
 ## Exercise 5.2 Creating a destination service instance
 
 1. Navigate to the `Service Marketplace` in your BTP Trial account cockpit and find the `Destination` service and click on it.
 
-![](images/05_02.png)
+   ![](images/05_02.png)
 
 2. Click on `Create` to create a new instance of the service.
 
 3. Enter an `Instance Name` of your choice, everything else can be left as default. Click on `Create` to create the instance.
 
-![img.png](images/05_03.png)
+   ![img.png](images/05_03.png)
 
 4.The created instance will be listed in the `Instances and Subscriptions` tab.
 
-![img.png](images/05_04.png)
+  ![img.png](images/05_04.png)
 
 
 ## Exercise 5.3 Adjusting the deployment descriptor - manifest.yml
 
 1. In your project's root folder, open the `manifest.yml` file and edit the following lines and save the changes:
 
-```diff
--#  services:
--#    - destination-service
-+  services:
-+    - <your-destination-service-instance-name>
-```
+   ```diff
+   -#  services:
+   -#    - destination-service
+   +  services:
+   +    - <your-destination-service-instance-name>
+   ```
 
 ## Exercise 5.4 Deploy the application and Test
 
@@ -53,10 +64,10 @@ The resulting destination should look like this:
 
 2. Login into your BTP Trial account CF space by using the following command:
 
-```bash
-cf login -a API-URL -u USERNAME -p PASSWORD
-```
-where `API-URL` is the API endpoint of your BTP Trial account, you can see it in the Overview page and `USERNAME` and `PASSWORD` are the credentials you use to log in to your BTP Trial account cockpit.
+   ```shell
+   cf login -a API-URL -u USERNAME -p PASSWORD
+   ```
+   where `API-URL` is the API endpoint of your BTP Trial account, you can see it in the Overview page and `USERNAME` and `PASSWORD` are the credentials you use to log in to your BTP Trial account cockpit.
 
 3. Navigate to the project's root folder(`teched2023-AD266`)
    1. Run `mvn package` from the root folder to build your project.
@@ -67,12 +78,17 @@ where `API-URL` is the API endpoint of your BTP Trial account, you can see it in
    Test `<your-application-url>/odata/v4/odata/v4/GoalService/` in your browser, you should see a similar response:
    ```json
    {
-    "@context": "$metadata#GoalService.",
-    "@metadataEtag": ""
+   "@odata.context": "$metadata",
+   "@odata.metadataEtag": "W/\"669b45bb8cc28ade7b5e2a8481de64dadc53d6f9e1d1fee7e377358d7d7cbf1d\"",
+   "value": [
+   {
+   "name": "Goal",
+   "url": "Goal"
+   }
+   ]
    }
    ```
-    You could also choose to test other application endpoints using `curl`.
-   //Todo: Find and add the right endpoints for testing
+   You could also choose test the application via the UI directly at `<your-application-url>`.
 
 ## Summary
 
