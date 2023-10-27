@@ -21,58 +21,57 @@ Let's enhance the `GoalServiceHandler` first.
 ## Exercise 4.1 - Fetch all learning goals of a user in GoalServiceHandler
 
 1. If not already done yet, please also additionally assign a value for `DEMO_ID` at the top of the `GoalServiceHandler` class.
-```java
-private static final String DEMO_ID = "ID"+"<add your desk number here>";
-```
+   ```java
+   private static final String DEMO_ID = "ID"+"<add your desk number here>";
+   ```
    This is necessary because all participants will use the same credentials for the SuccessFactors system and we need to make sure that the goals created by each participant are unique.
 
 2. Let's start by trying to fetch all Learning goals for a user from SuccessFactors named "<your-DEMO_ID>: Learn something at TechEd 2023". 
    
    Add the following code snippet inside the `getLearningGoals()`  method:
 
-```java
-    private List<Goal101> getLearningGoals()
-    {
-        var user = getUser();
-        
-        //Build an OData system query select to fetch all fields and navigation properties tasks and permissionNav with a where clause that selects a particular goal for a user
-        var select = Select.from(GOAL101)
-                .columns(
-                        g -> g._all(),
-                        g -> g.tasks().expand(),
-                        g -> g.permissionNav().expand())
-                .where(
-                        g -> g.category().eq("Learning and Growth")
-                        .and(g.name().eq(DEMO_ID + ": Learn something at TechEd 2023"))
-                        .and(g.state().ne("Completed"))
-                        .and(g.userId().eq(user)));
-
-        //Execute the select query and parse the response into a list of Goal101 objects
-        var goals = goalService.run(select).listOf(Goal101.class);
-
-        //Filter out the goals that the user doesn't have permission to view
-        var visibleGoals = goals
-                .stream()
-                .filter(g -> g.getPermissionNav().getView())
-                .toList();
-
-        log.info("Got the following goals from the server: {}", visibleGoals);
-
-        return visibleGoals;
-    }
-
-```
+   ```java
+       private List<Goal101> getLearningGoals()
+       {
+           var user = getUser();
+           
+           //Build an OData system query select to fetch all fields and navigation properties tasks and permissionNav with a where clause that selects a particular goal for a user
+           var select = Select.from(GOAL101)
+                   .columns(
+                           g -> g._all(),
+                           g -> g.tasks().expand(),
+                           g -> g.permissionNav().expand())
+                   .where(
+                           g -> g.category().eq("Learning and Growth")
+                           .and(g.name().eq(DEMO_ID + ": Learn something at TechEd 2023"))
+                           .and(g.state().ne("Completed"))
+                           .and(g.userId().eq(user)));
+   
+           //Execute the select query and parse the response into a list of Goal101 objects
+           var goals = goalService.run(select).listOf(Goal101.class);
+   
+           //Filter out the goals that the user doesn't have permission to view
+           var visibleGoals = goals
+                   .stream()
+                   .filter(g -> g.getPermissionNav().getView())
+                   .toList();
+   
+           log.info("Got the following goals from the server: {}", visibleGoals);
+   
+           return visibleGoals;
+       }  
+   ```
 
     Note that we use a CQL Statement builder [Select](https://cap.cloud.sap/docs/java/query-api#the-cql-statement-builders) to build the select query.
     
     Subsequently, we are using the `goalService` object to run the query. This is a Remote Service object from CAP, which acts as a client to the remote SuccessFactors API.
     
     It was injected into the class earlier by:
-    ```java
-    @Autowired
-    @Qualifier(cds.gen.goal.Goal_.CDS_NAME)
-    private CqnService goalService;
-    ```
+   ```java
+       @Autowired
+       @Qualifier(cds.gen.goal.Goal_.CDS_NAME)
+       private CqnService goalService;
+   ```
    
 3. We want to call this method when there is a Read event for the `Goal` entity. On the method `getLearningGoals(context)` annotated with `@On( event = CqnService.EVENT_READ, entity = Goal_.CDS_NAME)` add the following code:
 ```java
@@ -170,19 +169,19 @@ As we now have all parts to create a goal and sub-goals, let's add the functiona
 
 3. Add the following code snippet inside the `updateSFSF(String session)` method:
 
-```java
-    private void updateSFSF(String session) {
-        // create a goal and related tasks in SFSF
-        
-        var goal = goalService.getLearningGoal();
-
-        if ( goal == null ) {
-        goal = goalService.createGoal();
-        }
-
-        goalService.createTask(goal, session);
-        }
-```
+   ```java
+       private void updateSFSF(String session) {
+           // create a goal and related tasks in SFSF
+           
+           var goal = goalService.getLearningGoal();
+   
+           if ( goal == null ) {
+           goal = goalService.createGoal();
+           }
+   
+           goalService.createTask(goal, session);
+           }
+   ```
     We use the `goalService` to call the methods we built in the earlier exercises to create a goal and sub-goal for the user.
 
 ## Exercise 4.5 - Run your application locally
@@ -203,12 +202,14 @@ As we now have all parts to create a goal and sub-goals, let's add the functiona
 ## Exercise 4.6 - Testing SignupHandler
 
 1. For your convenience, we have a built a small UI to test the signup functionality. You can access it at `http://localhost:8080/`.
+
 2. Click on any of the sessions to register for it. You can see the following logs in your IDE's terminal:
 ```
  DEBUG 77782 --- [nio-8080-exec-2] com.sap.cds.services.impl.ServiceImpl    : Finished emit of 'Goal' for event 'CREATE', entity 'Goal.GoalTask_101'
  DEBUG 77782 --- [nio-8080-exec-2] com.sap.cds.services.impl.ServiceImpl    : Finished emit of 'SignupService' for event 'signUp', entity ''
 
 ```
+
 3. You can now log in to [SuccessFactors](https://pmsalesdemo8.successfactors.com/) with USER and PASSWORD provided and check if the goal and sub-goal have been created for the user.
 
 ## Summary
