@@ -2,7 +2,7 @@
   "openapi": "3.0.3",
   "info": {
     "title": "Event Registration Service",
-    "description": "This service is used to sign up users to events and sessions. Happy learning 📚",
+    "description": "This service is used to sign up users to events and sessions. Happy learning!",
     "termsOfService": "https://github.com/SAP-samples/teched2023-AD266",
     "contact": {
       "email": "cloudsdk@sap.com"

@@ -81,7 +81,7 @@ public class GoalServiceHandler implements EventHandler
 
     public void createTask(Goal101 goal, String title )
     {
-        var description = "Attend session the session '" + title + "' and share what you learned!";
+        var description = "Attend the session '" + title + "' and share what you learned!";
         var task = GoalTask101.create();
         task.setObjId(goal.getId());
         task.setDescription(description);
