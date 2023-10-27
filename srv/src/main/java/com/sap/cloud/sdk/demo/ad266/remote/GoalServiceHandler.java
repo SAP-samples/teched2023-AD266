@@ -30,6 +30,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Slf4j
 @Component
@@ -115,7 +116,8 @@ public class GoalServiceHandler implements EventHandler
                 .getName();
 
         var email = DestinationAccessor.getDestination(destinationName)
-                .get(DestinationProperty.BASIC_AUTH_USERNAME).get();
+                .get(DestinationProperty.BASIC_AUTH_USERNAME)
+                .getOrElseThrow(() -> new NoSuchElementException("user"));
 
         return email.split("@")[0];
     }
