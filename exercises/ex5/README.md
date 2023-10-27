@@ -93,3 +93,5 @@ In this exercise, we will look at the steps required to deploy the application t
 ## Summary
 
 You've now successfully deployed your application to BTP CF and tested it.
+
+Continue to - [Share your feedback](https://github.com/SAP-samples/teched2023-AD266/issues/new/choose)
