@@ -173,7 +173,7 @@
 				<version>5.0.0-SNAPSHOT</version>
 				<executions>
 					<execution>
-						<id>generate-signup-service</id>
+						<id>generate-registration-service</id>
 						<phase>generate-sources</phase>
 						<goals>
 							<goal>generate</goal>
@@ -182,8 +182,8 @@
 							<inputSpec>${project.basedir}/external/registration.json</inputSpec>
 							<outputDirectory>${project.basedir}/src/gen/java</outputDirectory>
 							<deleteOutputDirectory>false</deleteOutputDirectory>
-							<apiPackage>cloudsdk.gen.signupservice</apiPackage>
-							<modelPackage>cloudsdk.gen.signupservice</modelPackage>
+							<apiPackage>cloudsdk.gen.registrationservice</apiPackage>
+							<modelPackage>cloudsdk.gen.registrationservice</modelPackage>
 							<compileScope>COMPILE</compileScope>
 						</configuration>
 					</execution>

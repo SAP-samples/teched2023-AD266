@@ -3,6 +3,7 @@ package com.sap.cloud.sdk.demo.ad266.remote;
 import cds.gen.goal.Goal101;
 import cds.gen.goal.GoalTask101;
 import cds.gen.goalservice.Goal;
+import com.sap.cds.Result;
 import com.sap.cds.ql.Insert;
 import com.sap.cds.ql.Select;
 import com.sap.cds.ql.cqn.CqnDelete;
@@ -91,8 +92,8 @@ public class GoalServiceHandler implements EventHandler
         goalService.run(insert);
     }
 
-    public void deleteGoal(CqnDelete delete){
-        goalService.run(delete);
+    public Result deleteGoal(CqnDelete delete){
+        return goalService.run(delete);
     }
 
     private static Goal101 draftGoal(Goal draft, String user)

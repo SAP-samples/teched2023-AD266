@@ -1,4 +1,4 @@
-# Exercise 4 - Add functionality to Event Handlers: Part 2- Use CAP Remote Services
+# Exercise 4 - Consuming the SAP SuccessFactors Goal API using the CAP Remote Services Feature
 
 In this exercise, we will look at adapting the `GoalServiceHandler` and `SignupHandler` to add functionality to our application.
 

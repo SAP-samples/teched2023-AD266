@@ -1,16 +1,10 @@
 package com.sap.cloud.sdk.demo.ad266.utility;
 
-import cds.gen.goal.Goal101;
-import cds.gen.goalservice.Goal;
-import com.google.gson.JsonObject;
 import com.sap.cds.services.runtime.CdsRuntime;
 import com.sap.cloud.sdk.cloudplatform.connectivity.DestinationAccessor;
 import com.sap.cloud.sdk.cloudplatform.connectivity.DestinationProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 @Component
 public class Helper
@@ -34,12 +28,5 @@ public class Helper
                 .get(DestinationProperty.BASIC_AUTH_USERNAME).get();
 
         return email.split("@")[0];
-    }
-
-    public static Goal toSimpleGoal(Goal101 goal ) {
-        var simpleGoal = Goal.create();
-        simpleGoal.setTitle(goal.getName());
-        simpleGoal.setDescription(goal.getMetric());
-        return simpleGoal;
     }
 }

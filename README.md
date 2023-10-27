@@ -39,6 +39,8 @@ The requirements to follow the exercises in this repository are:
 
 ## Exercises
 
+// TODO: update once structure is final
+
 - [Getting Started](exercises/ex0/)
 - [Exercise 1 - Get and Import SuccessFactors Goal Plan Service](exercises/ex1/)
     - [Exercise 1.1 - Download specification from SAP Business Accelerator Hub](exercises/ex1#exercise-11-download-specification-from-sap-business-accelerator-hub)
@@ -49,12 +51,12 @@ The requirements to follow the exercises in this repository are:
     - [Exercise 2.2 - Understanding Service Definitions](exercises/ex2#exercise-22-understanding-service-definitions)
     - [Exercise 2.3 - Understanding Event Handlers](exercises/ex2#exercise-23-understanding-event-handlers)
     - [Exercise 2.4 - Run your application locally](exercises/ex2#exercise-24---run-your-application-locally)
-- [Exercise 3 - Add functionality to Event Handlers: Part 1- Use SAP Cloud SDK](exercises/ex3/)
+- [Exercise 3 - Consuming the Registration API using the SAP Cloud SDK](exercises/ex3/)
   - [Exercise 3.1 - Familiarising yourself with the remote OpenAPI Service](exercises/ex3#exercise-31---familiarising-yourself-with-the-remote-openapi-service)
   - [Exercise 3.2 - Add SAP Cloud SDK to your project and generate a typed OpenAPI client](exercises/ex3#exercise-32---add-sap-cloud-sdk-to-your-project-and-generate-a-typed-openapi-client)
   - [Exercise 3.3 - Use typed client to consume remote OpenAPI service](exercises/ex3#exercise-33---use-typed-client-to-consume-remote-openapi-service)
   - [Exercise 3.4 - Run your application locally](exercises/ex3#exercise-34---run-your-application-locally)
-- [Exercise 4 - Add functionality to Event Handlers: Part 2- Use CAP Remote Services](exercises/ex4/)
+- [Exercise 4 - Consuming the SAP SuccessFactors Goal API using the CAP Remote Services Feature](exercises/ex4/)
   - [Exercise 4.1 - Fetch all learning goals of a user in GoalServiceHandler](exercises/ex4#exercise-41---fetch-all-learning-goals-of-a-user-in-goalservicehandler)
   - [Exercise 4.2 - Create a learning goal for a user via GoalServiceHandler](exercises/ex4#exercise-42---create-a-learning-goal-for-a-user-via-goalservicehandler)
   - [Exercise 4.3 - Create a sub goal for a user via GoalServiceHandler](exercises/ex4#exercise-43---create-a-sub-goal-for-a-user-via-goalservicehandler)
@@ -66,10 +68,6 @@ The requirements to follow the exercises in this repository are:
   - [Exercise 5.2 - Creating a destination service instance](exercises/ex5#exercise-52-creating-a-destination-service-instance)
   - [Exercise 5.3 Adjusting the deployment descriptor - manifest.yml](exercises/ex5#exercise-53-adjusting-the-deployment-descriptor---manifestyml)
   - [Exercise 5.4 Deploy the application and Testing](exercises/ex5#exercise-54-deploy-the-application-and-testing)
-
-**IMPORTANT**
-
-Your repo must contain the .reuse and LICENSES folder and the License section below. DO NOT REMOVE the section or folders/files. Also, remove all unused template assets(images, folders, etc) from the exercises folder. 
 
 ## Useful Links
 - [SAP Customer Influence](https://influence.sap.com/sap/ino/#/campaign/1175) for SAP S/4HANA Cloud APIs.

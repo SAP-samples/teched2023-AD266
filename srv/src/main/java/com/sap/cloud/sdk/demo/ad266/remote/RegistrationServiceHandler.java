@@ -1,12 +1,14 @@
 package com.sap.cloud.sdk.demo.ad266.remote;
 
-import cloudsdk.gen.signupservice.Event;
-import cloudsdk.gen.signupservice.EventRegistrationApi;
+import cloudsdk.gen.registrationservice.Event;
+import cloudsdk.gen.registrationservice.EventRegistrationApi;
 import com.sap.cloud.sdk.cloudplatform.connectivity.Destination;
 import com.sap.cloud.sdk.cloudplatform.connectivity.DestinationAccessor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @Component
 @RestController
@@ -26,7 +28,7 @@ public class RegistrationServiceHandler {
         var event = getTechEdEvent();
 
         var api = new EventRegistrationApi(getDestination());
-        var session = api.getSessions(event.getId())
+        var session = api.getSessions(3)
                 .stream()
                 .filter(s -> s.getTitle().equalsIgnoreCase(sessionName))
                 .findFirst()
@@ -38,7 +40,10 @@ public class RegistrationServiceHandler {
     @GetMapping( path = "/rest/v1/getTechEdEvent", produces = "application/json")
     public Event getTechEdEvent() {
         var api = new EventRegistrationApi(getDestination());
-        return api.getEvents()
+
+        List<Event> events =  api.getEvents();
+
+        return events
                 .stream()
                 .filter(e -> e.getName().equals("TechEd 2023"))
                 .findFirst()

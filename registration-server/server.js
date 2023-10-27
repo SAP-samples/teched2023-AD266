@@ -31,17 +31,35 @@ app.get('/events', (req, res) => {
 
 app.get('/events/:eventId', (req, res) => {
   const eventId = req.params.eventId;
+  const event = sampleEvents.find(event => event.id == eventId);
 
-  res.json(sampleEvents.find(event => event.id == eventId));
+  if (!event) {
+    res.status(404).json({ message: 'Event not found' });
+  } else {
+    res.json(event);
+  }
 });
 
 app.post('/events/:eventId/register', (req, res) => {
-  res.status(201).json({ message: 'Sign up successful' });
+  const eventId = req.params.eventId;
+  const event = sampleEvents.find(event => event.id == eventId);
+
+  if (!event) {
+    res.status(404).json({ message: 'Event not found' });
+  } else {
+    res.status(201).json({ message: 'Sign up successful' });
+  }
 });
 
 app.get('/events/:eventId/sessions', (req, res) => {
   const eventId = req.params.eventId;
   const event = sampleEvents.find(event => event.id == eventId);
+
+  if (!event) {
+    res.status(404).json({ message: 'Event not found' });
+    return;
+  }
+
   const sessionIDs = event.sessionIDs;
   const sessions = sessionIDs.map(sessionID => sampleSessions.find(session => session.id == sessionID));
 
@@ -49,6 +67,14 @@ app.get('/events/:eventId/sessions', (req, res) => {
 });
 
 app.post('/events/:eventId/sessions/:sessionId/register', (req, res) => {
+  const eventId = req.params.eventId;
+  const sessionId = req.params.sessionId;
+  const event = sampleEvents.find(event => event.id == eventId);
+  const session = sampleSessions.find(session => session.id == sessionId);
+  if (!event || !session) {
+    res.status(404).json({ message: 'Event or session not found' });
+    return;
+  }
   res.status(201).json({ message: 'Signed up for the session successfully' });
 });
 
