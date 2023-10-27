@@ -16,23 +16,22 @@
 
 	<!-- ACTUAL DEPENDENCIES -->
 	<dependencies>
-		<!-- CDS SPRING BOOT STARTER -->
+		<!-- SPRING BOOT -->
 		<dependency>
-			<groupId>com.sap.cds</groupId>
-			<artifactId>cds-starter-spring-boot</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>org.springframework</groupId>
-					<artifactId>spring-jdbc</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.sap.cds</groupId>
-					<artifactId>cds-feature-jdbc</artifactId>
-				</exclusion>
-			</exclusions>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
-		<!-- ODATA PROTOCOL ADAPTER -->
+		<!-- CDS -->
+		<dependency>
+			<groupId>com.sap.cds</groupId>
+			<artifactId>cds-services-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.sap.cds</groupId>
+			<artifactId>cds-framework-spring-boot</artifactId>
+			<scope>runtime</scope>
+		</dependency>
 		<dependency>
 			<groupId>com.sap.cds</groupId>
 			<artifactId>cds-adapter-odata-v4</artifactId>

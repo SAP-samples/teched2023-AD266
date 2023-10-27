@@ -1,6 +1,6 @@
 # Exercise 1 - Get and Import SuccessFactors Goal Plan Service
 
-In this exercise, we will get the SuccessFactors Goal Plan Service API definition and import the service into our project.
+In this exercise, we will get the [SuccessFactors Goal Plan Service API](https://api.sap.com/api/PerformanceandGoalsPMGM/overview) definition and import the service into our project.
 
 ## Exercise 1.1 Download specification from SAP Business Accelerator Hub
 
@@ -23,48 +23,48 @@ You can use it directly for the next steps.
 ## Exercise 1.2 Add the Goal Plan service to your project
 
 1. In your application's `pom.xml` (srv/pom.xml) file you can find the following dependency:
-```xml
-    <dependency>
-        <groupId>com.sap.cds</groupId>
-        <artifactId>cds-feature-remote-odata</artifactId>
-        <scope>runtime</scope>
-    </dependency>
-```
-This dependency is required to [enable CAP Remote Services](https://cap.cloud.sap/docs/java/remote-services#enabling-remote-services).
-In layman terms, `Remote Services` are simply clients to remote APIs.
+   ```xml
+       <dependency>
+           <groupId>com.sap.cds</groupId>
+           <artifactId>cds-feature-remote-odata</artifactId>
+           <scope>runtime</scope>
+       </dependency>
+   ```
+   This dependency is required to enable the [CAP Remote Services Feature](https://cap.cloud.sap/docs/java/remote-services#enabling-remote-services).
+   This feature allows you to directly consume remote service APIs via CQN queries in a CAP application.
 
 2. From your project's root folder (this is not the `srv` folder, it is `teched2023-AD266` folder), run the `cds import` with the path to the downloaded service definition file as a parameter. 
-
-```bash
-cds import /path-to-edmx-file/Goal.edmx --as cds
-```
-
-The output will look like this:
-```bash
-[cds] - imported API to srv/external/Goal
-> use it in your CDS models through the like of:
-
-using { Goal as external } from './external/Goal'
-
-[cds] - updated ./package.json
-```
-
-The command will copy the service definition file to the `srv/external` folder of your project and convert it to CAP’s format CDS, which will be placed there as well (srv/external/Goal.cds).
-
-Additionally, the file will be registered as service definition in the `package.json` file:
-
-```json
-{
-  "cds": {
-    "requires": {
-      "Goal": {
-        "kind": "odata-v2",
-        "model": "srv/external/Goal"
-      }
-    }
-  }
-}
-```
+   
+   ```bash
+   cds import /path-to-edmx-file/Goal.edmx --as cds
+   ```
+   
+   The output will look like this:
+   ```bash
+   [cds] - imported API to srv/external/Goal
+   > use it in your CDS models through the like of:
+   
+   using { Goal as external } from './external/Goal'
+   
+   [cds] - updated ./package.json
+   ```
+   
+   The command will copy the service definition file to the `srv/external` folder of your project and convert it to CAP’s format CDS, which will be placed there as well (`srv/external/Goal.cds`).
+   
+   Additionally, the remote service will be registered as requirement in the `package.json` file:
+   
+   ```json
+   {
+     "cds": {
+       "requires": {
+         "Goal": {
+           "kind": "odata-v2",
+           "model": "srv/external/Goal"
+         }
+       }
+     }
+   }
+   ```
 
 ## Exercise 1.3 Configure a destination for the remote API
 
@@ -72,17 +72,17 @@ Destinations are used to define connections from your application to remote syst
 
 1. In your application's `application.yaml` (src/main/resources/application.yaml) also add a destination for the imported service under `remote.services`:
 
-```yaml
-cds:
-  datasource:
-    auto-config.enabled: false
-  remote.services:
-    - name: "Goal"
-      destination:
-        name: "SFSF-BASIC-ADMIN"
-        type: "odata-v2"
-        suffix: "/odata/v2"
-``` 
+   ```yaml
+   cds:
+     datasource:
+       auto-config.enabled: false
+     remote.services:
+       - name: "Goal"
+         destination:
+           name: "SFSF-BASIC-ADMIN"
+           type: "odata-v2"
+           suffix: "/odata/v2"
+   ``` 
 
 Please note, that the name of the destination given here will be re-used to create the destination in the SAP BTP cockpit eventually.
 

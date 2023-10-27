@@ -4,6 +4,8 @@ In this exercise, we will look at adapting `RegistrationServiceHandler` ([Regist
 
 Let us outline the scenario we want to build.
 
+// TODO maybe move this to exercise 0 or 1 and combine with starting exercise of IN260
+
 We want a user to be able to sign up for an event and when they do, the following things should happen:
 1. The user should get registered for the event.
 2. A learning goal should be automatically created for them in SuccessFactors.
@@ -16,84 +18,103 @@ In this exercise, we will learn how you can leverage the SAP Cloud SDK to consum
 
 ## Exercise 3.1 - Familiarising yourself with the remote OpenAPI service
 
-1. The OpenAPI service is available at `https://ad266-signup.cfapps.eu10-004.hana.ondemand.com`. For the sake of simplicity, we will assume that you don't have to authenticate yourself to access the service.
+ The OpenAPI service is available at `https://ad266-registration.cfapps.eu10-004.hana.ondemand.com`. For the sake of simplicity, we will assume that you don't have to authenticate yourself to access the service.
 
-2. You can find all the available endpoints of the service at: `https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/api-docs`
+1. [ ] Head to https://ad266-registration.cfapps.eu10-004.hana.ondemand.com/api-docs and explore the OpenAPI specification of the service.
 
-3. The most important endpoints, that we will be consuming in our application are:
-   1. `https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/events`: Lists all the events available.
-   2. `https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/events/{eventId}/register`: Allows you to register for an event.
-   3. `https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/events/{eventId}/sessions/{sessionId}/register`: Allows you to register for a session.
+The most important endpoints, that we will be consuming in our application are:
+   1. `/events`: Lists all the available events.
+   2. `/events/{eventId}/register`: Allows you to register for an event.
+   3. `/events/{eventId}/sessions/{sessionId}/register`: Allows you to register for a session.
+
+Next, we will use the SAP Cloud SDK to consume this remote OpenAPI service.
 
 ## Exercise 3.2 - Add SAP Cloud SDK to your project and generate a typed OpenAPI client
 
-1. In your project's application `pom.xml`(/srv/pom.xml) you can already find the following Cloud SDK dependencies in the dependencies section. :
-```xml
-        <!-- Cloud SDK OpenAPI & Destinations -->
-        <dependency>
-            <groupId>com.sap.cloud.sdk.datamodel</groupId>
-            <artifactId>openapi-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.sap.cloud.sdk.cloudplatform</groupId>
-            <artifactId>connectivity-apache-httpclient5</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.sap.cloud.sdk.cloudplatform</groupId>
-            <artifactId>cloudplatform-connectivity</artifactId>
-        </dependency>
-```
-   These dependencies are required to consume a remote OpenAPI service.
-   Additionally, for type safe access to the remote OpenAPI service, we will generate a [typed OpenAPI client](https://sap.github.io/cloud-sdk/docs/java/v5/features/rest/overview).
-   
-   You can also already find the following lines under the `<plugin>` section in your application `pom.xml` file.
+In order to connect to the remote OpenAPI service we will generate a [typed OpenAPI client](https://sap.github.io/cloud-sdk/docs/java/v5/features/rest/overview).
 
-```xml
-            <!-- Cloud SDK OData VDM Generator -->
-            <plugin>
-                <groupId>com.sap.cloud.sdk.datamodel</groupId>
-                <artifactId>openapi-generator-maven-plugin</artifactId>
-                <version>5.0.0-SNAPSHOT</version>
-                <executions>
-                    <execution>
-                        <id>generate-signup-service</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                            <inputSpec>${project.basedir}/external/registration.json</inputSpec>
-                            <outputDirectory>${project.basedir}/src/gen/java</outputDirectory>
-                            <deleteOutputDirectory>false</deleteOutputDirectory>
-                            <apiPackage>cloudsdk.gen.signupservice</apiPackage>
-                            <modelPackage>cloudsdk.gen.signupservice</modelPackage>
-                            <compileScope>COMPILE</compileScope>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-```
-   
-   You could find more details about the plugin parameters [here](https://sap.github.io/cloud-sdk/docs/java/v5/features/rest/generate-rest-client#available-parameters)
-   The input specification file is the OpenAPI specification of the remote service and is already available under `external/registration.json` in your project.
-   **Note:** We are managing the versions of the artifacts we imported above using the SAP Cloud SDK BOM, you can find this already added in your project's `<dependencyManagement>` section in the root `pom.xml`:
+//TODO adjust initial branch for these depenndency additions
+
+- [ ] Head to the `<plugin>` section of the `srv/pom.xml` file and add the following plugin configuration:
 
    ```xml
-       <!-- Cloud SDK -->
-       <dependency>
-           <groupId>com.sap.cloud.sdk</groupId>
-           <artifactId>sdk-modules-bom</artifactId>
-           <version>5.0.0-SNAPSHOT</version>
-           <type>pom</type>
-           <scope>import</scope>
-       </dependency>
+   <!-- Cloud SDK OData VDM Generator -->
+   <plugin>
+      <groupId>com.sap.cloud.sdk.datamodel</groupId>
+      <artifactId>openapi-generator-maven-plugin</artifactId>
+      <version>5.0.0-SNAPSHOT</version>
+      <executions>
+         <execution>
+            <id>generate-signup-service</id>
+            <phase>generate-sources</phase>
+            <goals>
+               <goal>generate</goal>
+            </goals>
+            <configuration>
+               <inputSpec>${project.basedir}/external/registration.json</inputSpec>
+               <outputDirectory>${project.basedir}/src/gen/java</outputDirectory>
+               <deleteOutputDirectory>false</deleteOutputDirectory>
+               <apiPackage>cloudsdk.gen.signupservice</apiPackage>
+               <modelPackage>cloudsdk.gen.signupservice</modelPackage>
+               <compileScope>COMPILE</compileScope>
+            </configuration>
+         </execution>
+      </executions>
+   </plugin>
    ```
 
-2. Compile the application now using `mvn compile` from your IDE's terminal, you can see that under `srv/src/gen/java/cloudsdk.gen.signupservice` folder the typed OpenAPI client classes are generated. 
+This maven plugin will generate a set of classes into the `<outputDirectory>`.
+Those classes can then be used to build and execute HTTP requests against the registration service.
 
-3. You can now use the generated client to consume the remote OpenAPI service for the next exercise.
+Take note of the parameters in the `<configuration>` section above:
+
+- `<inputSpec>`: This points to the OpenAPI specification of the remote service which is already included under `external/registration.json` in your project.
+- `<outputDirectory>`: The output directory is the directory where the generated classes will be placed. We are using the `src/gen/java` directory of the project to indicate those are generated classes.
+- `<apiPackage>` and `<modelPackage>`: The package names for the generated classes.
+The input specification file is the OpenAPI specification of the remote service and is already available under `external/registration.json` in your project.
+
+> **Tip**: You can find more details about the plugin parameters [here](https://sap.github.io/cloud-sdk/docs/java/v5/features/rest/generate-rest-client#available-parameters).
+
+Next, we have to add some dependencies to the project to ensure these generated classes can be compiled and used.
+
+- [ ] Add the following Cloud SDK dependencies to the dependency section of your `srv/pom.xml` file:
+   
+   ```xml
+   <!-- Cloud SDK OpenAPI & Destinations -->
+   <dependency>
+      <groupId>com.sap.cloud.sdk.datamodel</groupId>
+      <artifactId>openapi-core</artifactId>
+   </dependency>
+   <dependency>
+       <groupId>com.sap.cloud.sdk.cloudplatform</groupId>
+       <artifactId>connectivity-apache-httpclient5</artifactId>
+   </dependency>
+   <dependency>
+       <groupId>com.sap.cloud.sdk.cloudplatform</groupId>
+       <artifactId>cloudplatform-connectivity</artifactId>
+   </dependency>
+   ```
+
+> **Tip:** We don't need to specify a `<version>` here, because we are already managing the versions of all relevant dependencies via a set of BOMs in the `<dependencyManagement>` section in the root `pom.xml` file.
+
+Now the project is ready to be built.
+
+- [ ] Compile the application using `mvn compile`.
+ 
+You should see the generated classes under the new `srv/src/gen/java/cloudsdk.gen.signupservice` directory.
+
+In order for the IDE to recognise the new directory as source code we need to mark it as such.
+
+- [ ] For the IntelliJ IDE: right-click the directory `srv/src/gen/java` and select `Mark Directory as` -> `Generated Sources Root`.
+
+> **Tip:** The generated sources are excluded from Git by the current `.gitignore` file.
+> Generally this is typically a matter of preference and may also depend on how you set up the CI/CD of your project.
+
+In the next step we will use the generated client to  write and run queries for the remote OpenAPI service.
 
 ## Exercise 3.3 - Use typed client to consume remote OpenAPI service
+
+// TODO further refine this exercise
 
 1. Let's start using the generated client in the `RegistrationServiceHandler` and first try to fetch a destination for the remote OpenAPI service.
    Replace the contents for `getDestination()` method with the following code: 

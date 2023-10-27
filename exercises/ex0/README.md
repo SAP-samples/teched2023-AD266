@@ -6,7 +6,7 @@ Before getting started with the exercise, let's check if you have all the prereq
 
 1. Please open an IDE of your choice and clone [this repository](https://github.com/SAP-samples/teched2023-AD266) to your local machine.
    <details> 
-   <summary>The necessary software for following the exercises is already installed in your systems.<summary>
+   <summary>The necessary software for following the exercises is already installed in your systems.</summary>
    If you want you could confirm the installations by running the following commands in your terminal:
     - Java 17
       - 
