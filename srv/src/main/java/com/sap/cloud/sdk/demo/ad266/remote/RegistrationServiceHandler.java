@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class RegistrationServiceHandler {
 
     private Destination getDestination() {
-        return DestinationAccessor.getDestination("Signup-Service");
+        return DestinationAccessor.getDestination("Registration-Service");
     }
 
     public void signUpForTechEd() {

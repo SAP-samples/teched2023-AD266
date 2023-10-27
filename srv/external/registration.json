@@ -15,7 +15,7 @@
   },
   "servers": [
     {
-      "url": "https://ad266-signup.cfapps.eu10-004.hana.ondemand.com"
+      "url": "https://ad266-registration.cfapps.eu10-004.hana.ondemand.com"
     }
   ],
   "paths": {
@@ -39,11 +39,13 @@
                 "example": [
                   {
                     "id": 1,
-                    "name": "Event 1"
+                    "name": "Event 1",
+                    "sessionIDs": [101, 102]
                   },
                   {
                     "id": 2,
-                    "name": "Event 2"
+                    "name": "Event 2",
+                    "sessionIDs": []
                   }
                 ]
               }
@@ -216,10 +218,10 @@
             "type": "string",
             "description": "The name of the event"
           },
-          "sessions": {
+          "sessionIDs": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Session"
+              "type": "integer"
             }
           }
         }

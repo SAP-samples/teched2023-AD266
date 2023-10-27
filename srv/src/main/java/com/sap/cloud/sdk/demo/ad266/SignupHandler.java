@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 public class SignupHandler implements EventHandler
 {
     @Autowired
-    private RegistrationServiceHandler signupService;
+    private RegistrationServiceHandler registrationService;
 
     @Autowired
     private GoalServiceHandler goalService;
@@ -40,9 +40,9 @@ public class SignupHandler implements EventHandler
 
     private void register(String session) {
         // sign up for the event and the session
-        signupService.signUpForTechEd();
+        registrationService.signUpForTechEd();
 
-        signupService.signUpForSession(session);
+        registrationService.signUpForSession(session);
     }
 
     private void updateSFSF(String session) {

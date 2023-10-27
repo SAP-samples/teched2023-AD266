@@ -82,6 +82,7 @@
 </div>
 
 <script>
+  // Function to serialize a session
   function serialize(session) {
     return '<label for="i'+session.id+'" onchange="registerForEvent(\''+session.id+'\',\''+session.title+'\')">'
       + '<input id="i'+session.id+'" type="radio"/>'
@@ -89,7 +90,8 @@
       + '</label>'
   }
 
-  fetch('https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/events')
+  // Fetch events and sessions
+  fetch('https://ad266-registration.cfapps.eu10-004.hana.ondemand.com/events')
     .then((response) => response.json())
     .then((events) => {
       const eventList = document.getElementById('eventList');
@@ -97,8 +99,12 @@
         const eventDiv = document.createElement('div');
         eventDiv.setAttribute('id', event.id);
         eventDiv.setAttribute('alt', event.name);
-        eventDiv.innerHTML = event.sessions.map(serialize).join('');
         eventList.appendChild(eventDiv);
+
+        fetch('https://ad266-registration.cfapps.eu10-004.hana.ondemand.com/events/' + event.id + '/sessions')
+        .then((response) => response.json())
+        .then((sessions) => sessions.forEach((s) => eventDiv.innerHTML += serialize(s)))
+        .catch((error) => alert('Error fetching sessions:', error));
       });
     })
     .catch((error) => alert('Error fetching events:', error));
