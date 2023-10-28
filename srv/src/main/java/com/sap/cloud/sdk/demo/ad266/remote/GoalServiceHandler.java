@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static cds.gen.goal.Goal_.GOAL101;
 import static cds.gen.goal.Goal_.GOAL_TASK101;
