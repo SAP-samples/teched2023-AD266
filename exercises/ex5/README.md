@@ -2,9 +2,9 @@
 
 In this exercise, we will look at the steps required to deploy the application to SAP Business Technology Platform.
 
-## Exercise 5.1 Creating a destination for SuccessFactors API endpoint and Synthetic OpenAPI service
+## 5.1 Creating a destination for SuccessFactors API endpoint and the Synthetic OpenAPI service
 
-1. Please follow [this](https://developers.sap.com/tutorials/cp-cf-create-destination.html) tutorial to create a destination in your BTP Trial account cockpit with the following details:
+- [ ] Please follow [this](https://developers.sap.com/tutorials/cp-cf-create-destination.html) tutorial to create a destination in your BTP Trial account cockpit with the following details:
 
    ```
    Name: SFSF-BASIC-ADMIN
@@ -19,7 +19,7 @@ In this exercise, we will look at the steps required to deploy the application t
    The resulting destination should look like this:
    ![](images/05_01.png)
 
-   Also, create a destination for the `Signup-Service` service with the following details:
+- [ ] Also, create a destination for the `Signup-Service` service with the following details:
 
    ```
    Name: Signup-Service
@@ -30,26 +30,24 @@ In this exercise, we will look at the steps required to deploy the application t
    ```
    ![](images/05_01_02.png)
 
-## Exercise 5.2 Creating a destination service instance
+## 5.2 Creating a destination service instance
 
-1. Navigate to the `Service Marketplace` in your BTP Trial account cockpit and find the `Destination` service and click on it.
+Navigate to the `Service Marketplace` in your BTP Trial account cockpit and find the `Destination` service and click on it.
 
    ![](images/05_02.png)
 
-2. Click on `Create` to create a new instance of the service.
-
-3. Enter an `Instance Name` of your choice, everything else can be left as default. Click on `Create` to create the instance.
+- [ ] Click on `Create` to create a new instance of the service. Enter an `Instance Name` of your choice, everything else can be left as default. Click on `Create` to create the instance.
 
    ![img.png](images/05_03.png)
 
-4.The created instance will be listed in the `Instances and Subscriptions` tab.
+The created instance will be listed in the `Instances and Subscriptions` tab.
 
   ![img.png](images/05_04.png)
 
 
-## Exercise 5.3 Adjusting the deployment descriptor - manifest.yml
+## 5.3 Adjusting the deployment descriptor - manifest.yml
 
-1. In your project's root folder, open the `manifest.yml` file and edit the following lines and save the changes:
+- [ ] Open the [`manifest.yml`](../../manifest.yml) file and edit the following lines and save the changes:
 
    ```diff
    -#  services:
@@ -58,37 +56,29 @@ In this exercise, we will look at the steps required to deploy the application t
    +    - <your-destination-service-instance-name>
    ```
 
-## Exercise 5.4 Deploy the application and Test
+## 5.4 Deploy the application and Test
 
-1. We will use `CF CLI` to deploy the application.
+We will use `CF CLI` to deploy the application.
 
-2. Login into your BTP Trial account CF space by using the following command:
+- [ ] Login into your BTP Trial account CF space by using the following command in your IDE's terminal:
 
    ```shell
    cf login -a API-URL -u USERNAME -p PASSWORD
    ```
    where `API-URL` is the API endpoint of your BTP Trial account, you can see it in the Overview page and `USERNAME` and `PASSWORD` are the credentials you use to log in to your BTP Trial account cockpit.
 
-3. Navigate to the project's root folder(`teched2023-AD266`)
+- [ ] Navigate to the project's [root folder](../../) (`teched2023-AD266`)
    1. Run `mvn package` from the root folder to build your project.
    2. Once, the build finishes successfully, run `cf push` to deploy the application to your BTP Trial account.
    3. The url of the deployed application will be displayed in your terminal under `routes` section.
 
-4. Once the application is deployed successfully, you can test the application by navigating to the application URL in your browser.
-   Test `<your-application-url>/odata/v4/odata/v4/GoalService/` in your browser, you should see a similar response:
-   ```json
-   {
-   "@odata.context": "$metadata",
-   "@odata.metadataEtag": "W/\"669b45bb8cc28ade7b5e2a8481de64dadc53d6f9e1d1fee7e377358d7d7cbf1d\"",
-   "value": [
-   {
-   "name": "Goal",
-   "url": "Goal"
-   }
-   ]
-   }
-   ```
-   You could also choose test the application via the UI directly at `<your-application-url>`.
+- [ ] Once the application is deployed successfully, you can test the application by navigating to the <your-application-url> in your browser.
+   You should see a screen like this:
+   ![img.png](images/05_05.png)   
+
+You can test the application out now by clicking on the buttons available.
+
+-[ ] To see the goals created in SuccessFactors, log in to [SuccessFactors](https://pmsalesdemo8.successfactors.com/) with USER and PASSWORD provided and check if the goal with your chosen <DEMO_ID> (defined in [`Helper`](../../srv/src/main/java/com/sap/cloud/sdk/demo/ad266/utility/Helper.java)) and sub-goal have been created for the user.
 
 ## Summary
 
