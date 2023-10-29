@@ -1,24 +1,36 @@
 # Exercise 4 - Consuming the SAP SuccessFactors Goal API using the CAP Remote Services Feature
 
-In this exercise, we will look at adapting the `GoalServiceHandler` and `SignupHandler` to add functionality to our application.
+In the previous exercise, we added functionality to allow a user to register for an event.
 
-Let us outline the scenario we want to build again and see what is still left to be built. 
+What is left now is to add the functionality to create a goal in SuccessFactors.
+And to put both these parts together inside the `signUp` action in [`SignupHandler`](../../srv/src/main/java/com/sap/cloud/sdk/demo/ad266/SignupHandler.java).
 
-We want a user to be able to sign up for an event and when they do so the following things should happen:
-1. The user should get registered for the event
-2. A learning goal should be automatically created for them in SuccessFactors.
-3. Any subsequent sessions that a user signs up for should also be registered and added as sub-goals to the goal.
+Let's start by looking at the Service definitions in the [`service.cds`](../../srv/src/main/resources/service.cds) file for the `GoalService`.
 
-We have already added the functionality to register the user for the event in the previous exercise.
-What is left is to add the functionality to create a goal in SuccessFactors.
-And to put both these parts together inside the `signUp` action in `SignupHandler`.
+## 4.1 - Understanding Goal related Service Definitions
 
-`GoalServiceHandler` would be the Event handler that would be attached to the `GoalService`. 
-This class would use remote services to create a goal in SuccessFactors and add sub-goals to it. 
+- The `GoalService` is a service that exposes an entity `Goal` which is a projection on the `Goal_101` entity exposed by the SuccessFactors Goal Plan API.
+   ```
+   @path: 'GoalService'
+   service GoalService {
+     entity Goal as projection on Goal_101 {
+     id,
+     name as title,
+     metric as description,
+     }
+   }
+   ```
+   The `GoalService` would be available when the application starts up at path: `{application-hostname}/odata/v4/GoalService/`
+   You can also see some extensions on the existing entities using `extend`. These are used to add additional fields to the existing entities.
+- The event handler for the `GoalService`is defined in the file [GoalServiceController](../../srv/src/main/java/com/sap/cloud/sdk/demo/ad266/GoalServiceController.java) where we define methods for handling Create, Read and Delete events.
+- [`GoalServiceHandler`](../../srv/src/main/java/com/sap/cloud/sdk/demo/ad266/remote/GoalServiceHandler.java) is the class that would use CAP's remote services to create a goal in SuccessFactors and add sub-goals to it. 
+  Methods in the `GoalServiceHandler` would be internally used by `GoalServiceController` while handling the Create, Read and Delete events.
 
-Let's enhance the `GoalServiceHandler` first.
+Let's enhance the [`GoalServiceHandler`](../../srv/src/main/java/com/sap/cloud/sdk/demo/ad266/remote/GoalServiceHandler.java) first.
 
-## Exercise 4.1 - Fetch all learning goals of a user in GoalServiceHandler
+//Todo: Change exercises as per the latest code changes
+
+## 4.2 - Fetch all learning goals of a user in GoalServiceHandler
 
 1. If not already done yet, please also additionally assign a value for `DEMO_ID` at the top of the `GoalServiceHandler` class.
    ```java
@@ -94,7 +106,7 @@ Let's enhance the `GoalServiceHandler` first.
    INFO 75073 --- [nio-8080-exec-1] c.s.c.s.d.a.remote.GoalServiceHandler    : Got the following goals from the server: []
    ```
 
-## Exercise 4.2 - Create a learning goal for a user via GoalServiceHandler
+## Exercise 4.3 - Create a learning goal for a user via GoalServiceHandler
 
 1. The first time you try to fetch the goals, you would get an empty list. This is because we haven't created a goal for the user yet. Let's add the functionality to create a goal for the user.
 
@@ -127,7 +139,7 @@ Let's enhance the `GoalServiceHandler` first.
 
     We use a CQL Statement builder [Insert](https://cap.cloud.sap/docs/java/query-api#single-insert) to build the insert query and using the `goalService` Remote service object again, we run the query and parse the response into a `Goal101` object.
 
-## Exercise 4.3 - Create a sub goal for a user via GoalServiceHandler
+## 4.4 - Create a sub goal for a user via GoalServiceHandler
 
 1. We want to add sub goals to an already created goal when a user registers for session. Sub-goals are represented by `Task101` entity in SuccessFactors. Let's add the functionality to create a sub-goal for the user.
 
@@ -148,7 +160,7 @@ Let's enhance the `GoalServiceHandler` first.
    ```
     We use a CQL Statement builder [Insert](https://cap.cloud.sap/docs/java/query-api#single-insert) to build the insert query and using the `goalService` Remote service object again.
 
-## Exercise 4.4 - Add functionality to SignupHandler
+## 4.5 - Add functionality to SignupHandler
 
 As we now have all parts to create a goal and sub-goals, let's add the functionality to create a goal when a user registers for a session.
 
@@ -190,7 +202,7 @@ As we now have all parts to create a goal and sub-goals, let's add the functiona
                 + "Also, we created an entry in your 'Learning and Growth' section in SAP SuccessFactors to reflect your efforts.");   
    ```
 
-## Exercise 4.5 - Run your application locally
+## 4.6 - Run your application locally
 
 1. You need to first define a destination for the SuccessFactors remote service(if not already created).
 
@@ -205,7 +217,7 @@ As we now have all parts to create a goal and sub-goals, let's add the functiona
 
 4. Now run the application with `mvn spring-boot:run`
 
-## Exercise 4.6 - Testing SignupHandler
+## 4.7 - Testing SignupHandler
 
 1. For your convenience, we have a built a small UI to test the signup functionality. You can access it at `http://localhost:8080/`.
 

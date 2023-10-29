@@ -1,20 +1,13 @@
 # Exercise 3 - Consuming the Registration API using the SAP Cloud SDK
 
-In this exercise, we will look at adapting the `RegistrationServiceHandler` ([RegistrationServiceHandler.java](../../srv/src/main/java/com/sap/cloud/sdk/demo/ad266/remote/RegistrationServiceHandler.java)) to handle all communication with the remote OpenAPI service.
+The [`SignupHandler`](../../srv/src/main/java/com/sap/cloud/sdk/demo/ad266/SignupHandler.java) is the entry point of the application. And `signUp` is the action that will be called when a user signs up for an event or a session.
+The first step to take when a user signs up for an event is to register them for the event.
+As discussed in the previous exercise, for registering the user for an event/session, we will use a synthetic remote OpenAPI service.
 
-Let us outline the scenario we want to build.
+In this exercise, we will look at adapting the [`RegistrationServiceHandler`](../../srv/src/main/java/com/sap/cloud/sdk/demo/ad266/remote/RegistrationServiceHandler.java) to handle all communication with the remote OpenAPI service.
+and take care of registering the user. We would be interacting with a synthetic OpenAPI service to achieve this.
 
-// TODO maybe move this to exercise 0 or 1 and combine with starting exercise of IN260
-
-We want a user to be able to sign up for an event and when they do, the following things should happen:
-1. The user should get registered for the event.
-2. A learning goal should be automatically created for them in SuccessFactors.
-3. Any subsequent sessions that a user signs up for should also be registered and added as sub-goals to the goal.
-
-The `SignupHandler` is the entry point of the application. And `signUp` is the action that will be called when a user signs up for an event or a session.
-
-`RegistrationServiceHandler` would take care of registering the user. We would be interacting with a synthetic OpenAPI service to achieve this.
-In this exercise, we will learn how you can leverage the SAP Cloud SDK to consume a remote OpenAPI service.
+Let's learn how you can leverage the SAP Cloud SDK to consume a remote OpenAPI service.
 
 ## 3.1 Familiarising yourself with the remote OpenAPI service
 
