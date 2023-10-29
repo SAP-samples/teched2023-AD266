@@ -19,16 +19,15 @@ In this exercise, we will look at the steps required to deploy the application t
    The resulting destination should look like this:
    ![](images/05_01.png)
 
-- [ ] Also, create a destination for the `Signup-Service` service with the following details:
+- [ ] Also, create a destination for the `Registration-Service` service with the following details:
 
    ```
-   Name: Signup-Service
+   Name: Registration-Service
    Type: HTTP
-   Url: https://ad266-signup.cfapps.eu10-004.hana.ondemand.com/
+   Url: https://ad266-registration.cfapps.eu10-004.hana.ondemand.com/
    Proxy Type: Internet
    Authentication: NoAuthentication
    ```
-   ![](images/05_01_02.png)
 
 ## 5.2 Creating a destination service instance
 
