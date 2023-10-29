@@ -9,7 +9,7 @@ Let us outline the scenario we want to build.
 We want a user to be able to sign up for an event and when they do, the following things should happen:
 1. The user should get registered for the event.
 2. A learning goal should be automatically created for them in SuccessFactors.
-3. Any subsequent sessions that a user signs up for should also be registered and added as sub-goals to the goal.
+3. Any subsequent sessions that a user signs up for should also be registered and added as tasks to the goal.
 
 The `SignupHandler` is the entry point of the application. And `signUp` is the action that will be called when a user signs up for an event or a session.
 
@@ -35,7 +35,7 @@ In order to connect to the remote OpenAPI service we will generate a [typed Open
 
 //TODO adjust initial branch for these depenndency additions
 
-- [ ] Head to the `<plugin>` section of the `srv/pom.xml` file and add the following plugin configuration:
+- [ ] 🔨Head to the `<plugin>` section of the `srv/pom.xml` file and add the following plugin configuration:
 
    ```xml
    <!-- Cloud SDK OData VDM Generator -->
@@ -77,7 +77,7 @@ The input specification file is the OpenAPI specification of the remote service 
 
 Next, we have to add some dependencies to the project to ensure these generated classes can be compiled and used.
 
-- [ ] Add the following Cloud SDK dependencies to the dependency section of your `srv/pom.xml` file:
+- [ ] 🔨Add the following Cloud SDK dependencies to the dependency section of your `srv/pom.xml` file:
    
    ```xml
    <!-- Cloud SDK OpenAPI & Destinations -->
@@ -99,13 +99,13 @@ Next, we have to add some dependencies to the project to ensure these generated 
 
 Now the project is ready to be built.
 
-- [ ] Compile the application using `mvn compile`.
+- [ ] 🔨Compile the application using `mvn compile`.
  
 You should see the generated classes under the new `srv/src/gen/java/cloudsdk.gen.registrationservice` directory.
 
 In order for the IDE to recognise the new directory as source code we need to mark it as such.
 
-- [ ] For the IntelliJ IDE: right-click the directory `srv/src/gen/java` and select `Mark Directory as` -> `Generated Sources Root`.
+- [ ] 🔨For the IntelliJ IDE: right-click the directory `srv/src/gen/java` and select `Mark Directory as` -> `Generated Sources Root`.
 
 > **Tip:** The generated sources are excluded from Git by the current `.gitignore` file.
 > Generally this is typically a matter of preference and may also depend on how you set up the CI/CD of your project.
@@ -129,8 +129,8 @@ In our case we have just one API class and two model classes:
 
 We'll make use of the API class to obtain the list of available events and select the event we are interested in.
 
-- [ ] Implement the code using the `EventRegistrationApi` class to get a list of events from the remote service. Add your code to the `getTechEdEvent` method inside the `EventRegistrationApi` class.
-- [ ] Filter the list and return only the single event named `"TechEd 2023"`.
+- [ ] 🔨Implement the code using the `EventRegistrationApi` class to get a list of events from the remote service. Add your code to the `getTechEdEvent` method inside the `EventRegistrationApi` class.
+- [ ] 🔨Filter the list and return only the single event named `"TechEd 2023"`.
 
 <details> <summary>Click here to view the solution.</summary>
 
@@ -170,7 +170,7 @@ The SAP Cloud SDK automatically interacts with the Destination Service to load t
 
 For local testing destinations may also be provided via environment variables.
 
-- [ ] Create an environment variable in your terminal window named `destinations` as follows:
+- [ ] 🔨Create an environment variable in your terminal window named `destinations` as follows:
 
   For CMD:
   ```cmd
@@ -185,7 +185,7 @@ For local testing destinations may also be provided via environment variables.
 
 Now we can replace the stub of `getDestination()` in `RegistrationServiceHandler` to actually load and return the destination.
 
-- [ ] Leverage the `DestinationAccessor` class to load the destination by its name.
+- [ ] 🔨Leverage the `DestinationAccessor` class to load the destination by its name.
 
 <details> <summary>Click here to view the solution.</summary>
 
@@ -199,9 +199,9 @@ private Destination getDestination() {
 
 With these changes in place we can now run the application and test the endpoint.
 
-- [ ] Run the application with `mvn spring-boot:run` or from within your IDE.
-- [ ] Test the endpoint `http://localhost:8080/rest/v1/getTechEdEvent` in your browser or via `curl` from your terminal.
-  - [ ] Compare that it returns the same result as provided by the remote service at `https://ad266-registration.cfapps.eu10-004.hana.ondemand.com/events/1`. 
+- [ ] 🔨Run the application with `mvn spring-boot:run` or from within your IDE.
+- [ ] 🔨Test the endpoint `http://localhost:8080/rest/v1/getTechEdEvent` in your browser or via `curl` from your terminal.
+  - [ ] 🔨Compare that it returns the same result as provided by the remote service at `https://ad266-registration.cfapps.eu10-004.hana.ondemand.com/events/1`. 
 
 > **Tip:** Inspect the application logs to see more details on what is happening under the hood while loading the destination and calling the registration service.
 
@@ -212,7 +212,7 @@ Now that we successfully implemented our first remote services call let's comple
 To recap: We want to register our user for an event and associated sessions.
 This is already sketched out in the `register(String session)` method of the `SignupHandler` class.
 
-- [ ] Implement the logic for `signUpForTechEd()` and `signUpForSession(String sessionName)` in the `RegistrationServiceHandler` class.
+- [ ] 🔨Implement the logic for `signUpForTechEd()` and `signUpForSession(String sessionName)` in the `RegistrationServiceHandler` class.
   - Make use of the `EventRegistrationApi` as in the previous exercise
   - For now we'll always assume the user is signing up for TechEd
   - If none of the TechEd sessions match the `sessionName` we should throw an exception
@@ -250,7 +250,7 @@ public void signUpForSession(String sessionName) {
 > 
 > So it is recommended to always obtain a fresh destination object before making a remote call. Don't worry, the SAP Cloud SDK caches the destination objects internally, so this does not come at a performance loss. You can read more about the caching strategy [here](https://sap.github.io/cloud-sdk/docs/java/features/connectivity/destination-service#configuring-caching-when-querying-the-destination-service-on-cloud-foundry).
 
-- [ ] (optional) Verify the solution works by running `curl -XPOST localhost:8080/odata/v4/SignupService/signUp` in your terminal.
+- [ ] 🔨(optional) Verify the solution works by running `curl -XPOST localhost:8080/odata/v4/SignupService/signUp` in your terminal.
 
 ## Summary
 

@@ -1,8 +1,8 @@
 package com.sap.cloud.sdk.demo.ad266.remote;
 
+import cds.gen.goal.Goal_;
 import cds.gen.goal.Goal101;
 import cds.gen.goal.GoalTask101;
-import cds.gen.goalservice.Goal;
 import com.sap.cds.Result;
 import com.sap.cds.ql.Insert;
 import com.sap.cds.ql.Select;
@@ -27,7 +27,7 @@ import static com.sap.cloud.sdk.demo.ad266.utility.Helper.DEMO_ID;
 public class GoalServiceHandler implements EventHandler
 {
     @Autowired
-    @Qualifier(cds.gen.goal.Goal_.CDS_NAME)
+    @Qualifier(Goal_.CDS_NAME)
     private CqnService goalService;
 
     @Autowired
@@ -66,12 +66,12 @@ public class GoalServiceHandler implements EventHandler
     }
 
     public Goal101 createGoal( ) {
-        return createGoal(helper.getUser(), Goal.create());
+        return createGoal(helper.getUser());
     }
 
-    public Goal101 createGoal(String user, Goal goal)
+    public Goal101 createGoal(String user)
     {
-        var draft = draftGoal(goal, user);
+        var draft = draftGoal(user);
         var query = Insert.into(GOAL101).entry(draft);
 
         var result = goalService.run(query).single(Goal101.class);
@@ -96,20 +96,12 @@ public class GoalServiceHandler implements EventHandler
         return goalService.run(delete);
     }
 
-    private static Goal101 draftGoal(Goal draft, String user)
+    private static Goal101 draftGoal(String user)
     {
         var goal = Goal101.create();
 
-        if ( draft.getTitle() != null) {
-            goal.setName(draft.getTitle());
-        } else {
-            goal.setName(DEMO_ID + ": Learn something at TechEd 2023");
-        }
-        if ( draft.getDescription() != null) {
-            goal.setMetric(draft.getDescription());
-        } else {
-            goal.setMetric("Attend sessions at TechEd 2023");
-        }
+        goal.setName(DEMO_ID + ": Learn something at TechEd 2023");
+        goal.setMetric("Attend sessions at TechEd 2023");
         goal.setCategory("Learning and Growth");
         goal.setType("user");
         goal.setFlag(0);

@@ -11,17 +11,21 @@ const port = process.env.PORT || 5000;
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 const sampleSessions = [
-    { id: 101, title: 'Session A', duration: 60, location: 'Location A' },
-    { id: 102, title: 'Session B', duration: 90, location: 'Location B' },
+    { id: 101, title: 'Opening Keynote', duration: 60, location: 'Main Stage' },
+    { id: 102, title: 'Build Resilient Apps on SAP BTP with the SAP Cloud SDK', duration: 45, location: 'Hall A' },
+    { id: 103, title: 'Develop CAP Applications with Ease', duration: 90, location: 'Hall B' },
+    { id: 104, title: 'Elevate your Business with Joule', duration: 45, location: 'Main Stage' },
+    { id: 201, title: 'Some session', duration: 20, location: 'Somewhere' },
+    { id: 202, title: 'Some other session', duration: 40, location: 'Anywhere' },
   ];
 const techEd = {
     id: 1,
     name: 'TechEd 2023',
-    sessionIDs: [101, 102],
+    sessionIDs: [101, 102, 103, 104],
   };
 const sampleEvents = [
     techEd,
-    { id: 2, name: 'Some other Event', sessionIDs: [] },
+    { id: 2, name: 'Some other Event', sessionIDs: [201,202] },
   ];
 
 // Implement endpoints

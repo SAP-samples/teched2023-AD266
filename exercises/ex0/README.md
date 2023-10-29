@@ -39,7 +39,7 @@ Before getting started with the exercise, let's check if you have all the prereq
       cf --version
       ```
    </details>
-
-4. Make sure you have a SAP BTP trial account. If you don't have one, you can create one [here](https://developers.sap.com/tutorials/hcp-create-trial-account.html).
+2. Check out the `initial-branch` of this repository. This branch contains the initial state of the project that you will be working on during the exercises.
+3. Log into your SAP BTP trial account. If you don't have one, you can create one [here](https://developers.sap.com/tutorials/hcp-create-trial-account.html).
 
 Continue to - [Exercise 1 - Get and Import SuccessFactors Goal Plan Service ](../ex1/README.md)

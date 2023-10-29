@@ -42,7 +42,8 @@ public class GoalServiceController implements EventHandler {
     @On
     public Goal createGoal(CdsCreateEventContext context, Goal goal )
     {
-        var result = goalService.createGoal(helper.getUser(), goal);
+        // we ignore the passed in goal and create our own for now
+        var result = goalService.createGoal(helper.getUser());
 
         return toSimpleGoal(result);
     }
