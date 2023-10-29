@@ -7,7 +7,7 @@ What is left now is to add the functionality to create a goal and related tasks 
 
 - [ ] 🔨 **To get a better understanding of the use case log into the demo SuccessFactors system at https://pmsalesdemo8.successfactors.com/ with the credentials provided to you.**
     - Use `SFEDU028064` as the company ID.
-    - Use `sfadmin` as the username.
+    - The username and password will be provided to you in the session.
     - Once logged in click on the `My Goals` tile on the home screen.
 
 Now let's enhance the `GoalServiceHandler` to implement the interactions with the SuccessFactors API.

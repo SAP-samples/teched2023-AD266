@@ -26,7 +26,7 @@ Next, we will use the SAP Cloud SDK to consume this remote OpenAPI service.
 
 In order to connect to the remote OpenAPI service we will generate a [typed OpenAPI client](https://sap.github.io/cloud-sdk/docs/java/v5/features/rest/overview).
 
-//TODO adjust initial branch for these depenndency additions
+//TODO adjust initial branch for these dependency additions
 
 - [ ] 🔨Head to the `<plugin>` section of the `srv/pom.xml` file and add the following plugin configuration:
 
