@@ -78,7 +78,7 @@ We will use `CF CLI` to deploy the application.
 
 You can test the application out now by clicking on the buttons available.
 
--[ ] To see the goals created in SuccessFactors, log in to [SuccessFactors](https://pmsalesdemo8.successfactors.com/) with USER and PASSWORD provided and check if the goal with your chosen <DEMO_ID> (defined in [`Helper`](../../srv/src/main/java/com/sap/cloud/sdk/demo/ad266/utility/Helper.java)) and sub-goal have been created for the user.
+- [ ] To see the goals created in SuccessFactors, log in to [SuccessFactors](https://pmsalesdemo8.successfactors.com/) with USER and PASSWORD provided and check if the goal with your chosen <DEMO_ID> (defined in [`Helper`](../../srv/src/main/java/com/sap/cloud/sdk/demo/ad266/utility/Helper.java)) and sub-goal have been created for the user.
 
 ## Summary
 

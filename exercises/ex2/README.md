@@ -71,7 +71,7 @@ Let's try running our application now.
 
 ## 2.4 Run your application locally
 
--[ ] From the root directory of your project, in your IDE's terminal, run `mvn clean spring-boot:run` to start the application locally.
+- [ ] From the root directory of your project, in your IDE's terminal, run `mvn clean spring-boot:run` to start the application locally.
 
 Examine the logs of the application, you should see something like this:
 ```json
