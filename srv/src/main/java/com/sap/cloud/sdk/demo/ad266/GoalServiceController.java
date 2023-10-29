@@ -5,7 +5,6 @@ import cds.gen.goalservice.Goal;
 import cds.gen.goalservice.GoalService_;
 import cds.gen.goalservice.Goal_;
 import com.sap.cds.Result;
-import com.sap.cds.ResultBuilder;
 import com.sap.cds.services.cds.CdsCreateEventContext;
 import com.sap.cds.services.cds.CdsDeleteEventContext;
 import com.sap.cds.services.cds.CdsReadEventContext;

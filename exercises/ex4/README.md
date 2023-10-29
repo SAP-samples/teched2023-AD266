@@ -36,7 +36,7 @@ First, we'll write a query that fetches all goals of the user. We'll then refine
 
 ### 4.1.1 Fetch all goals
 
-- [ ] 🔨Extend the `getLearningGoals()` method in `GoalServiceHandler` class as follows:
+- [ ] 🔨 **Extend the `getLearningGoals()` method in `GoalServiceHandler` class as follows:**
     ```java
     public List<Goal101> getLearningGoals() {
         var user = helper.getUser();
@@ -67,15 +67,11 @@ We use the CQL Statement builder for [Select](https://cap.cloud.sap/docs/java/qu
 
 Let's test the code to make sure it functions correctly:
 
-- [ ] 🔨Run the application and head to http://localhost:8080/odata/v4/GoalService/Goal
+- [ ] 🔨 **Run the application and head to http://localhost:8080/odata/v4/GoalService/Goal**
 
 > **Tip:** This uses endpoints we created for you in the `GoalServiceController` for ease of testing.
 
-You should see an empty list as we haven't created a goal for the user just yet.
-
-- [ ] 🔨Temporarily change the `DEMO_ID` in the `Helper` class to `ID00` and run the application again.
-
-//TODO update this
+You should see a few goals being returned in the response.
 
 ### 4.1.2 Filter for Learning Goals
 
@@ -280,7 +276,62 @@ In our case it would be helpful to disable gzip compression to make the response
 
 </details>
 
-## 4.5 (Optional) Understanding and Improving the `GoalServiceFilter`
+## 4.5 (Optional) Understanding the Delete Goal Implementation
+
+If you like you can delete a goal you created, for example to run your `createGoal` logic again.
+
+The `GoalServiceHandler` has a `Result deleteGoal(CqnDelete delete)` method that you can use:
+
+```java
+public Result deleteGoal(CqnDelete delete){
+    return goalService.run(delete);
+}
+```
+
+This is getting called from this method in the `GoalServiceController`: 
+
+```java
+@On( entity = Goal_.CDS_NAME )
+public Result deleteGoal(CdsDeleteEventContext context )
+{
+    return goalService.deleteGoal(context.getCqn());
+}
+```
+
+Take note that we handle an event for our custom `cds.gen.goalservice.Goal` entity here.
+Crucially, this is **_not_** the `cds.gen.goal.Goal101` entity of the SuccessFactors API.
+
+_So why does this work?_
+
+The reason this works is that we have defined `entity Goal as projection on Goal_101` and the CAP runtime automatically converts the `CqnDelete` on the `Goal` entity to a `CqnDelete` on the `Goal_101` entity.
+
+- [ ] 🔨 **Run `curl -XDELETE http://localhost:8080/odata/v4/GoalService/Goal(<your-goal-id-here>)` to delete the given goal from the remote service.**
+
+> As the SuccessFactors instance is shared among participants please be careful to only delete your own goals.
+
+## 4.6 (Optional) How to deal with Custom Fields or Incomplete Metadata
+
+Sometimes you may have to interact with fields that are not part of the metadata of the OData service.
+For SuccessFactors one can obtain different metadata files from different sources.
+
+For example, one can obtain the metadata including _**only**_ the `Goal_101` entity on the `/Goal_101/$metadata` endpoint.
+However, this metadata is not "complete", as it doesn't describe other related entities like `GoalTask_101` or `GoalPermission_101`.
+Furthermore, some fields may be defined on a more general level and are only included when downloading the full metadata.
+
+Another case where not all fields are defined in the metadata is when custom fields are added to an entity.
+
+In order to deal with these cases CDS offers the `extend` keyword.
+In fact, we are making use of this feature to add required fields to the goal and task entities.
+
+- [ ] 🔨 **Inspect the `srv/service.cds` file to see what fields are being added.**
+- [ ] 🔨 **Add your own custom field to the `Goal_101` entity.**
+  - Once added run `mvn compile`
+  - Check the newly added field is present in the `Goal101` class
+  - (optional) Remove the custom field again
+
+// TODO test what happens if you send a custom field to SFSF
+
+## 4.7 (Optional) Understanding and Improving the `GoalServiceFilter`
 
 In the `GoalServiceFilter` class we have implemented a filter that is applied to all requests to the `GoalService` endpoint.
 The filter is responsible for filtering for the `DEMO_ID` so that each participant only sees their own created goals.
