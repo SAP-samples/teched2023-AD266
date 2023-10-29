@@ -106,7 +106,7 @@ Let's enhance the [`GoalServiceHandler`](../../srv/src/main/java/com/sap/cloud/s
    INFO 75073 --- [nio-8080-exec-1] c.s.c.s.d.a.remote.GoalServiceHandler    : Got the following goals from the server: []
    ```
 
-## Exercise 4.2 - Create a learning goal for a user via GoalServiceHandler
+## Exercise 4.3 - Create a learning goal for a user via GoalServiceHandler
 
 1. The first time you try to fetch the goals, you would get an empty list. This is because we haven't created a goal for the user yet. Let's add the functionality to create a goal for the user.
 
@@ -139,7 +139,7 @@ Let's enhance the [`GoalServiceHandler`](../../srv/src/main/java/com/sap/cloud/s
 
     We use a CQL Statement builder [Insert](https://cap.cloud.sap/docs/java/query-api#single-insert) to build the insert query and using the `goalService` Remote service object again, we run the query and parse the response into a `Goal101` object.
 
-## 4.3 - Create a sub goal for a user via GoalServiceHandler
+## 4.4 - Create a sub goal for a user via GoalServiceHandler
 
 1. We want to add sub goals to an already created goal when a user registers for session. Sub-goals are represented by `Task101` entity in SuccessFactors. Let's add the functionality to create a sub-goal for the user.
 
@@ -160,7 +160,7 @@ Let's enhance the [`GoalServiceHandler`](../../srv/src/main/java/com/sap/cloud/s
    ```
     We use a CQL Statement builder [Insert](https://cap.cloud.sap/docs/java/query-api#single-insert) to build the insert query and using the `goalService` Remote service object again.
 
-## 4.4 - Add functionality to SignupHandler
+## 4.5 - Add functionality to SignupHandler
 
 As we now have all parts to create a goal and sub-goals, let's add the functionality to create a goal when a user registers for a session.
 
@@ -202,7 +202,7 @@ As we now have all parts to create a goal and sub-goals, let's add the functiona
                 + "Also, we created an entry in your 'Learning and Growth' section in SAP SuccessFactors to reflect your efforts.");   
    ```
 
-## 4.5 - Run your application locally
+## 4.6 - Run your application locally
 
 1. You need to first define a destination for the SuccessFactors remote service(if not already created).
 
@@ -217,7 +217,7 @@ As we now have all parts to create a goal and sub-goals, let's add the functiona
 
 4. Now run the application with `mvn spring-boot:run`
 
-## 4.6 - Testing SignupHandler
+## 4.7 - Testing SignupHandler
 
 1. For your convenience, we have a built a small UI to test the signup functionality. You can access it at `http://localhost:8080/`.
 
