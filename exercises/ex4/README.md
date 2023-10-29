@@ -2,23 +2,17 @@
 
 In this exercise, we will look at how to use the [CAP Remote Services](https://cap.cloud.sap/docs/java/remote-services) feature to connect to the [SAP SuccessFactors Goal API](https://api.sap.com/api/PerformanceandGoalsPMGM/resource/Goal_Weight). 
 
-Let's recap the scenario we want to build again and see what is still left to be built. 
-
-We want a user to be able to sign up for an event and when they do so the following things should happen:
-1. The user should get registered for the event
-2. A learning goal should be automatically created for them in SuccessFactors.
-3. Any subsequent sessions that a user signs up for should also be registered and added as tasks to the goal.
+In the previous exercise, we added functionality to allow a user to register for an event.
+What is left now is to add the functionality to create a goal and related tasks in SuccessFactors. 
 
 - [ ] 🔨 **To get a better understanding of the use case log into the demo SuccessFactors system at https://pmsalesdemo8.successfactors.com/ with the credentials provided to you.**
-  - Use `SFEDU028064` as the company ID.
-  - Use `sfadmin` as the username.
-  - Once logged in click on the `My Goals` tile on the home screen.
+    - Use `SFEDU028064` as the company ID.
+    - Use `sfadmin` as the username.
+    - Once logged in click on the `My Goals` tile on the home screen.
 
-We have already added the functionality to register the user for the event in the previous exercise.
-What is left is to add the functionality to create a goal and add tasks to it in SuccessFactors.
-We'll implement this now in the `GoalServiceHandler` class.
+Now let's enhance the `GoalServiceHandler` to implement the interactions with the SuccessFactors API.
 
-## 4.1 Create a Remote Service Object 
+## 4.1 Create a Remote Service Object
 
 Similarly to the OpenAPI consumption discussed in exercise 3 we need to define a service object that we will use to run our OData queries.
 

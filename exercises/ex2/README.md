@@ -1,93 +1,92 @@
 # Exercise 2 - Understand the existing Project setup
 
-In this exercise, we will look at existing files to understand the project structure.
+Let us first refresh the use case we want to build.
 
-## Exercise 2.1 CDS Maven Plugin
+We want to build an application that helps users to sign up for an event and sessions of the event.
 
-In your application's pom.xml, under the `plugins` section you can see the [`cds-maven-plugin`](https://cap.cloud.sap/docs/java/assets/cds-maven-plugin-site/plugin-info.html) entry.
-The interesting part here is the `generate` goal which is responsible for scanning project directories for CDS files and generating Java POJOs for type-safe access to the CDS model.
+When the user signs up for an event the following things should happen:
+- The user should get registered for the event. 
+- A learning goal should be automatically created for them in SuccessFactors. 
+- Any subsequent sessions that a user signs up for should also be registered and added as sub-goals to the created goal.
 
-From your project's source directory, run `mvn clean compile` and you can see the generated classes being added to `srv/src/gen/java`.
+For registering the user for an event/session, we will use a synthetic remote OpenAPI service and for creating the goal in SuccessFactors, we will use the SuccessFactors Goal Plan service.
+  
+Based on the use case we need components to handle signing up, registration, and goal creation.
+Let's look at the existing project structure in this exercise to see what exists and what needs to be added.
 
-## Exercise 2.2 Understanding Service Definitions
+## 2.1 Understanding Service Definitions
 
 Services are one of the core concepts of CAP, they are declared in [CDS](https://cap.cloud.sap/docs/about/#service-definitions-in-cds), and they dispatch events to `Event Handlers`.
-Let's examine the `/srv/service.cds` file which defines the services exposed by our application:
-   
-1. We will examine the `SignupService` and the `GoalService`. 
+Let's examine the [`service.cds`](../../srv/service.cds) file which defines the services exposed by our application:
 
-2. The `SignupService` is a service that just exposes an action. The action takes a `String` session as input.
+- It defines two services, `SignupService` and the `GoalService`.
+
+- The `SignupService` is a service that just exposes an action. The action takes a `String` session which is the name of the session a user intends to sign up for.
    ```
    @path: 'SignupService'
    service SignupService {
    action signUp(session: String) returns String;
    }
    ```
-   The `@path` argument allows you to provide a custom path for the exposed service. 
-   The `SignupService` would be available when the application starts up at path: `{application-hostname}/odata/v4/SignupService/`
+  The `@path` argument allows you to provide a custom path for the exposed service.
+  The `SignupService` would be available when the application starts up at path: `{application-hostname}/odata/v4/SignupService/`
 
-3. The `GoalService` is a service that exposes an entity `Goal` which is a projection on the `Goal_101` entity exposed by the SuccessFactors Goal Plan API.
-   ```
-   @path: 'GoalService'
-   service GoalService {
-     entity Goal as projection on Goal_101 {
-     id,
-     name as title,
-     metric as description,
-     }
-   }
-   ```
-   The `GoalService` would be available when the application starts up at path: `{application-hostname}/odata/v4/GoalService/`
+- The `GoalService` is a service that exposes an entity `Goal`.We will learn more about it in the subsequent exercises.
 
-4. You can also see some extensions on the existing entities using `extend`. These are used to add additional fields to the existing entities.
+Let's understand what artifacts are generated based on the services we defined in the next step. 
 
-## Exercise 2.3 Understanding EventHandlers
+## 2.2 CDS Maven Plugin
 
-In the previous section, we learned that `Service`s dispatch events to `Event Handlers`.
+In your application's [pom.xml](../../srv/pom.xml), under the `plugins` section you can see the [`cds-maven-plugin`](https://cap.cloud.sap/docs/java/assets/cds-maven-plugin-site/plugin-info.html) entry.
+The interesting part here is the `generate` goal which is responsible for scanning project directories for CDS files and generating Java POJOs for type-safe access to the CDS model.
+
+- [ ] From your project's root directory, run `mvn clean compile`.
+
+You can see artifacts being generated for the services we defined in the `service.cds` under the `srv/src/gen/java/cds.gen` folder.
+
+>**Note:** If your project does not compile successfully yet, please also additionally assign a value for `DEMO_ID` in the [Helper.java](../../srv/src/main/java/com/sap/cloud/sdk/demo/ad266/utility/Helper.java):
+>   ```java
+>   private static final String DEMO_ID = "ID"+"<add your desk number here>";
+>   ```
+> We will explain, why this is necessary in a subsequent exercise.
+
+## 2.3 Understanding EventHandlers
+
+In a previous section, we learned that `Service`s dispatch events to `Event Handlers`.
 Event handlers are the ones that then implement the behaviour of the service.
+Let's examine the event handler for the `SignupService` in the file [SignupHandler.java](../../srv/src/main/java/com/sap/cloud/sdk/demo/ad266/SignupHandler.java).
 
-1. Let's examine the event handler for the `SignupService` in the file [SignupHandler.java](../../srv/src/main/java/com/sap/cloud/sdk/demo/ad266/SignupHandler.java).
+- The `@ServiceName(SignupService_.CDS_NAME)` annotation at the top of the class specifies the service which the event handler is registered on. 
 
-2. The `@ServiceName(SignupService_.CDS_NAME)` annotation at the top of the class specifies the service which the event handler is registered on. 
-
-3. The `@On( event = SignUpContext.CDS_NAME)` annotation on top of the method `signUp(context)` specifies the `Event Phase` at which the method would be called.
+- The `@On( event = SignUpContext.CDS_NAME)` annotation on top of the method `signUp(context)` specifies the `Event Phase` at which the method would be called.
    An `Event` can be processed in three phases: `Before`, `On` and `After`. As we are defining the core business logic of the action, we are using the `On` phase.
    What this means is that everytime the `signUp(session)` action is called, this triggers an event and the `signUp(context)` method would be called.
 
-4. `Event Contexts` provide a way to access the parameters and return values. `SignUpContext` is the event context here, which helps us to access the action parameter, additional query parameters and other information of the incoming request.
+- `Event Contexts` provide a way to access the parameters and return values. `SignUpContext` is the event context here, which helps us to access the action parameter, additional query parameters and other information of the incoming request.
    It would also be eventually used to set the return value of the action.
 
-5. Note that some imports used in the class like `SignupService_`,`SignUpContext` were all generated by the CDS Maven Plugin.
+- Note that some imports used in the class like `SignupService_`,`SignUpContext` were all generated by the CDS Maven Plugin in the previous step.
 
-6. Similarly, for the `GoalService`, the event handler is defined in the file [GoalServiceHandler](../../srv/src/main/java/com/sap/cloud/sdk/demo/ad266/remote/GoalServiceHandler.java).
+Let's try running our application now.
 
-7. The only difference here is that we define methods for handling Create (`CqnService.EVENT_CREATE`), Read (`CqnService.EVENT_READ`), and Delete (`CqnService.EVENT_DELETE`) events instead of using `@On` annotation.
-   In the upcoming exercises we will write the business logic for all these methods.
+## 2.4 Run your application locally
 
-8. **Note:** Currently, the project does not compile successfully yet, please also additionally assign a value for `DEMO_ID` in the file `/srv/utility/Helper.java`:
-   ```java
-   private static final String DEMO_ID = "ID"+"<add your desk number here>";
-   ```
-   We will explain, why this is necessary in a subsequent exercise.
+- [ ] From the root directory of your project, in your IDE's terminal, run `mvn clean spring-boot:run` to start the application locally.
 
-## Exercise 2.4 Run your application locally
-
-1. From the root directory of your project, in your IDE's terminal, run `mvn clean spring-boot:run` to start the application locally.
-
-2. Examine the logs of the application, you should something like this:
+Examine the logs of the application, you should see something like this:
 ```json
 INFO 57513 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
 INFO 57513 --- [  restartedMain] c.sap.cloud.sdk.demo.ad266.Application   : Started Application in 2.348 seconds (process running for 2.759)
 ```
 
-3. You can now access the application endpoints `http://localhost:8080/odata/v4/SignupService/$metadata` and `http://localhost:8080/odata/v4/GoalService/$metadata` and see the metadata of the services.
+- [ ] You can now access the application endpoints `http://localhost:8080/odata/v4/SignupService/$metadata` and `http://localhost:8080/odata/v4/GoalService/$metadata` and see the metadata of the services.
 
-4. The endpoints for fetching goals `http://localhost:8080/odata/v4/GoalService/Goal` and signing up `http://localhost:8080/odata/v4/SignupService/signUp` are also available, but still won't work as we haven't implemented the business logic yet. 
+The endpoints for fetching goals `http://localhost:8080/odata/v4/GoalService/Goal` and signing up `http://localhost:8080/odata/v4/SignupService/signUp` are also available, but still won't work as we haven't implemented the business logic yet. 
 
-   We will do this in the upcoming exercises. You can stop the application by pressing `Ctrl+C` in the terminal.
+We will do this in the upcoming exercises. You can stop the application by pressing `Ctrl+C` in the terminal.
 
 ## Summary
 
 You've now successfully understood the existing files in your project. Let's now go add some code to get the application working.
 
-Continue to - [Exercise 3 - Add functionality to Event Handlers](../ex3/README.md)
+Continue to - [Exercise 3 - Consuming the Registration API using the SAP Cloud SDK](../ex3/README.md)
