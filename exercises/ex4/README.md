@@ -69,19 +69,6 @@ We use the CQL Statement builder for [Select](https://cap.cloud.sap/docs/java/qu
 Let's test the code to make sure it functions correctly:
 
 - [ ] 🔨 **Run the application and head to http://localhost:8080/odata/v4/GoalService/Goal**
-  // Still returns a 404 error:
-  ```java
-  2023-10-30T15:01:59.995+01:00 ERROR 13304 --- [nio-8080-exec-1] c.s.c.a.o.v4.processors.CdsProcessor     : The remote OData service responded with status code '404' (service 'Goal', event 'READ', entity 'Goal.Goal_101')
-
-  com.sap.cds.services.impl.ContextualizedServiceException: The remote OData service responded with status code '404' (service 'Goal', event 'READ', entity 'Goal.Goal_101')
-  
-  2023-10-30T15:01:59.993+01:00 DEBUG 13304 --- [nio-8080-exec-1] c.s.c.s.impl.odata.RemoteODataClient     : Received OData response with status code '404' and error message '{
-  "error" : {
-    "code" : "NotFoundException", "message" : {
-      "lang" : "en-US", "value" : "Entity Goal_101 is not found. Please contact your system administrator."
-    }
-  }
-  ```
 
 > **Tip:** This uses endpoints we created for you in the `GoalServiceController` for ease of testing.
 
