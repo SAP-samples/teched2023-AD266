@@ -20,7 +20,6 @@ import java.util.List;
 
 import static cds.gen.goal.Goal_.GOAL101;
 import static cds.gen.goal.Goal_.GOAL_TASK101;
-import static com.sap.cloud.sdk.demo.ad266.utility.Helper.DEMO_ID;
 
 @Slf4j
 @Component
@@ -100,7 +99,7 @@ public class GoalServiceHandler implements EventHandler
     {
         var goal = Goal101.create();
 
-        goal.setName(DEMO_ID + ": Learn something at TechEd 2023");
+        goal.setName(Helper.DEMO_ID + ": Learn something at TechEd 2023");
         goal.setMetric("Attend sessions at TechEd 2023");
         goal.setCategory("Learning and Growth");
         goal.setType("user");

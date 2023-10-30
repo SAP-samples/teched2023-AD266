@@ -172,6 +172,8 @@ For local testing destinations may also be provided via environment variables.
   
 > **Tip:** If you prefer to run the application from within your IDE, you can also configure the environment variable in the IDE. For example, in IntelliJ you can achieve this via the `Run` -> `Edit Configurations` menu.
 
+> **Tip:** The name of the destination given here will be re-used to create the destination in the SAP BTP cockpit later on.
+
 Now we can replace the stub of `getDestination()` in `RegistrationServiceHandler` to actually load and return the destination.
 
 - [ ] 🔨 **Leverage the `DestinationAccessor` class to load the destination by its name.**
