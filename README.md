@@ -59,7 +59,7 @@ The requirements to follow the exercises in this repository are:
   - [Exercise 3.3 - Use typed client to consume remote OpenAPI service](exercises/ex3#33---use-typed-client-to-consume-remote-openapi-service)
   - [Exercise 3.4 - Completing the Registration Flow](exercises/ex3#34---completing-the-registration-flow)
 - [Exercise 4 - Consuming the SAP SuccessFactors Goal API using the CAP Remote Services Feature](exercises/ex4/)
-  - [Exercise 4.1 - Create a Remote Service Object](exercises/ex4#41---create-a-remote-service-object
+  - [Exercise 4.1 - Create a Remote Service Object](exercises/ex4#41---create-a-remote-service-object)
   - [Exercise 4.2 - Fetch all learning goals of a user in GoalServiceHandler](exercises/ex4#42---fetch-all-learning-goals-of-a-user-in-goalservicehandler)
   - [Exercise 4.3 - Create a Learning Goal](exercises/ex4#43---create-a-learning-goal)
   - [Exercise 4.4 - Create a Task](exercises/ex4#44---create-a-task)
