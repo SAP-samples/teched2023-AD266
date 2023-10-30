@@ -14,7 +14,7 @@ Before getting started with the exercise, let's check if you have all the prereq
   - However, all exercises can be completed locally without pushing to CloudFoundry.
 
 <details> 
-<summary>The necessary software for following the exercises is already installed in your systems.</summary>
+<summary>The necessary software for following the exercises is already installed on your systems.</summary>
 If you want you could confirm the installations by running the following commands in your terminal:
 
 - Java 17
@@ -48,9 +48,9 @@ If you want you could confirm the installations by running the following command
   ```
    </details>
 
-## Understanding the use case
+## Understanding the Use Case
 
-We want to build an application that helps users to sign up for an event and sessions of the event.
+We want to build an application that helps users to sign up for an event (such as TechEd) and sessions (such as this tutorial) of the event.
 
 When the user signs up for an event the following things should happen:
 - The user should get registered for the event. 
@@ -59,8 +59,8 @@ When the user signs up for an event the following things should happen:
 
 Based on the use case we need components to handle signing up, registration, and goal creation.
 
-For registering the user for an event/session, we will use a synthetic [remote OpenAPI service](https://ad266-registration.cfapps.eu10-004.hana.ondemand.com/api-docs).
-for creating the goal in SuccessFactors, we will use the [SAP SuccessFactors Goal Plan API](https://api.sap.com/api/PerformanceandGoalsPMGM/overview).
+We will use a synthetic [remote OpenAPI service](https://ad266-registration.cfapps.eu10-004.hana.ondemand.com/api-docs) to register the user for an event/session.
+For creating the goal in SuccessFactors, we will use the [SAP SuccessFactors Goal Plan API](https://api.sap.com/api/PerformanceandGoalsPMGM/overview).
 
 
 > **Note:** We are using a pre-existing project for this tutorial which is a Spring Boot CAP application.

@@ -5,26 +5,25 @@ The first step to take when a user signs up for an event is to register them for
 As discussed in the previous exercise, for registering the user for an event/session, we will use a synthetic remote OpenAPI service.
 
 In this exercise, we will look at adapting the [`RegistrationServiceHandler`](../../srv/src/main/java/com/sap/cloud/sdk/demo/ad266/remote/RegistrationServiceHandler.java) to handle all communication with the remote OpenAPI service.
-and take care of registering the user. We would be interacting with a synthetic OpenAPI service to achieve this.
 
 Let's learn how you can leverage the SAP Cloud SDK to consume a remote OpenAPI service.
 
-## 2.1 Familiarising yourself with the remote OpenAPI service
+## 2.1 Familiarising Yourself with the Remote OpenAPI Service
 
  The OpenAPI service is available at `https://ad266-registration.cfapps.eu10-004.hana.ondemand.com`. For the sake of simplicity, we will assume that you don't have to authenticate yourself to access the service.
 
 1. [ ] 🔨 **Head to https://ad266-registration.cfapps.eu10-004.hana.ondemand.com/api-docs and explore the OpenAPI specification of the service.**
 
-The most important endpoints, that we will be consuming in our application are:
+The most important endpoints that we will be consuming in our application are:
    1. `/events`: Lists all the available events.
    2. `/events/{eventId}/register`: Allows you to register for an event.
    3. `/events/{eventId}/sessions/{sessionId}/register`: Allows you to register for a session.
 
 Next, we will use the SAP Cloud SDK to consume this remote OpenAPI service.
 
-## 2.2 Add SAP Cloud SDK to your project and generate a typed OpenAPI client
+## 2.2 Add SAP Cloud SDK to Your Project and Generate a Typed OpenAPI Client
 
-In order to connect to the remote OpenAPI service we will generate a [typed OpenAPI client](https://sap.github.io/cloud-sdk/docs/java/v5/features/rest/overview).
+To connect to the remote OpenAPI service we will generate a [typed OpenAPI client](https://sap.github.io/cloud-sdk/docs/java/v5/features/rest/overview).
 
 - [ ] 🔨**Head to the `<plugin>` section of the `srv/pom.xml` file and add the following plugin configuration:**
 
@@ -59,10 +58,9 @@ Those classes can then be used to build and execute HTTP requests against the re
 
 Take note of the parameters in the `<configuration>` section above:
 
-- `<inputSpec>`: This points to the OpenAPI specification of the remote service which is already included under `external/registration.json` in your project.
+- `<inputSpec>`: This points to the OpenAPI specification of the remote service, which is already included under `external/registration.json` in your project.
 - `<outputDirectory>`: The output directory is the directory where the generated classes will be placed. We are using the `src/gen/java` directory of the project to indicate those are generated classes.
 - `<apiPackage>` and `<modelPackage>`: The package names for the generated classes.
-The input specification file is the OpenAPI specification of the remote service and is already available under `external/registration.json` in your project.
 
 > **Tip**: You can find more details about the plugin parameters [here](https://sap.github.io/cloud-sdk/docs/java/v5/features/rest/generate-rest-client#available-parameters).
 
@@ -92,28 +90,28 @@ Now that the classes have been generated we can un-comment the source code in th
 
 - [ ] 🔨**Un-comment all Java code in the `RegistrationServiceHandler` class.**
 
-Now the project is ready to be built.
+Now the project is ready to be built. // Missing return statement in RegistrationServiceHandler#getTechEdEvent()
 
 - [ ] 🔨**Compile the application using `mvn compile`.**
  
-You should see the generated classes under the new `srv/src/gen/java/cloudsdk.gen.registrationservice` directory.
+You should see the generated classes within the new `srv/src/gen/java/cloudsdk.gen.registrationservice` directory.
 
 In the next step we will use the generated client to  write and run queries for the remote OpenAPI service.
 
-## 2.3 Use the typed client to consume remote OpenAPI service
+## 2.3 Use the Typed Client to Consume Remote OpenAPI Service
 
-### 2.3.1 Writing the query
+### 2.3.1 Writing the Query
 
 Let's start using the generated client in the `RegistrationServiceHandler`.
 The generated code comprises two parts:
 
-- API classes that provide one method for each API operation
-- Model classes that represent the data structures used by the API
+- API classes that provide one method for each API operation.
+- Model classes that represent the data structures used by the API.
 
 In our case we have just one API class and two model classes:
 
-- API class: `EventRegistrationApi`
-- Model classes: `Event` and `Session`
+- API class: `EventRegistrationApi`.
+- Model classes: `Event` and `Session`.
 
 We'll make use of the API class to obtain the list of available events and select the event we are interested in.
 
@@ -150,14 +148,14 @@ In order for the above code to function at runtime we'll need to provide a **_de
 
 > A **_destination_** is a configuration object that contains all the information (e.g. URL, authorization information, additional headers etc.) required to connect to a remote service.
 
-Further resources:
+**Further Resources**:
 - [BTP Connectivity: Configuring Destinations in the BTP Cockpit](https://help.sap.com/docs/connectivity/sap-btp-connectivity-cf/connectivity-administration?q=Destination%20Service)
 - [SAP Cloud SDK: Using Destinations](https://sap.github.io/cloud-sdk/docs/java/features/connectivity/destination-service)
 
 Destinations are typically maintained in the BTP Cockpit and are made available to the application via the [Destination Service](https://api.sap.com/api/SAP_CP_CF_Connectivity_Destination/resource/Find_a_Destination). The service offers a variety of different authentication mechanisms, including connectivity options for on-premise systems.
 The SAP Cloud SDK automatically interacts with the Destination Service to load the destination configuration at runtime.
 
-For local testing destinations may also be provided via environment variables.
+For local testing, destinations may also be provided via environment variables.
 
 - [ ] 🔨 **Create an environment variable in your terminal window named `destinations` as follows:**
 
@@ -176,7 +174,7 @@ For local testing destinations may also be provided via environment variables.
 
 Now we can replace the stub of `getDestination()` in `RegistrationServiceHandler` to actually load and return the destination.
 
-- [ ] 🔨 **Leverage the `DestinationAccessor` class to load the destination by its name.**
+- [ ] 🔨 **Leverage the `DestinationAccessor` class to load the destination by its name.** // This task is already solved in the `initial-state` branch
 
 <details> <summary>Click here to view the solution.</summary>
 
@@ -191,8 +189,8 @@ private Destination getDestination() {
 With these changes in place we can now run the application and test the endpoint.
 
 - [ ] 🔨**Run the application with `mvn spring-boot:run` or from within your IDE.**
-- [ ] 🔨**Test the endpoint `http://localhost:8080/rest/v1/getTechEdEvent` in your browser or via `curl` from your terminal.**
-  - [ ] 🔨**Compare that it returns the same result as provided by the remote service at `https://ad266-registration.cfapps.eu10-004.hana.ondemand.com/events/1`.** 
+- [ ] 🔨**Test the endpoint http://localhost:8080/rest/v1/getTechEdEvent in your browser or via `curl` from your terminal.**
+  - [ ] 🔨**Check whether it returns the same result as provided by the remote service at https://ad266-registration.cfapps.eu10-004.hana.ondemand.com/events/1.** 
 
 > **Tip:** Inspect the application logs to see more details on what is happening under the hood while loading the destination and calling the registration service.
 
@@ -204,9 +202,9 @@ To recap: We want to register our user for an event and associated sessions.
 This is already sketched out in the `register(String session)` method of the `SignupHandler` class.
 
 - [ ] 🔨**Implement the logic for `signUpForTechEd()` and `signUpForSession(String sessionName)` in the `RegistrationServiceHandler` class.**
-  - Make use of the `EventRegistrationApi` as in the previous exercise
-  - For now we'll always assume the user is signing up for TechEd
-  - If none of the TechEd sessions match the `sessionName` we should throw an exception
+  - Make use of the `EventRegistrationApi` as in the previous exercise.
+  - For now, we'll always assume the user is signing up for TechEd.
+  - If none of the TechEd sessions match the `sessionName` we should throw an exception.
   - Tip: You can invoke registrations as often as you like, there is no actual state change on the server side.
   - Tip: You can add `@GetMapping( path = "/rest/v1/<methodName>")` to the methods to invoke them individually via your browser.
 
@@ -237,11 +235,11 @@ public void signUpForSession(String sessionName) {
 </details>
 
 > **Tip:** You may be tempted to extract the `api` variable or the result of the `getDestination()` call to a field of the class. However, this is generally not recommended. 
-> The reason is that the destination objects often have state attached and can expire. For example, if the authentication is OAuth based, an attached JWT token will expire after some time.
+> The reason is that the destination objects often have state attached that may expire. For example, if the authentication is OAuth based, an attached JWT token will expire after some time.
 > 
 > So it is recommended to always obtain a fresh destination object before making a remote call. Don't worry, the SAP Cloud SDK caches the destination objects internally, so this does not come at a performance loss. You can read more about the caching strategy [here](https://sap.github.io/cloud-sdk/docs/java/features/connectivity/destination-service#configuring-caching-when-querying-the-destination-service-on-cloud-foundry).
 
-- [ ] 🔨(optional) **Verify the solution works by running `curl -XPOST localhost:8080/odata/v4/SignupService/signUp` in your terminal.**
+- [ ] 🔨(optional) **Verify the solution works by running `curl.exe -XPOST localhost:8080/odata/v4/SignupService/signUp` in your terminal.**
 
 ## Summary
 

@@ -58,9 +58,9 @@ using { Goal as external } from './external/Goal'
 [cds] - updated ./package.json
 ```
    
-The command will copy the service definition file to the [`srv/external`]((../../srv/external)) folder of your project and convert it to CAP’s format CDS, which will be placed there as well (`srv/external/Goal.cds`).
+The command will copy the service definition file to the [`srv/external`](../../srv/external) folder of your project and convert it to CAP’s CDS format, which will be placed there as well (`srv/external/Goal.cds`).
    
-Additionally, the remote service will be registered as requirement in the `package.json` file:
+Additionally, the remote service will be registered as a requirement in the `package.json` file:
    
 ```json
 {
@@ -86,11 +86,11 @@ So let's add a destination for the SuccessFactors Goal Plan Service to our envir
   - Replace the username and password as provided to you in the session.
   - For CMD:
   ```cmd
-  set destinations=[{name: "Registration-Service", url: "https://ad266-registration.cfapps.eu10-004.hana.ondemand.com/"},{"name":"SFSF-BASIC-ADMIN", "url":"https://apisalesdemo8.successfactors.com/", "type": "HTTP", "user": USER, "password":password}]
+  set destinations=[{name: "Registration-Service", url: "https://ad266-registration.cfapps.eu10-004.hana.ondemand.com/"},{"name":"SFSF-BASIC-ADMIN", "url":"https://apisalesdemo8.successfactors.com/", "type": "HTTP", "user": "USER", "password": "PASSWORD"}]
   ```
   - For PowerShell:
   ```ps
-  $env:destinations='[{name: "Registration-Service", url: "https://ad266-registration.cfapps.eu10-004.hana.ondemand.com/"},{"name":"SFSF-BASIC-ADMIN", "url":"https://apisalesdemo8.successfactors.com/", "type": "HTTP", "user": USER, "password":password}]'
+  $env:destinations='[{name: "Registration-Service", url: "https://ad266-registration.cfapps.eu10-004.hana.ondemand.com/"},{"name":"SFSF-BASIC-ADMIN", "url":"https://apisalesdemo8.successfactors.com/", "type": "HTTP", "user": "USER", "password": "PASSWORD"}]'
   ```
 
 However, the destination will be used slightly differently compared to the OpenAPI service we used in the previous exercise.
@@ -110,7 +110,7 @@ Instead of loading the destination in the code, we'll configure it in the `appli
            suffix: "/odata/v2"
    ``` 
 
-- The `name` property simply refers to the destination (by its name) we would like to use for the remote service
+- The `name` property simply refers to the destination (by its name) we would like to use for the remote service.
 - The `type` property defines the protocol used by the remote API which is an OData v2 service in this case.
 - The `suffix` property value would be appended to the url obtained from the destination.
 
@@ -135,7 +135,7 @@ Now that we imported the remote service we can un-comment some the source code w
             metric as description,
         }
     ```
-- [ ] 🔨 **Build the application with `mvn clean compile`**
+- [ ] 🔨 **Build the application with `mvn clean compile`** // missing return statement in `GoalServiceHandler#draftGoal`. Undefined reference for `goalService` in `GoalServiceHandler#deleteGoal`. Missing return statement in `GoalServiceHandler#createGoal`.
 
 ## Summary
 

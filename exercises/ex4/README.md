@@ -24,13 +24,14 @@ Similarly to the OpenAPI consumption discussed in exercise 3 we need to define a
     private CqnService goalService;
     ```
 
+// the tip below seems to be out of place
 > **Tip:** Treat the package names with caution. Depending on how you name your CDS entities and services as well as how remote services are named there may be naming clashes. 
 > 
 > In our case the generated API class for the SuccessFactors service is similar to the generated entity class `cds.gen.goalservice.Goal_` of our `GoalServcie`. So the fully qualified class name is shown here.
 > 
-> If you like feel free to rename the `cds.gen.goalservice.Goal_` entity later as an optional exercise.
+> Feel free to rename the `cds.gen.goalservice.Goal_` entity later as an optional exercise.
 
-## 4.2 - Fetch all learning goals of a user in GoalServiceHandler
+## 4.2 - Fetch all Learning Goals of a User in GoalServiceHandler
 
 First, we'll write a query that fetches all goals of the user. We'll then refine the query to look for the learning goal specifically.
 
@@ -57,17 +58,30 @@ Take a moment to understand the query we are constructing and running.
 We use the CQL Statement builder for [Select](https://cap.cloud.sap/docs/java/query-api#the-cql-statement-builders) queries.
 
 - A select in CQL translates to a read (i.e. an HTTP GET request) in OData.
-- The `from` clause determines the entity we read from
-- The `where` clause is translated into a `$filter` OData expression
-- The `goalService` represents the remote service we run the OData request against
-- The `run` command performs the OData request
-- Finally, we obtain the parsed response data as `.listOf(Goal101.class)`
+- The `from` clause determines the entity we read from.
+- The `where` clause is translated into a `$filter` OData expression.
+- The `goalService` represents the remote service we run the OData request against.
+- The `run` command performs the OData request.
+- Finally, we obtain the parsed response data as `.listOf(Goal101.class)`.
 
-> **Tip:** We filter by the `userId` here because a user may have access to goals from other users in addition to their own goals. For example if goals are set to be publicly visible or because a user may have a manager role. But for our use case we are only interested about the user's own goals.
+> **Tip:** We filter by the `userId` here because a user may have access to goals from other users in addition to their own goals. For example, if goals are set to be publicly visible or because a user may have a manager role. But for our use case we are only interested about the user's own goals.
 
 Let's test the code to make sure it functions correctly:
 
 - [ ] 🔨 **Run the application and head to http://localhost:8080/odata/v4/GoalService/Goal**
+  // Still returns a 404 error:
+  ```java
+  2023-10-30T15:01:59.995+01:00 ERROR 13304 --- [nio-8080-exec-1] c.s.c.a.o.v4.processors.CdsProcessor     : The remote OData service responded with status code '404' (service 'Goal', event 'READ', entity 'Goal.Goal_101')
+
+  com.sap.cds.services.impl.ContextualizedServiceException: The remote OData service responded with status code '404' (service 'Goal', event 'READ', entity 'Goal.Goal_101')
+  
+  2023-10-30T15:01:59.993+01:00 DEBUG 13304 --- [nio-8080-exec-1] c.s.c.s.impl.odata.RemoteODataClient     : Received OData response with status code '404' and error message '{
+  "error" : {
+    "code" : "NotFoundException", "message" : {
+      "lang" : "en-US", "value" : "Entity Goal_101 is not found. Please contact your system administrator."
+    }
+  }
+  ```
 
 > **Tip:** This uses endpoints we created for you in the `GoalServiceController` for ease of testing.
 
@@ -86,7 +100,7 @@ var select = Select.from(GOAL101)
                    .where(g -> g.userId().eq(user)
                            .and(g.category().eq("Learning and Growth"))
                            .and(g.name().contains("Learn something at TechEd 2023"))
-                           .and(g.status().ne("Completed")));
+                           .and(g.status().ne("Completed"))); // g.status() is a Long. Did you mean g.state()?
 ```
 
 </details>
@@ -140,7 +154,7 @@ Now we can update our code to only return visible goals.
 
 ## 4.3 Create a Learning Goal
 
-The first time you try to fetch the goals, you would get an empty list. This is because we haven't created a goal for the user yet. Let's add the functionality to create a goal for the user.
+The first time you try to fetch the goals, you will get an empty list. This is because we haven't created a goal for the user yet. Let's add the functionality to create a goal for the user.
 
 Before we continue though we'll add some configuration to our `Helper` class.
 
@@ -150,7 +164,7 @@ Before we continue though we'll add some configuration to our `Helper` class.
    public static final String DEMO_ID = "ID"+"<add your desk number here>";
    ```
 
-This is necessary because all participants will use the same credentials for the SuccessFactors system and we want to make sure that the goals created by each participant are easily distinguishable.
+This is necessary because all participants will use the same credentials for the SuccessFactors system, and we want to make sure that the goals created by each participant are easily distinguishable.
 
 With this preparation out of the way, let's create a goal for the user.
 
@@ -207,7 +221,7 @@ Again, using the `goalService` remote service object we run the query and parse 
 
 Now it's time to test our code.
 
-- [ ] 🔨 **Test the code by signing up for a TechEd session in the frontend.**
+- [ ] 🔨 **Test the code by signing up for a TechEd session in the frontend at http://localhost:8080.**
   - Check the application logs to see if the goal was created successfully. 
   - Head to the [SuccessFactors](https://pmsalesdemo8.successfactors.com/) UI to see your created goal. 
 
@@ -218,9 +232,9 @@ We want to add tasks to an already created goal when a user registers for sessio
 Let's add the functionality to create a task for the user.
 
 - [ ] 🔨 **Implement the `void createTask(goal, title)` method to create a task related to the given goal in the remote service.**
-  - Use the `GoalTask_101` entity to create a new task
-  - Make sure to use the `id` of the goal as `objId` property of the task
-  - Chose a number for the `done` percentage property that makes sense to you
+  - Use the `GoalTask_101` entity to create a new task.
+  - Make sure to use the `id` of the goal as `objId` property of the task.
+  - Chose a number for the `done` percentage property that makes sense to you.
   
 <details><summary>Click here to view the solution.</summary>
    
@@ -267,7 +281,7 @@ In our case it would be helpful to disable gzip compression to make the response
 <details><summary>Click here to view the solution.</summary>
 
 ```
-{"name":"SFSF-BASIC-ADMIN", "url":"https://apisalesdemo8.successfactors.com/", "type": "HTTP", "user": USER, "password":password, "URL.headers.accept-encoding": "identity"}
+{"name":"SFSF-BASIC-ADMIN", "url":"https://apisalesdemo8.successfactors.com/", "type": "HTTP", "user": "USER", "password": "PASSWORD", "URL.headers.accept-encoding": "identity"}
 ```
 
 </details>
@@ -301,7 +315,7 @@ _So why does this work?_
 
 The reason this works is that we have defined `entity Goal as projection on Goal_101` and the CAP runtime automatically converts the `CqnDelete` on the `Goal` entity to a `CqnDelete` on the `Goal_101` entity.
 
-- [ ] 🔨 **Run `curl -XDELETE http://localhost:8080/odata/v4/GoalService/Goal(<your-goal-id-here>)` to delete the given goal from the remote service.**
+- [ ] 🔨 **Run `curl.exe -XDELETE http://localhost:8080/odata/v4/GoalService/Goal(<your-goal-id-here>)` to delete the given goal from the remote service.**
 
 > As the SuccessFactors instance is shared among participants please be careful to only delete your own goals.
 
@@ -316,16 +330,16 @@ Furthermore, some fields may be defined on a more general level and are only inc
 
 Another case where not all fields are defined in the metadata is when custom fields are added to an entity.
 
-In order to deal with these cases CDS offers the `extend` keyword.
+In order to deal with these cases, CDS offers the `extend` keyword.
 In fact, we are making use of this feature to add required fields to the goal and task entities.
 
 - [ ] 🔨 **Inspect the `srv/service.cds` file to see what fields are being added.**
 - [ ] 🔨 **Add your own custom field to the `Goal_101` entity.**
-  - Once added run `mvn compile`
-  - Check the newly added field is present in the `Goal101` class
-  - (optional) Remove the custom field again
+  - Once added run `mvn compile`.
+  - Check the newly added field is present in the `Goal101` class.
+  - (optional) Remove the custom field again.
 
-// TODO test what happens if you send a custom field to SFSF
+// TODO test what happens if you send a custom field to SFSF <-- (change just for visibility)
 
 ## 4.8 (Optional) Understanding and Improving the `GoalServiceFilter`
 
@@ -339,13 +353,13 @@ This is achieved by implementing an `EventHandler` for the **_remote service_**:
 public void beforeRemoteGoal(CdsReadEventContext ctx)
 ```
 
-Effectively we intercept all read requests to the `Goal101` entity and manipulate the query.
+Effectively, we intercept all read requests to the `Goal101` entity and manipulate the query.
 Because we are not setting any result, the CAP framework will subsequently call the actual remote service with the modified query.
 
 - [ ] 🔨 **Move the filtering for the userID out of the `GoalServiceHandler` and add it to this before handler instead.**
 - [ ] 🔨 **Move the filtering for the view permission out of the `GoalServiceHandler` by creating an `@After` implementation in the `GoalServiceFilter` to achieve the same behaviour.**
 
-//TODO add solution, test this
+//TODO add solution, test this <-- (change just for visibility)
 
 > **Tip:** Extracting filtering logic like this may also be helpful if you need to turn it on or off depending on other factors. For example, you could annotate this class to only be loaded for specific Spring profiles.
 > 
