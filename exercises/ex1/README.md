@@ -1,4 +1,4 @@
-# Exercise 1 - Understand the existing Project setup
+# Exercise 1 - Understand the Existing Project Setup
 
 To better understand the initial state of the project and where we want to go, let's examine the current state of the application.
 
@@ -28,13 +28,14 @@ There are a few more files present, but the above are mostly what we will be wor
 
 ## 1.2 Understanding Service Definitions
 
-Services are one of the core concepts of CAP, they are declared in [CDS](https://cap.cloud.sap/docs/about/#service-definitions-in-cds), and they dispatch events to `Event Handlers`.
-Let's examine the [`service.cds`](../../srv/service.cds) file which defines the services exposed by our application: It defines two services, `SignupService` and the `GoalService`.
+Services are one of the core concepts of CAP.
+They are declared in [CDS](https://cap.cloud.sap/docs/about/#service-definitions-in-cds) and dispatch events to `Event Handlers`.
+Let's examine the [`service.cds`](../../srv/service.cds) file, which defines the services exposed by our application: It defines two services, `SignupService` and the `GoalService`.
 
 - The `SignupService` is our main entry point to perform our business logic.
 - The `GoalService` is just for testing individual aspects of the application later, it is not required for the main use case.
 
-The `SignupService` exposes one action called `signUp`. It takes a `String` session which is the name of the session a user intends to sign up for.
+The `SignupService` exposes one action called `signUp`. It takes a `String` session, which is the name of the session a user intends to sign up for.
 
 ```cds
 @path: 'SignupService'
@@ -44,14 +45,14 @@ service SignupService {
 ```
 
 The `@path` argument allows you to provide a custom path for the exposed service.
-The `SignupService` would be available when the application starts up at path: `{application-hostname}/odata/v4/SignupService/`
+In this example, we are providing the value _"SignupService"_, which means that this particular service will be available at `{application-hostname}/odata/v4/SignupService/` once our application runs.
 
 Let's understand what artifacts are generated based on the services we defined in the next step. 
 
 ## 1.3 CDS Maven Plugin
 
 In your application's [pom.xml](../../srv/pom.xml), under the `plugins` section you can see the [`cds-maven-plugin`](https://cap.cloud.sap/docs/java/assets/cds-maven-plugin-site/plugin-info.html) entry.
-The interesting part here is the `generate` goal which is responsible for scanning project directories for CDS files and generating Java POJOs for type-safe access to the CDS model.
+The interesting part here is the `generate` goal, which is responsible for scanning project directories for CDS files and generating Java POJOs for type-safe access to the CDS model.
 
 - [ ] 🔨 **From your project's root directory, run `mvn clean compile`.**
 
@@ -70,16 +71,16 @@ In a previous section, we learned that `Service`s dispatch events to `Event Hand
 Event handlers are the ones that then implement the behaviour of the service.
 Let's examine the event handler for the `SignupService` in the file [SignupHandler.java](../../srv/src/main/java/com/sap/cloud/sdk/demo/ad266/SignupHandler.java).
 
-- The `@ServiceName(SignupService_.CDS_NAME)` annotation at the top of the class specifies the service which the event handler is registered on. 
+- The `@ServiceName(SignupService_.CDS_NAME)` annotation at the top of the class specifies the service, which the event handler is registered on. 
 
 - The `@On( event = SignUpContext.CDS_NAME)` annotation on top of the method `signUp(context)` specifies the `Event Phase` at which the method would be called.
-   - An `Event` can be processed in three phases: `Before`, `On` and `After`. As we are defining the core business logic of the action, we are using the `On` phase.
-   - What this means is that everytime the `signUp(session)` action is called, this triggers an event and the `signUp(context)` method would be called.
+   - An `Event` can be processed in three phases: `Before`, `On`, and `After`. As we are defining the core business logic of the action, we are using the `On` phase.
+   - What this means is that everytime the `signUp(session)` action is called, an event is triggered and the `signUp(context)` method is called.
 
-- `Event Contexts` provide a way to access the parameters and return values. `SignUpContext` is the event context here, which helps us to access the action parameter, additional query parameters and other information of the incoming request.
+- `Event Contexts` provide a way to access the parameters and return values. `SignUpContext` is the event context here, which helps us to access the action parameter, additional query parameters, and other information of the incoming request.
    It would also be eventually used to set the return value of the action.
 
-- Note that some imports used in the class like `SignupService_`,`SignUpContext` were all generated by the CDS Maven Plugin in the previous step.
+- Note that some imports used in the class like `SignupService_` and `SignUpContext` were all generated by the CDS Maven Plugin in the previous step.
 
 Let's try running our application now.
 
