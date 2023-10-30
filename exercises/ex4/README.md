@@ -1,9 +1,6 @@
 # Exercise 4 - Consuming the SAP SuccessFactors Goal API using the CAP Remote Services Feature
 
-In this exercise, we will look at how to use the [CAP Remote Services](https://cap.cloud.sap/docs/java/remote-services) feature to connect to the [SAP SuccessFactors Goal API](https://api.sap.com/api/PerformanceandGoalsPMGM/resource/Goal_Weight). 
 
-In the previous exercise, we added functionality to allow a user to register for an event.
-What is left now is to add the functionality to create a goal and related tasks in SuccessFactors. 
 
 - [ ] 🔨 **To get a better understanding of the use case log into the demo SuccessFactors system at https://pmsalesdemo8.successfactors.com/ with the credentials provided to you.**
     - Use `SFEDU028064` as the company ID.

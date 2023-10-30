@@ -1,252 +1,119 @@
-# Exercise 3 - Consuming the Registration API using the SAP Cloud SDK
+# Exercise 3 - Get and Import SuccessFactors Goal Plan Service
 
-The [`SignupHandler`](../../srv/src/main/java/com/sap/cloud/sdk/demo/ad266/SignupHandler.java) is the entry point of the application. And `signUp` is the action that will be called when a user signs up for an event or a session.
-The first step to take when a user signs up for an event is to register them for the event.
-As discussed in the previous exercise, for registering the user for an event/session, we will use a synthetic remote OpenAPI service.
+In the previous exercise, we added functionality to allow a user to register for an event.
+What is left now is to add the functionality to create a goal and related tasks in SuccessFactors.
 
-In this exercise, we will look at adapting the [`RegistrationServiceHandler`](../../srv/src/main/java/com/sap/cloud/sdk/demo/ad266/remote/RegistrationServiceHandler.java) to handle all communication with the remote OpenAPI service.
-and take care of registering the user. We would be interacting with a synthetic OpenAPI service to achieve this.
+In this exercise, we will look at how to use the [CAP Remote Services](https://cap.cloud.sap/docs/java/remote-services) feature to connect to the [SAP SuccessFactors Goal API](https://api.sap.com/api/PerformanceandGoalsPMGM/resource/Goal_Weight).
 
-Let's learn how you can leverage the SAP Cloud SDK to consume a remote OpenAPI service.
+We will do this in two parts: First, we'll get the [SuccessFactors Goal Plan Service API](https://api.sap.com/api/PerformanceandGoalsPMGM/overview) definition and import the service into our project.
+Then we will use the imported service in the subsequent step (Exercise 4). 
 
-## 3.1 Familiarising yourself with the remote OpenAPI service
+## 3.1 Download specification from SAP Business Accelerator Hub
 
- The OpenAPI service is available at `https://ad266-registration.cfapps.eu10-004.hana.ondemand.com`. For the sake of simplicity, we will assume that you don't have to authenticate yourself to access the service.
+Visit the SAP Business Accelerator Hub to fetch the [SuccessFactors Goal Plan](https://api.sap.com/api/PerformanceandGoalsPMGM/overview) API specification. You should see results like below:
 
-1. [ ] Head to https://ad266-registration.cfapps.eu10-004.hana.ondemand.com/api-docs and explore the OpenAPI specification of the service.
+![](images/01_01.png)
 
-The most important endpoints, that we will be consuming in our application are:
-   1. `/events`: Lists all the available events.
-   2. `/events/{eventId}/register`: Allows you to register for an event.
-   3. `/events/{eventId}/sessions/{sessionId}/register`: Allows you to register for a session.
+Scroll down the page to find API specification of the service listed.
 
-Next, we will use the SAP Cloud SDK to consume this remote OpenAPI service.
+- [ ] 🔨 **Download the EDMX file by clicking on the download button.** 
+  - You might have to log in with your trial account credentials.
+  ![](images/01_02.png)
 
-## 3.2 Add SAP Cloud SDK to your project and generate a typed OpenAPI client
+- [ ] 🔨 **For ease of understanding, please rename the downloaded file to `Goal.edmx` and place it in a folder of your choice.**
 
-In order to connect to the remote OpenAPI service we will generate a [typed OpenAPI client](https://sap.github.io/cloud-sdk/docs/java/v5/features/rest/overview).
+> **Tip:** If you are facing issues with logging in, for your convenience we have also included the service definition file in the `exercises/resources` folder of this repository([Goal.edmx](../resources/Goal.edmx)).
 
-//TODO adjust initial branch for these dependency additions
+## 3.2 Add the Goal Plan service to your project
 
-- [ ] 🔨Head to the `<plugin>` section of the `srv/pom.xml` file and add the following plugin configuration:
-
+- [ ] 🔨 **In your application's [`pom.xml`](../../srv/pom.xml) file add the following dependency:**
    ```xml
-   <!-- Cloud SDK OData VDM Generator -->
-   <plugin>
-      <groupId>com.sap.cloud.sdk.datamodel</groupId>
-      <artifactId>openapi-generator-maven-plugin</artifactId>
-      <version>5.0.0-SNAPSHOT</version>
-      <executions>
-         <execution>
-            <id>generate-registration-service</id>
-            <phase>generate-sources</phase>
-            <goals>
-               <goal>generate</goal>
-            </goals>
-            <configuration>
-               <inputSpec>${project.basedir}/external/registration.json</inputSpec>
-               <outputDirectory>${project.basedir}/src/gen/java</outputDirectory>
-               <deleteOutputDirectory>false</deleteOutputDirectory>
-               <apiPackage>cloudsdk.gen.registrationservice</apiPackage>
-               <modelPackage>cloudsdk.gen.registrationservice</modelPackage>
-               <compileScope>COMPILE</compileScope>
-            </configuration>
-         </execution>
-      </executions>
-   </plugin>
-   ```
-
-This maven plugin will generate a set of classes into the `<outputDirectory>`.
-Those classes can then be used to build and execute HTTP requests against the registration service.
-
-Take note of the parameters in the `<configuration>` section above:
-
-- `<inputSpec>`: This points to the OpenAPI specification of the remote service which is already included under `external/registration.json` in your project.
-- `<outputDirectory>`: The output directory is the directory where the generated classes will be placed. We are using the `src/gen/java` directory of the project to indicate those are generated classes.
-- `<apiPackage>` and `<modelPackage>`: The package names for the generated classes.
-The input specification file is the OpenAPI specification of the remote service and is already available under `external/registration.json` in your project.
-
-> **Tip**: You can find more details about the plugin parameters [here](https://sap.github.io/cloud-sdk/docs/java/v5/features/rest/generate-rest-client#available-parameters).
-
-Next, we have to add some dependencies to the project to ensure these generated classes can be compiled and used.
-
-- [ ] 🔨Add the following Cloud SDK dependencies to the dependency section of your `srv/pom.xml` file:
-   
-   ```xml
-   <!-- Cloud SDK OpenAPI & Destinations -->
+   <!-- Remote Services -->
    <dependency>
-      <groupId>com.sap.cloud.sdk.datamodel</groupId>
-      <artifactId>openapi-core</artifactId>
-   </dependency>
-   <dependency>
-       <groupId>com.sap.cloud.sdk.cloudplatform</groupId>
-       <artifactId>connectivity-apache-httpclient5</artifactId>
-   </dependency>
-   <dependency>
-       <groupId>com.sap.cloud.sdk.cloudplatform</groupId>
-       <artifactId>cloudplatform-connectivity</artifactId>
+       <groupId>com.sap.cds</groupId>
+       <artifactId>cds-feature-remote-odata</artifactId>
+       <scope>runtime</scope>
    </dependency>
    ```
 
-> **Tip:** We don't need to specify a `<version>` here, because we are already managing the versions of all relevant dependencies via a set of BOMs in the `<dependencyManagement>` section in the root `pom.xml` file.
+This dependency is required to enable the [CAP Remote Services Feature](https://cap.cloud.sap/docs/java/remote-services#enabling-remote-services).
+This feature allows you to directly consume remote service APIs via CQN queries in a CAP application.
 
-Now the project is ready to be built.
+Now we will import the remote service.
 
-- [ ] 🔨Compile the application using `mvn compile`.
- 
-You should see the generated classes under the new `srv/src/gen/java/cloudsdk.gen.registrationservice` directory.
-
-In order for the IDE to recognise the new directory as source code we need to mark it as such.
-
-- [ ] 🔨For the IntelliJ IDE: right-click the directory `srv/src/gen/java` and select `Mark Directory as` -> `Generated Sources Root`.
-
-> **Tip:** The generated sources are excluded from Git by the current `.gitignore` file.
-> Generally this is typically a matter of preference and may also depend on how you set up the CI/CD of your project.
-
-In the next step we will use the generated client to  write and run queries for the remote OpenAPI service.
-
-## 3.3 Use the typed client to consume remote OpenAPI service
-
-### 3.3.1 Writing the query
-
-Let's start using the generated client in the `RegistrationServiceHandler`.
-The generated code comprises two parts:
-
-- API classes that provide one method for each API operation
-- Model classes that represent the data structures used by the API
-
-In our case we have just one API class and two model classes:
-
-- API class: `EventRegistrationApi`
-- Model classes: `Event` and `Session`
-
-We'll make use of the API class to obtain the list of available events and select the event we are interested in.
-
-- [ ] 🔨Implement the code using the `EventRegistrationApi` class to get a list of events from the remote service. Add your code to the `getTechEdEvent` method inside the `EventRegistrationApi` class.
-- [ ] 🔨Filter the list and return only the single event named `"TechEd 2023"`.
-
-<details> <summary>Click here to view the solution.</summary>
-
-```java
-@GetMapping( path = "/rest/v1/getTechEdEvent", produces = "application/json")
-public Event getTechEdEvent() {
-     var api = new EventRegistrationApi(getDestination());
+- [ ] 🔨 **From your project's root directory (not the `srv` directory) run the following command with the path to the downloaded service definition file as a parameter:** 
    
-     List<Event> events =  api.getEvents();
- 
-     return events
-         .stream()
-         .filter(e -> e.getName().equals("TechEd 2023"))
-         .findFirst()
-         .orElseThrow();
+   ```bash
+   cds import /path-to-edmx-file/Goal.edmx --as cds
+   ```
+   
+The output will look like this:
+
+```bash
+[cds] - imported API to srv/external/Goal
+> use it in your CDS models through the like of:
+
+using { Goal as external } from './external/Goal'
+
+[cds] - updated ./package.json
+```
+   
+The command will copy the service definition file to the [`srv/external`]((../../srv/external)) folder of your project and convert it to CAP’s format CDS, which will be placed there as well (`srv/external/Goal.cds`).
+   
+Additionally, the remote service will be registered as requirement in the `package.json` file:
+   
+```json
+{
+  "cds": {
+    "requires": {
+      "Goal": {
+        "kind": "odata-v2",
+        "model": "srv/external/Goal"
+      }
+    }
+  }
 }
- ```
-1. First we create an instance of the API class, passing in a destination object that will inform the API class on how exactly to connect to the remote service.    
-2. The `getEvents()` method will perform the actual HTTP request to the `/events` endpoint of the remote service.
-3. Finally, we filter for the specific event. Here we make use of the generated model class `Event` to access the `name` property of the event.
-</details>
+```
 
-> **Tip:** You'll need to use the `getDestination()` method that is already prepared and will be filled with content in the next step.
-
-### 3.3.2 Using a Destination
-
-In order for the above code to function at runtime we'll need to provide a **_destination_** object to the API class.
+## 3.3 Configure a destination for the remote API
 
 > A **_destination_** is a configuration object that contains all the information (e.g. URL, authorization information, additional headers etc.) required to connect to a remote service.
 
-Further resources:
-- [BTP Connectivity: Configuring Destinations in the BTP Cockpit](https://help.sap.com/docs/connectivity/sap-btp-connectivity-cf/connectivity-administration?q=Destination%20Service)
-- [SAP Cloud SDK: Using Destinations](https://sap.github.io/cloud-sdk/docs/java/features/connectivity/destination-service)
+Destinations are used to define connections from your application to remote systems, and as we are trying to connect to a remote API, we need to define a destination for it.
 
-Destinations are typically maintained in the BTP Cockpit and are made available to the application via the [Destination Service](https://api.sap.com/api/SAP_CP_CF_Connectivity_Destination/resource/Find_a_Destination). The service offers a variety of different authentication mechanisms, including connectivity options for on-premise systems.
-The SAP Cloud SDK automatically interacts with the Destination Service to load the destination configuration at runtime.
+- [ ] 🔨 **In your application's [`application.yaml`](../../srv/src/main/resources/application.yaml) also add a destination for the imported service under `remote.services`:**
 
-For local testing destinations may also be provided via environment variables.
+   ```yaml
+   cds:
+     datasource:
+       auto-config.enabled: false
+     remote.services:
+       - name: "Goal"
+         destination:
+           name: "SFSF-BASIC-ADMIN"
+           type: "odata-v2"
+           suffix: "/odata/v2"
+   ``` 
 
-- [ ] 🔨Create an environment variable in your terminal window named `destinations` as follows:
+- The `type` property defines the protocol used by the remote API which is an OData v2 service in this case.
+- The `suffix` property value would be appended to the url obtained from the destination.
 
-  For CMD:
-  ```cmd
-  set destinations=[{name: "Registration-Service", url: "https://ad266-registration.cfapps.eu10-004.hana.ondemand.com/"}]
-  ```
-  For PowerShell:
-  ```ps
-  $env:destinations='[{name: "Registration-Service", url: "https://ad266-registration.cfapps.eu10-004.hana.ondemand.com/"}]'
-  ```
-  
-> **Tip:** If you prefer to run the application from within your IDE, you can also configure the environment variable in the IDE. For example, in IntelliJ you can achieve this via the `Run` -> `Edit Configurations` menu.
+> **Tip:** The name of the destination given here will be re-used to create the destination in the SAP BTP cockpit later on.
 
-Now we can replace the stub of `getDestination()` in `RegistrationServiceHandler` to actually load and return the destination.
+## 3.4 Update Project Files and Compile the Project
 
-- [ ] 🔨Leverage the `DestinationAccessor` class to load the destination by its name.
+Now that we imported the remote service we can un-comment some the source code we prepared for the next exercises and build the project.
 
-<details> <summary>Click here to view the solution.</summary>
-
-```java
-private Destination getDestination() {
-    return DestinationAccessor.getDestination("Registration-Service");
-}
-```
-
-</details>
-
-With these changes in place we can now run the application and test the endpoint.
-
-- [ ] 🔨Run the application with `mvn spring-boot:run` or from within your IDE.
-- [ ] 🔨Test the endpoint `http://localhost:8080/rest/v1/getTechEdEvent` in your browser or via `curl` from your terminal.
-  - [ ] 🔨Compare that it returns the same result as provided by the remote service at `https://ad266-registration.cfapps.eu10-004.hana.ondemand.com/events/1`. 
-
-> **Tip:** Inspect the application logs to see more details on what is happening under the hood while loading the destination and calling the registration service.
-
-## 3.4 Completing the Registration Flow
-
-Now that we successfully implemented our first remote services call let's complete the registration flow.
-
-To recap: We want to register our user for an event and associated sessions.
-This is already sketched out in the `register(String session)` method of the `SignupHandler` class.
-
-- [ ] 🔨Implement the logic for `signUpForTechEd()` and `signUpForSession(String sessionName)` in the `RegistrationServiceHandler` class.
-  - Make use of the `EventRegistrationApi` as in the previous exercise
-  - For now we'll always assume the user is signing up for TechEd
-  - If none of the TechEd sessions match the `sessionName` we should throw an exception
-  - Tip: You can invoke registrations as often as you like, there is no actual state change on the server side.
-  - Tip: You can add `@GetMapping( path = "/rest/v1/<methodName>")` to the methods to invoke them individually via your browser.
-
-<details> <summary>Click here to view the solution.</summary>
-
-```java
-public void signUpForTechEd() {
-    var event = getTechEdEvent();
-    var api = new EventRegistrationApi(getDestination());
-    api.registerForEvent(event.getId()); 
-}
-
-public void signUpForSession(String sessionName) {
-    var event = getTechEdEvent();
-
-    var api = new EventRegistrationApi(getDestination());
-        
-    var session = api.getSessions(event.getId())
-        .stream()
-        .filter(s -> s.getTitle().equalsIgnoreCase(sessionName))
-        .findFirst()
-        .orElseThrow();
-
-    api.registerForSession(event.getId(), session.getId());
-}
-```
-
-</details>
-
-> **Tip:** You may be tempted to extract the `api` variable or the result of the `getDestination()` call to a field of the class. However, this is generally not recommended. 
-> The reason is that the destination objects often have state attached and can expire. For example, if the authentication is OAuth based, an attached JWT token will expire after some time.
-> 
-> So it is recommended to always obtain a fresh destination object before making a remote call. Don't worry, the SAP Cloud SDK caches the destination objects internally, so this does not come at a performance loss. You can read more about the caching strategy [here](https://sap.github.io/cloud-sdk/docs/java/features/connectivity/destination-service#configuring-caching-when-querying-the-destination-service-on-cloud-foundry).
-
-- [ ] 🔨(optional) Verify the solution works by running `curl -XPOST localhost:8080/odata/v4/SignupService/signUp` in your terminal.
+- [ ] 🔨 **Un-comment all Java code in the following Java classes:**
+  - `GoalServiceHandler`
+  - `GoalServiceFilter`
+  - `GoalServiceController`
+- [ ] 🔨 **Un-comment all entries in the `service.cds` file**
+- [ ] 🔨 **Build the application with `mvn clean compile`**
 
 ## Summary
 
-You've now successfully learned how to use the SAP Cloud SDK to consume a remote OpenAPI service in a type safe manner.
+You've now successfully added the SuccessFactors Goal Plan Service to your project.
 
 Continue to - [Exercise 4 - Consuming the SAP SuccessFactors Goal API using the CAP Remote Services Feature](../ex4/README.md)
+
