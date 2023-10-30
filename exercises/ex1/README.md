@@ -95,7 +95,7 @@ INFO 57513 --- [  restartedMain] c.sap.cloud.sdk.demo.ad266.Application   : Star
 
 - [ ] 🔨 **You can now access the application endpoints:**
   - Frontend: http://localhost:8080 
-  - Metadata: http://localhost:8080/odata/v4/SignupService/$metadata`
+  - Metadata: http://localhost:8080/odata/v4/SignupService/$metadata
 
 The endpoint for signing up `http://localhost:8080/odata/v4/SignupService/signUp` is also available but will currently not do much as we haven't implemented the business logic yet. 
 

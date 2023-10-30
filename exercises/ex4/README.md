@@ -1,13 +1,16 @@
 # Exercise 4 - Consuming the SAP SuccessFactors Goal API using the CAP Remote Services Feature
 
+To get a better understanding of the use case we'll log into the SuccessFactors demo system and take a look at the goals of a user.
 
-
-- [ ] 🔨 **To get a better understanding of the use case log into the demo SuccessFactors system at https://pmsalesdemo8.successfactors.com/ with the credentials provided to you.**
+- [ ] 🔨 **Login at https://pmsalesdemo8.successfactors.com/ with the credentials provided to you.**
     - Use `SFEDU028064` as the company ID.
     - The username and password will be provided to you in the session.
     - Once logged in click on the `My Goals` tile on the home screen.
 
-Now let's enhance the `GoalServiceHandler` to implement the interactions with the SuccessFactors API.
+You should see a few goals with their related status and details.
+Remember, we want to add a goal and add tasks to the goal when a user registers for a session.
+
+So let's enhance the `GoalServiceHandler` to implement these interactions with the SuccessFactors API.
 
 ## 4.1 Create a Remote Service Object
 
@@ -207,10 +210,6 @@ Now it's time to test our code.
 - [ ] 🔨 **Test the code by signing up for a TechEd session in the frontend.**
   - Check the application logs to see if the goal was created successfully. 
   - Head to the [SuccessFactors](https://pmsalesdemo8.successfactors.com/) UI to see your created goal. 
-
-// TODO rather test this via UI? Or not test at all yet? we don't want too many goals created in SFSF
-
-
 
 ## 4.4 - Create a Task
 

@@ -75,13 +75,28 @@ Additionally, the remote service will be registered as requirement in the `packa
 }
 ```
 
-## 3.3 Configure a destination for the remote API
+## 3.3 Configure a Destination for the Remote API
 
-> A **_destination_** is a configuration object that contains all the information (e.g. URL, authorization information, additional headers etc.) required to connect to a remote service.
+Remember how we created a destination for the Registration Service in [exercise 2.3.2](../ex2/README.md#232-using-a-destination)?
+We need to do the same the SuccessFactors Goal Plan Service.
 
-Destinations are used to define connections from your application to remote systems, and as we are trying to connect to a remote API, we need to define a destination for it.
+So let's add a destination for the SuccessFactors Goal Plan Service to our environment variable.
 
-- [ ] 🔨 **In your application's [`application.yaml`](../../srv/src/main/resources/application.yaml) also add a destination for the imported service under `remote.services`:**
+- [ ] 🔨 **Update your `destinations` environment variable to include an entry for the SuccessFactors system as follows:**
+  - Replace the username and password as provided to you in the session.
+  - For CMD:
+  ```cmd
+  set destinations=[{name: "Registration-Service", url: "https://ad266-registration.cfapps.eu10-004.hana.ondemand.com/"},{"name":"SFSF-BASIC-ADMIN", "url":"https://apisalesdemo8.successfactors.com/", "type": "HTTP", "user": USER, "password":password}]
+  ```
+  - For PowerShell:
+  ```ps
+  $env:destinations='[{name: "Registration-Service", url: "https://ad266-registration.cfapps.eu10-004.hana.ondemand.com/"},{"name":"SFSF-BASIC-ADMIN", "url":"https://apisalesdemo8.successfactors.com/", "type": "HTTP", "user": USER, "password":password}]'
+  ```
+
+However, the destination will be used slightly differently compared to the OpenAPI service we used in the previous exercise.
+Instead of loading the destination in the code, we'll configure it in the `application.yaml` file.
+
+- [ ] 🔨 **In your application's [`application.yaml`](../../srv/src/main/resources/application.yaml) add the following entry for the imported service under `remote.services`:**
 
    ```yaml
    cds:
@@ -95,6 +110,7 @@ Destinations are used to define connections from your application to remote syst
            suffix: "/odata/v2"
    ``` 
 
+- The `name` property simply refers to the destination (by its name) we would like to use for the remote service
 - The `type` property defines the protocol used by the remote API which is an OData v2 service in this case.
 - The `suffix` property value would be appended to the url obtained from the destination.
 
@@ -109,9 +125,17 @@ Now that we imported the remote service we can un-comment some the source code w
   - `GoalServiceFilter`
   - `GoalServiceController`
   - `SignupHandler`
-- [ ] 🔨 **Un-comment all entries in the `service.cds` file**
+- [ ] 🔨 **Update the `service.cds` file as follows:**
+  - Uncomment all commented out sections
+  - Replace the `goal` entity inside the `GoalService` with the following code:
+    ```cds
+    entity Goal as projection on Goal_101 {
+            id,
+            name as title,
+            metric as description,
+        }
+    ```
 - [ ] 🔨 **Build the application with `mvn clean compile`**
-- //TODO update service.cds
 
 ## Summary
 
