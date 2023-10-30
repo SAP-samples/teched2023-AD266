@@ -1,7 +1,7 @@
 package com.sap.cloud.sdk.demo.ad266.remote;
 
-import cds.gen.goal.Goal101;
-import cds.gen.goal.Goal101_;
+/*import cds.gen.goal.Goal101;
+import cds.gen.goal.Goal101_;*/
 import com.sap.cds.ql.CQL;
 import com.sap.cds.ql.Predicate;
 import com.sap.cds.ql.cqn.CqnPredicate;
@@ -16,9 +16,10 @@ import org.springframework.stereotype.Component;
 import static com.sap.cloud.sdk.demo.ad266.utility.Helper.DEMO_ID;
 
 @Component
-@ServiceName(cds.gen.goal.Goal_.CDS_NAME)
+/* @ServiceName(cds.gen.goal.Goal_.CDS_NAME) */
 public class GoalServiceFilter implements EventHandler
 {
+    /*
     @Before( entity = Goal101_.CDS_NAME)
     public void beforeRemoteGoal(CdsReadEventContext ctx) {
         CqnSelect cqn = ctx.getCqn();
@@ -30,5 +31,5 @@ public class GoalServiceFilter implements EventHandler
         });
 
         ctx.setCqn(enhancedSelect);
-    }
+    }*/
 }

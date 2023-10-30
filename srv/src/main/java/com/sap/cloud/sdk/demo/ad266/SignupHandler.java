@@ -32,10 +32,12 @@ public class SignupHandler implements EventHandler
 
         register(session);
 
-        updateSFSF(session);
+         updateSFSF(session);
 
-        context.setResult("Yay, we successfully signed you up for the session: " + session + ".\n"
-                + "Also, we created an entry in your 'Learning and Growth' section in SAP SuccessFactors to reflect your efforts.");
+        /*context.setResult("Yay, we successfully signed you up for the session: " + session + ".\n"
+                + "Also, we created an entry in your 'Learning and Growth' section in SAP SuccessFactors to reflect your efforts.");*/
+
+        context.setResult("Nothing happened yet, implement the business logic first ;)");
     }
 
     private void register(String session) {
@@ -47,6 +49,7 @@ public class SignupHandler implements EventHandler
 
     private void updateSFSF(String session) {
         // create a goal and related tasks in SFSF
+        /*
         var goal = goalService.getLearningGoal();
 
         if ( goal == null ) {
@@ -54,5 +57,6 @@ public class SignupHandler implements EventHandler
         }
 
         goalService.createTask(goal, session);
+        */
     }
 }

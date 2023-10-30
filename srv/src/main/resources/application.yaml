@@ -1,13 +1,7 @@
 ---
 spring:
   web.resources.static-locations: "file:./frontend"
-cds:
-  remote.services:
-    - name: "Goal"
-      destination:
-        name: "SFSF-BASIC-ADMIN"
-        type: "odata-v2"
-        service: "/odata/v2"
+
 # ---
 # spring:
 #   config.activate.on-profile: local

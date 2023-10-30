@@ -170,7 +170,7 @@ private static Goal101 draftGoal(String user)
 {
     var goal = Goal101.create();
 
-    goal.setName(DEMO_ID + ": Learn something at TechEd 2023");
+    goal.setName(Helper.DEMO_ID + ": Learn something at TechEd 2023");
     goal.setMetric("Attend sessions at TechEd 2023");
     goal.setCategory("Learning and Growth");
     goal.setType("user");

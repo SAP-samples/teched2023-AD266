@@ -108,8 +108,10 @@ Now that we imported the remote service we can un-comment some the source code w
   - `GoalServiceHandler`
   - `GoalServiceFilter`
   - `GoalServiceController`
+  - `SignupHandler`
 - [ ] 🔨 **Un-comment all entries in the `service.cds` file**
 - [ ] 🔨 **Build the application with `mvn clean compile`**
+- //TODO update service.cds
 
 ## Summary
 

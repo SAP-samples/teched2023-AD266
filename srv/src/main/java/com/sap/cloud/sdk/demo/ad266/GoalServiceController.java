@@ -1,7 +1,7 @@
 package com.sap.cloud.sdk.demo.ad266;
 
-import cds.gen.goal.Goal101;
-import cds.gen.goalservice.Goal;
+/*import cds.gen.goal.Goal101;
+import cds.gen.goalservice.Goal;*/
 import cds.gen.goalservice.GoalService_;
 import cds.gen.goalservice.Goal_;
 import com.sap.cds.Result;
@@ -29,7 +29,7 @@ public class GoalServiceController implements EventHandler {
 
     @Autowired
     private Helper helper;
-
+    /*
     @On( entity = Goal_.CDS_NAME )
     public List<Goal> getLearningGoals(CdsReadEventContext context)
     {
@@ -59,5 +59,5 @@ public class GoalServiceController implements EventHandler {
         simpleGoal.setTitle(goal.getName());
         simpleGoal.setDescription(goal.getMetric());
         return simpleGoal;
-    }
+    }*/
 }

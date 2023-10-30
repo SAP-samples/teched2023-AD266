@@ -43,47 +43,10 @@
 			<artifactId>cds-feature-cloudfoundry</artifactId>
 		</dependency>
 
-
-		<!-- Remote Services -->
-		<dependency>
-			<groupId>com.sap.cds</groupId>
-			<artifactId>cds-feature-remote-odata</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-
 		<!-- Cloud SDK Dependency for Cloud Foundry -->
 		<dependency>
 			<groupId>com.sap.cloud.sdk.cloudplatform</groupId>
 			<artifactId>scp-cf</artifactId>
-		</dependency>
-
-
-
-		<!-- Cloud SDK Resilience -->
-		<dependency>
-			<groupId>com.sap.cloud.sdk.cloudplatform</groupId>
-			<artifactId>resilience</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.sap.cloud.sdk.cloudplatform</groupId>
-			<artifactId>resilience4j</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-
-
-
-		<!-- Cloud SDK OpenAPI & Destinations -->
-		<dependency>
-			<groupId>com.sap.cloud.sdk.datamodel</groupId>
-			<artifactId>openapi-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.sap.cloud.sdk.cloudplatform</groupId>
-			<artifactId>connectivity-apache-httpclient5</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.sap.cloud.sdk.cloudplatform</groupId>
-			<artifactId>cloudplatform-connectivity</artifactId>
 		</dependency>
 
 		<dependency>
@@ -161,30 +124,6 @@
 						</goals>
 						<configuration>
 							<basePackage>cds.gen</basePackage>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
-			<!-- Cloud SDK OData VDM Generator -->
-			<plugin>
-				<groupId>com.sap.cloud.sdk.datamodel</groupId>
-				<artifactId>openapi-generator-maven-plugin</artifactId>
-				<version>5.0.0-SNAPSHOT</version>
-				<executions>
-					<execution>
-						<id>generate-registration-service</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-						<configuration>
-							<inputSpec>${project.basedir}/external/registration.json</inputSpec>
-							<outputDirectory>${project.basedir}/src/gen/java</outputDirectory>
-							<deleteOutputDirectory>false</deleteOutputDirectory>
-							<apiPackage>cloudsdk.gen.registrationservice</apiPackage>
-							<modelPackage>cloudsdk.gen.registrationservice</modelPackage>
-							<compileScope>COMPILE</compileScope>
 						</configuration>
 					</execution>
 				</executions>
