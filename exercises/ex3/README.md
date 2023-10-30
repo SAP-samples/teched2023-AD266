@@ -107,12 +107,12 @@ Instead of loading the destination in the code, we'll configure it in the `appli
          destination:
            name: "SFSF-BASIC-ADMIN"
            type: "odata-v2"
-           suffix: "/odata/v2"
+           service: "/odata/v2"
    ``` 
 
 - The `name` property simply refers to the destination (by its name) we would like to use for the remote service.
 - The `type` property defines the protocol used by the remote API which is an OData v2 service in this case.
-- The `suffix` property value would be appended to the url obtained from the destination.
+- The `service` property value would be appended to the url obtained from the destination.
 
 > **Tip:** The name of the destination given here will be re-used to create the destination in the SAP BTP cockpit later on.
 
