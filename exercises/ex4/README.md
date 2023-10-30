@@ -24,10 +24,9 @@ Similarly to the OpenAPI consumption discussed in exercise 3 we need to define a
     private CqnService goalService;
     ```
 
-// the tip below seems to be out of place
 > **Tip:** Treat the package names with caution. Depending on how you name your CDS entities and services as well as how remote services are named there may be naming clashes. 
 > 
-> In our case the generated API class for the SuccessFactors service is similar to the generated entity class `cds.gen.goalservice.Goal_` of our `GoalServcie`. So the fully qualified class name is shown here.
+> In our case the generated API class for the SuccessFactors service `cds.gen.goal.Goal_` is similar to the generated entity class `cds.gen.goalservice.Goal_` of our `GoalService`. So the fully qualified class name is shown here.
 > 
 > Feel free to rename the `cds.gen.goalservice.Goal_` entity later as an optional exercise.
 
@@ -87,7 +86,7 @@ var select = Select.from(GOAL101)
                    .where(g -> g.userId().eq(user)
                            .and(g.category().eq("Learning and Growth"))
                            .and(g.name().contains("Learn something at TechEd 2023"))
-                           .and(g.status().ne("Completed"))); // g.status() is a Long. Did you mean g.state()?
+                           .and(g.state().ne("Completed")));
 ```
 
 </details>

@@ -135,7 +135,7 @@ Now that we imported the remote service we can un-comment some the source code w
             metric as description,
         }
     ```
-- [ ] 🔨 **Build the application with `mvn clean compile`** // missing return statement in `GoalServiceHandler#draftGoal`. Undefined reference for `goalService` in `GoalServiceHandler#deleteGoal`. Missing return statement in `GoalServiceHandler#createGoal`.
+- [ ] 🔨 **Build the application with `mvn clean compile`**
 
 ## Summary
 

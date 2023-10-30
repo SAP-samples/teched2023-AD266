@@ -90,7 +90,7 @@ Now that the classes have been generated we can un-comment the source code in th
 
 - [ ] 🔨**Un-comment all Java code in the `RegistrationServiceHandler` class.**
 
-Now the project is ready to be built. // Missing return statement in RegistrationServiceHandler#getTechEdEvent()
+Now the project is ready to be built.
 
 - [ ] 🔨**Compile the application using `mvn compile`.**
  
@@ -174,7 +174,7 @@ For local testing, destinations may also be provided via environment variables.
 
 Now we can replace the stub of `getDestination()` in `RegistrationServiceHandler` to actually load and return the destination.
 
-- [ ] 🔨 **Leverage the `DestinationAccessor` class to load the destination by its name.** // This task is already solved in the `initial-state` branch
+- [ ] 🔨 **Leverage the `DestinationAccessor` class to load the destination by its name.** 
 
 <details> <summary>Click here to view the solution.</summary>
 
