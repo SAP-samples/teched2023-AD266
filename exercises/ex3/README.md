@@ -12,13 +12,13 @@ Then we will use the imported service in the subsequent step (Exercise 4).
 
 Visit the SAP Business Accelerator Hub to fetch the [SuccessFactors Goal Plan](https://api.sap.com/api/PerformanceandGoalsPMGM/overview) API specification. You should see results like below:
 
-![](images/01_01.png)
+![](images/03_01.png)
 
 Scroll down the page to find API specification of the service listed.
 
 - [ ] 🔨 **Download the EDMX file by clicking on the download button.** 
   - You might have to log in with your trial account credentials.
-  ![](images/01_02.png)
+  ![](images/03_02.png)
 
 - [ ] 🔨 **For ease of understanding, please rename the downloaded file to `Goal.edmx` and place it in a folder of your choice.**
 
