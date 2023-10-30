@@ -351,4 +351,8 @@ Because we are not setting any result, the CAP framework will subsequently call 
 > 
 > You can learn more about the different event handling phases in the [CAP documentation](https://cap.cloud.sap/docs/java/provisioning-api#phases).
 
+## Summary
 
+You've now successfully learned how to use CAP Remote services to consume SuccessFactors Goal service.
+
+Continue to - [Exercise 5 (Optional) - Deploying the application to SAP Business Technology Platform](exercises/ex5/) if you are interested in learning how to deploy your application to BTP.
