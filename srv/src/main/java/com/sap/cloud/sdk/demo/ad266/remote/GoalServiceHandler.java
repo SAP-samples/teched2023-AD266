@@ -57,7 +57,7 @@ public class GoalServiceHandler implements EventHandler
 
     public Goal101 createGoal(String user)
     {
-
+        return null;
     }
 
     public void createTask(Goal101 goal, String title )
@@ -72,6 +72,6 @@ public class GoalServiceHandler implements EventHandler
 
     private static Goal101 draftGoal(String user)
     {
-
+        return null;
     }*/
 }
