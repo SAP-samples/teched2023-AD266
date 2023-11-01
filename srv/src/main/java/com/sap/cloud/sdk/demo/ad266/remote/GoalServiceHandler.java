@@ -36,6 +36,10 @@ import java.time.LocalDate;
 @Component
 public class GoalServiceHandler implements EventHandler
 {
+    /*@Autowired
+    @Qualifier(cds.gen.goal.Goal_.CDS_NAME)
+    private CqnService goalService;*/
+
     @Autowired
     private Helper helper;
 
