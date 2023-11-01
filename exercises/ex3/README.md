@@ -3,7 +3,7 @@
 In the previous exercise, we added functionality to allow a user to register for an event.
 What is left now is to add the functionality to create a goal and related tasks in SuccessFactors.
 
-In this exercise, we will look at how to use the [CAP Remote Services](https://cap.cloud.sap/docs/java/remote-services) feature to connect to the [SAP SuccessFactors Goal API](https://api.sap.com/api/PerformanceandGoalsPMGM/resource/Goal_Weight).
+In this exercise, we will look at how to use the [CAP Remote Services](https://cap.cloud.sap/docs/java/remote-services) feature to connect to the [SAP SuccessFactors Goal API](https://api.sap.com/api/PerformanceandGoalsPMGM/resource/Goal_101).
 
 We will do this in two parts: First, we'll get the [SuccessFactors Goal Plan Service API](https://api.sap.com/api/PerformanceandGoalsPMGM/overview) definition and import the service into our project.
 Then we will use the imported service in the subsequent step (Exercise 4). 
@@ -22,11 +22,11 @@ Scroll down the page to find API specification of the service listed.
 
 - [ ] 🔨 **For ease of understanding, please rename the downloaded file to `Goal.edmx` and place it in a folder of your choice.**
 
-> **Tip:** If you are facing issues with logging in, for your convenience we have also included the service definition file in the `exercises/resources` folder of this repository([Goal.edmx](../resources/Goal.edmx)).
+> **Tip:** If you are facing issues with logging in, for your convenience we have also included the service definition file in the `exercises/resources` folder of this repository ([Goal.edmx](../resources/Goal.edmx)).
 
 ## 3.2 Add the Goal Plan Service to Your Project
 
-- [ ] 🔨 **In your application's [`pom.xml`](../../srv/pom.xml) file add the following dependency:**
+- [ ] 🔨 **In your application's [srv/pom.xml](../../srv/pom.xml) file add the following dependency:**
    ```xml
    <!-- Remote Services -->
    <dependency>
@@ -58,9 +58,9 @@ using { Goal as external } from './external/Goal'
 [cds] - updated ./package.json
 ```
    
-The command will copy the service definition file to the [`srv/external`](../../srv/external) folder of your project and convert it to CAP’s CDS format, which will be placed there as well (`srv/external/Goal.cds`).
+The command will copy the service definition file to the [srv/external](../../srv/external) folder of your project and convert it to CAP’s CDS format, which will be placed there as well ([srv/external/Goal.cds](../../srv/external/Goal.cds)).
    
-Additionally, the remote service will be registered as a requirement in the `package.json` file:
+Additionally, the remote service will be registered as a requirement in the [package.json](../../package.json) file:
    
 ```json
 {
@@ -94,21 +94,21 @@ So let's add a destination for the SuccessFactors Goal Plan Service to our envir
   ```
 
 However, the destination will be used slightly differently compared to the OpenAPI service we used in the previous exercise.
-Instead of loading the destination in the code, we'll configure it in the `application.yaml` file.
+Instead of loading the destination in the code, we'll configure it in the [application.yaml](../../srv/src/main/resources/application.yaml) file.
 
-- [ ] 🔨 **In your application's [`application.yaml`](../../srv/src/main/resources/application.yaml) add the following entry for the imported service under `remote.services`:**
+- [ ] 🔨 **In your application's [application.yaml](../../srv/src/main/resources/application.yaml) add the following:**
 
-   ```yaml
-   cds:
-     datasource:
-       auto-config.enabled: false
-     remote.services:
-       - name: "Goal"
-         destination:
-           name: "SFSF-BASIC-ADMIN"
-           type: "odata-v2"
-           service: "/odata/v2"
-   ``` 
+```yaml
+cds:
+ datasource:
+   auto-config.enabled: false
+ remote.services:
+   - name: "Goal"
+     destination:
+       name: "SFSF-BASIC-ADMIN"
+       type: "odata-v2"
+       service: "/odata/v2"
+``` 
 
 - The `name` property simply refers to the destination (by its name) we would like to use for the remote service.
 - The `type` property defines the protocol used by the remote API which is an OData v2 service in this case.
@@ -121,11 +121,11 @@ Instead of loading the destination in the code, we'll configure it in the `appli
 Now that we imported the remote service we can un-comment some the source code we prepared for the next exercises and build the project.
 
 - [ ] 🔨 **Un-comment all Java code in the following Java classes:**
-  - `GoalServiceHandler`
-  - `GoalServiceFilter`
-  - `GoalServiceController`
-  - `SignupHandler`
-- [ ] 🔨 **Update the `service.cds` file as follows:**
+  - `GoalServiceHandler` ([here](../../srv/src/main/java/com/sap/cloud/sdk/demo/ad266/remote/GoalServiceHandler.java))
+  - `GoalServiceFilter` ([here](../../srv/src/main/java/com/sap/cloud/sdk/demo/ad266/remote/GoalServiceFilter.java))
+  - `GoalServiceController` ([here](../../srv/src/main/java/com/sap/cloud/sdk/demo/ad266/GoalServiceController.java))
+  - `SignupHandler` ([here](../../srv/src/main/java/com/sap/cloud/sdk/demo/ad266/SignupHandler.java))
+- [ ] 🔨 **Update the [service.cds](../../srv/service.cds) file as follows:**
   - Uncomment all commented out sections
   - Replace the `goal` entity inside the `GoalService` with the following code:
     ```cds
@@ -135,7 +135,7 @@ Now that we imported the remote service we can un-comment some the source code w
             metric as description,
         }
     ```
-- [ ] 🔨 **Build the application with `mvn clean compile`** // missing return statement in `GoalServiceHandler#draftGoal`. Undefined reference for `goalService` in `GoalServiceHandler#deleteGoal`. Missing return statement in `GoalServiceHandler#createGoal`.
+- [ ] 🔨 **Build the application with `mvn clean compile`.**
 
 ## Summary
 
