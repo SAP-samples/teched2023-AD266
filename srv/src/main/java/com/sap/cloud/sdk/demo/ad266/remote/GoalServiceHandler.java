@@ -36,10 +36,6 @@ import java.time.LocalDate;
 @Component
 public class GoalServiceHandler implements EventHandler
 {
-    /*@Autowired
-    @Qualifier(cds.gen.goal.Goal_.CDS_NAME)
-    private CqnService goalService;*/
-
     @Autowired
     private Helper helper;
 
@@ -71,7 +67,8 @@ public class GoalServiceHandler implements EventHandler
     }
 
     public Result deleteGoal(CqnDelete delete){
-        return goalService.run(delete);
+        return null;
+        // return goalService.run(delete);
     }
 
     private static Goal101 draftGoal(String user)

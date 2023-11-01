@@ -12,11 +12,30 @@ Remember, we want to add a goal and add tasks to the goal when a user registers 
 
 So let's enhance the `GoalServiceHandler` to implement these interactions with the SuccessFactors API.
 
-## 4.1 - Fetch all Learning Goals of a User in GoalServiceHandler
+## 4.1 Create a Remote Service Object
+
+Similarly to the OpenAPI consumption discussed in exercise 3 we need to define a service object that we will use to run our OData queries.
+
+- [ ] 🔨 **Add the following field to the `GoalServiceHandler` class:**
+
+    ```java
+    @Autowired
+    @Qualifier(cds.gen.goal.Goal_.CDS_NAME)
+    private CqnService goalService;
+    ```
+
+// the tip below seems to be out of place
+> **Tip:** Treat the package names with caution. Depending on how you name your CDS entities and services as well as how remote services are named there may be naming clashes.
+>
+> In our case the generated API class for the SuccessFactors service is similar to the generated entity class `cds.gen.goalservice.Goal_` of our `GoalServcie`. So the fully qualified class name is shown here.
+>
+> Feel free to rename the `cds.gen.goalservice.Goal_` entity later as an optional exercise.
+
+## 4.2 - Fetch all Learning Goals of a User in GoalServiceHandler
 
 First, we'll write a query that fetches all goals of the user. We'll then refine the query to look for the learning goal specifically.
 
-### 4.1.1 Fetch all Goals
+### 4.2.1 Fetch all Goals
 
 - [ ] 🔨 **Extend the `getLearningGoals()` method in `GoalServiceHandler` class ([here](../../srv/src/main/java/com/sap/cloud/sdk/demo/ad266/remote/GoalServiceHandler.java)) as follows:**
     ```java
@@ -55,7 +74,7 @@ Let's test the code to make sure it functions correctly:
 
 You should see a few goals being returned in the response.
 
-### 4.1.2 Filter for Learning Goals
+### 4.2.2 Filter for Learning Goals
 
 Now that we have a working query let's refine it to only fetch learning goals.
 
@@ -120,7 +139,7 @@ Now we can update our code to only return visible goals.
 > **Tip:** While we could also include a further `where` statement to filter archived goals out on the server side, the SuccessFactors system we are using does not permit filtering on this property. So we have to filter on the client side instead.
 
 
-## 4.2 Create a Learning Goal
+## 4.3 Create a Learning Goal
 
 The first time you try to fetch the goals, you will get an empty list. This is because we haven't created a goal for the user yet. Let's add the functionality to create a goal for the user.
 
@@ -193,7 +212,7 @@ Now it's time to test our code.
   - Check the application logs to see if the goal was created successfully. 
   - Head to the [SuccessFactors](https://pmsalesdemo8.successfactors.com/) UI to see your created goal. 
 
-## 4.3 - Create a Task
+## 4.4 - Create a Task
 
 We want to add tasks to an already created goal when a user registers for session. Tasks are represented by the `Task101` entity in SuccessFactors (in the UI you may also see them labeled as "Sub-Goals"). 
 
@@ -236,7 +255,7 @@ You've now successfully used CAP Remote services to consume SuccessFactors Goal 
 
 Below are a few further, optional exercises to learn more. Continue with those or head to the next step: [Exercise 5 - Deploying the Application to SAP Business Technology Platform](../ex5/README.md)
 
-## 4.4 (Optional) Add a Custom HTTP Header to Requests
+## 4.5 (Optional) Add a Custom HTTP Header to Requests
 
 Sometimes one needs to send additional headers to a system.
 The SAP Cloud SDK offers various ways to achieve this.
@@ -254,11 +273,13 @@ In our case it would be helpful to disable gzip compression to make the response
 
 </details>
 
-## 4.5 (Optional) Understanding the Delete Goal Implementation
+## 4.6 (Optional) Understanding the Delete Goal Implementation
 
 If you like you can delete a goal you created, for example to run your `createGoal` logic again.
 
 The `GoalServiceHandler` has a `Result deleteGoal(CqnDelete delete)` method that you can use:
+
+- [ ] 🔨 **Adjust the `deleteGoal(CqnDelete delete)` method as follows:**
 
 ```java
 public Result deleteGoal(CqnDelete delete){
@@ -287,7 +308,7 @@ The reason this works is that we have defined `entity Goal as projection on Goal
 
 > As the SuccessFactors instance is shared among participants please be careful to only delete your own goals.
 
-## 4.6 (Optional) How to deal with Custom Fields or Incomplete Metadata
+## 4.7 (Optional) How to deal with Custom Fields or Incomplete Metadata
 
 Sometimes you may have to interact with fields that are not part of the metadata of the OData service.
 For SuccessFactors one can obtain different metadata files from different sources.
@@ -307,7 +328,7 @@ In fact, we are making use of this feature to add required fields to the goal an
   - Check the newly added field is present in the `Goal101` class.
   - (optional) Remove the custom field again.
 
-## 4.7 (Optional) Understanding and Improving the `GoalServiceFilter`
+## 4.8 (Optional) Understanding and Improving the `GoalServiceFilter`
 
 In the `GoalServiceFilter` class we have implemented a filter that is applied to all requests to the `GoalService` endpoint.
 The filter is responsible for filtering for the `DEMO_ID` so that each participant only sees their own created goals.
