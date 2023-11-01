@@ -24,7 +24,6 @@ Similarly to the OpenAPI consumption discussed in exercise 3 we need to define a
     private CqnService goalService;
     ```
 
-// the tip below seems to be out of place
 > **Tip:** Treat the package names with caution. Depending on how you name your CDS entities and services as well as how remote services are named there may be naming clashes.
 >
 > In our case the generated API class for the SuccessFactors service is similar to the generated entity class `cds.gen.goalservice.Goal_` of our `GoalServcie`. So the fully qualified class name is shown here.
