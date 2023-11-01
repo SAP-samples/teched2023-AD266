@@ -39,9 +39,6 @@ The requirements to follow the exercises in this repository are:
 
 ## Exercises
 
-// TODO: update once structure is final
-// TODO: the links below are now working at the moment. Fix this.
-
 - [Getting Started](exercises/ex0/README.md)
   - [Prerequisites](exercises/ex0/README.md#prerequisites)
   - [Understanding the use case](exercises/ex0/README.md#understanding-the-use-case)
