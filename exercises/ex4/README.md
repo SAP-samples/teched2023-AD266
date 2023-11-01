@@ -35,7 +35,7 @@ Similarly to the OpenAPI consumption discussed in exercise 3 we need to define a
 
 First, we'll write a query that fetches all goals of the user. We'll then refine the query to look for the learning goal specifically.
 
-### 4.2.1 Fetch all goals
+### 4.2.1 Fetch all Goals
 
 - [ ] 🔨 **Extend the `getLearningGoals()` method in `GoalServiceHandler` class as follows:**
     ```java

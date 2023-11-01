@@ -56,11 +56,11 @@ The interesting part here is the `generate` goal, which is responsible for scann
 
 - [ ] 🔨 **From your project's root directory, run `mvn clean compile`.**
 
-You can see artifacts being generated for the services we defined in the `service.cds` under the `srv/src/gen/java/cds.gen` folder.
+You can see artifacts being generated for the services we defined in the `service.cds` under the [srv/src/gen/java/cds/gen](../../srv/src/gen/java/cds/gen) folder.
 
 In order for the IDE to recognise the new directory as source code we need to mark it as such.
 
-- [ ] 🔨**For the IntelliJ IDE: right-click the directory `srv/src/gen/java` and select `Mark Directory as` -> `Generated Sources Root`.**
+- [ ] 🔨**For the IntelliJ IDE: right-click the directory [srv/src/gen/java](../../srv/src/gen/java) and select `Mark Directory as` -> `Generated Sources Root`.**
 
 > **Tip:** The generated sources are excluded from Git by the current `.gitignore` file.
 > Generally this is typically a matter of preference and may also depend on how you set up the CI/CD of your project.
@@ -73,7 +73,7 @@ Let's examine the event handler for the `SignupService` in the file [SignupHandl
 
 - The `@ServiceName(SignupService_.CDS_NAME)` annotation at the top of the class specifies the service, which the event handler is registered on. 
 
-- The `@On( event = SignUpContext.CDS_NAME)` annotation on top of the method `signUp(context)` specifies the `Event Phase` at which the method would be called.
+- The `@On` annotation on top of the method `signUp(context)` specifies the `Event Phase` at which the method would be called.
    - An `Event` can be processed in three phases: `Before`, `On`, and `After`. As we are defining the core business logic of the action, we are using the `On` phase.
    - What this means is that everytime the `signUp(session)` action is called, an event is triggered and the `signUp(context)` method is called.
 
@@ -84,7 +84,7 @@ Let's examine the event handler for the `SignupService` in the file [SignupHandl
 
 Let's try running our application now.
 
-## 1.5 Run your application locally
+## 1.5 Run Your Application Locally
 
 - [ ] 🔨 **From the root directory of your project, in your IDE's terminal, run `mvn spring-boot:run` to start the application locally.**
 

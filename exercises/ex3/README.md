@@ -8,7 +8,7 @@ In this exercise, we will look at how to use the [CAP Remote Services](https://c
 We will do this in two parts: First, we'll get the [SuccessFactors Goal Plan Service API](https://api.sap.com/api/PerformanceandGoalsPMGM/overview) definition and import the service into our project.
 Then we will use the imported service in the subsequent step (Exercise 4). 
 
-## 3.1 Download specification from SAP Business Accelerator Hub
+## 3.1 Download Specification from SAP Business Accelerator Hub
 
 Visit the SAP Business Accelerator Hub to fetch the [SuccessFactors Goal Plan](https://api.sap.com/api/PerformanceandGoalsPMGM/overview) API specification. You should see results like below:
 
@@ -24,7 +24,7 @@ Scroll down the page to find API specification of the service listed.
 
 > **Tip:** If you are facing issues with logging in, for your convenience we have also included the service definition file in the `exercises/resources` folder of this repository([Goal.edmx](../resources/Goal.edmx)).
 
-## 3.2 Add the Goal Plan service to your project
+## 3.2 Add the Goal Plan Service to Your Project
 
 - [ ] 🔨 **In your application's [`pom.xml`](../../srv/pom.xml) file add the following dependency:**
    ```xml
