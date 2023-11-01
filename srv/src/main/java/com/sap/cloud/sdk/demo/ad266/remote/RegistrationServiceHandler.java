@@ -15,7 +15,7 @@ import java.util.List;
 public class RegistrationServiceHandler {
 
     private Destination getDestination() {
-        return DestinationAccessor.getDestination("Registration-Service");
+        return null;
     }
 
     public void signUpForTechEd() {
@@ -28,6 +28,6 @@ public class RegistrationServiceHandler {
 
     /*@GetMapping( path = "/rest/v1/getTechEdEvent", produces = "application/json")
     public Event getTechEdEvent() {
-
+        return null;
     }*/
 }
