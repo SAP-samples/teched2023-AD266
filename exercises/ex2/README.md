@@ -169,6 +169,10 @@ For local testing, destinations may also be provided via environment variables.
   ```ps
   $env:destinations='[{name: "Registration-Service", url: "https://ad266-registration.cfapps.eu10-004.hana.ondemand.com/"}]'
   ```
+  For Git Bash:
+  ```bash
+  export destinations='[{name: "Registration-Service", url: "https://ad266-registration.cfapps.eu10-004.hana.ondemand.com/"}]'
+  ```
   
 > **Tip:** If you prefer to run the application from within your IDE, you can also configure the environment variable in the IDE. For example, in IntelliJ you can achieve this via the `Run` -> `Edit Configurations` menu.
 

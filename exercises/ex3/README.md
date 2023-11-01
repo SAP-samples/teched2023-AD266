@@ -92,6 +92,10 @@ So let's add a destination for the SuccessFactors Goal Plan Service to our envir
   ```ps
   $env:destinations='[{name: "Registration-Service", url: "https://ad266-registration.cfapps.eu10-004.hana.ondemand.com/"},{"name":"SFSF-BASIC-ADMIN", "url":"https://apisalesdemo8.successfactors.com/", "type": "HTTP", "user": "USER", "password": "PASSWORD"}]'
   ```
+  For Git Bash:
+  ```bash
+  export destinations='[{name: "Registration-Service", url: "https://ad266-registration.cfapps.eu10-004.hana.ondemand.com/"},{"name":"SFSF-BASIC-ADMIN", "url":"https://apisalesdemo8.successfactors.com/", "type": "HTTP", "user": "USER", "password": "PASSWORD"}]'
+  ```
 
 However, the destination will be used slightly differently compared to the OpenAPI service we used in the previous exercise.
 Instead of loading the destination in the code, we'll configure it in the [application.yaml](../../srv/src/main/resources/application.yaml) file.
