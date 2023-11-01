@@ -1,16 +1,16 @@
 # Exercise 2 - Consuming the Registration API using the SAP Cloud SDK
 
-The [`SignupHandler`](../../srv/src/main/java/com/sap/cloud/sdk/demo/ad266/SignupHandler.java) is the entry point of the application. And `signUp` is the action that will be called when a user signs up for an event or a session.
+The `SignupHandler` ([here](../../srv/src/main/java/com/sap/cloud/sdk/demo/ad266/SignupHandler.java)) is the entry point of the application. And `signUp` is the action that will be called when a user signs up for an event or a session.
 The first step to take when a user signs up for an event is to register them for the event.
 As discussed in the previous exercise, for registering the user for an event/session, we will use a synthetic remote OpenAPI service.
 
-In this exercise, we will look at adapting the [`RegistrationServiceHandler`](../../srv/src/main/java/com/sap/cloud/sdk/demo/ad266/remote/RegistrationServiceHandler.java) to handle all communication with the remote OpenAPI service.
+In this exercise, we will look at adapting the `RegistrationServiceHandler` ([here](../../srv/src/main/java/com/sap/cloud/sdk/demo/ad266/remote/RegistrationServiceHandler.java)) to handle all communication with the remote OpenAPI service.
 
 Let's learn how you can leverage the SAP Cloud SDK to consume a remote OpenAPI service.
 
 ## 2.1 Familiarising Yourself with the Remote OpenAPI Service
 
- The OpenAPI service is available at `https://ad266-registration.cfapps.eu10-004.hana.ondemand.com`. For the sake of simplicity, we will assume that you don't have to authenticate yourself to access the service.
+The OpenAPI service is available at `https://ad266-registration.cfapps.eu10-004.hana.ondemand.com`. For the sake of simplicity, we will assume that you don't have to authenticate yourself to access the service.
 
 1. [ ] 🔨 **Head to https://ad266-registration.cfapps.eu10-004.hana.ondemand.com/api-docs and explore the OpenAPI specification of the service.**
 
@@ -25,7 +25,7 @@ Next, we will use the SAP Cloud SDK to consume this remote OpenAPI service.
 
 To connect to the remote OpenAPI service we will generate a [typed OpenAPI client](https://sap.github.io/cloud-sdk/docs/java/v5/features/rest/overview).
 
-- [ ] 🔨**Head to the `<plugin>` section of the `srv/pom.xml` file and add the following plugin configuration:**
+- [ ] 🔨 **Head to the `<plugin>` section of the [srv/pom.xml](../../srv/pom.xml) file and add the following plugin configuration:**
 
    ```xml
    <!-- Cloud SDK OData VDM Generator -->
@@ -58,15 +58,15 @@ Those classes can then be used to build and execute HTTP requests against the re
 
 Take note of the parameters in the `<configuration>` section above:
 
-- `<inputSpec>`: This points to the OpenAPI specification of the remote service, which is already included under `external/registration.json` in your project.
-- `<outputDirectory>`: The output directory is the directory where the generated classes will be placed. We are using the `src/gen/java` directory of the project to indicate those are generated classes.
+- `<inputSpec>`: This points to the OpenAPI specification of the remote service, which is already included under [external/registration.json](../../srv/external/registration.json) in your project.
+- `<outputDirectory>`: The output directory is the directory where the generated classes will be placed. We are using the [src/gen/java](../../srv/src/gen/java) directory of the project to indicate those are generated classes.
 - `<apiPackage>` and `<modelPackage>`: The package names for the generated classes.
 
 > **Tip**: You can find more details about the plugin parameters [here](https://sap.github.io/cloud-sdk/docs/java/v5/features/rest/generate-rest-client#available-parameters).
 
 Next, we have to add some dependencies to the project to ensure these generated classes can be compiled and used.
 
-- [ ] 🔨**Add the following Cloud SDK dependencies to the dependency section of your `srv/pom.xml` file:**
+- [ ] 🔨 **Add the following Cloud SDK dependencies to the dependency section of your [srv/pom.xml](../../srv/pom.xml) file:**
    
    ```xml
    <!-- Cloud SDK OpenAPI & Destinations -->
@@ -84,17 +84,19 @@ Next, we have to add some dependencies to the project to ensure these generated 
    </dependency>
    ```
 
-> **Tip:** We don't need to specify a `<version>` here, because we are already managing the versions of all relevant dependencies via a set of BOMs in the `<dependencyManagement>` section in the root `pom.xml` file.
+> **Tip:** We don't need to specify a `<version>` here, because we are already managing the versions of all relevant dependencies via a set of BOMs in the `<dependencyManagement>` section in the root [pom.xml](../../pom.xml) file.
+
+- [ ] 🔨 **Generate the type-safe client by running `mvn compile`.**
 
 Now that the classes have been generated we can un-comment the source code in the `RegistrationServiceHandler` class.
 
-- [ ] 🔨**Un-comment all Java code in the `RegistrationServiceHandler` class.**
+- [ ] 🔨**Un-comment all Java code in the `RegistrationServiceHandler` ([here](../../srv/src/main/java/com/sap/cloud/sdk/demo/ad266/remote/RegistrationServiceHandler.java)) class.**
 
-Now the project is ready to be built. // Missing return statement in RegistrationServiceHandler#getTechEdEvent()
+Now the project is ready to be built.
 
-- [ ] 🔨**Compile the application using `mvn compile`.**
+- [ ] 🔨**Compile the changes using `mvn compile` again.**
  
-You should see the generated classes within the new `srv/src/gen/java/cloudsdk.gen.registrationservice` directory.
+You should see the generated classes within the new [srv/src/gen/java/cloudsdk/gen/registrationservice](../../srv/src/gen/java/cloudsdk/gen/registrationservice) directory.
 
 In the next step we will use the generated client to  write and run queries for the remote OpenAPI service.
 
@@ -117,7 +119,7 @@ We'll make use of the API class to obtain the list of available events and selec
 
 - [ ] 🔨 **Implement the code using the `EventRegistrationApi` class to get a list of events from the remote service.** 
   - Add your code to the `getTechEdEvent` method inside the `EventRegistrationApi` class.
-- [ ] 🔨**Filter the list and return only the single event named `"TechEd 2023"`.**
+- [ ] 🔨 **Filter the list and return only the single event named `"TechEd 2023"`.**
 
 <details> <summary>Click here to view the solution.</summary>
 
@@ -174,7 +176,7 @@ For local testing, destinations may also be provided via environment variables.
 
 Now we can replace the stub of `getDestination()` in `RegistrationServiceHandler` to actually load and return the destination.
 
-- [ ] 🔨 **Leverage the `DestinationAccessor` class to load the destination by its name.** // This task is already solved in the `initial-state` branch
+- [ ] 🔨 **Leverage the `DestinationAccessor` class to load the destination by its name.**
 
 <details> <summary>Click here to view the solution.</summary>
 
@@ -188,9 +190,9 @@ private Destination getDestination() {
 
 With these changes in place we can now run the application and test the endpoint.
 
-- [ ] 🔨**Run the application with `mvn spring-boot:run` or from within your IDE.**
-- [ ] 🔨**Test the endpoint http://localhost:8080/rest/v1/getTechEdEvent in your browser or via `curl` from your terminal.**
-  - [ ] 🔨**Check whether it returns the same result as provided by the remote service at https://ad266-registration.cfapps.eu10-004.hana.ondemand.com/events/1.** 
+- [ ] 🔨 **Run the application with `mvn spring-boot:run` or from within your IDE.**
+- [ ] 🔨 **Test the endpoint http://localhost:8080/rest/v1/getTechEdEvent in your browser or via `curl` from your terminal.**
+  - [ ] 🔨 **Check whether it returns the same result as provided by the remote service at https://ad266-registration.cfapps.eu10-004.hana.ondemand.com/events/1.** 
 
 > **Tip:** Inspect the application logs to see more details on what is happening under the hood while loading the destination and calling the registration service.
 
@@ -201,7 +203,7 @@ Now that we successfully implemented our first remote services call let's comple
 To recap: We want to register our user for an event and associated sessions.
 This is already sketched out in the `register(String session)` method of the `SignupHandler` class.
 
-- [ ] 🔨**Implement the logic for `signUpForTechEd()` and `signUpForSession(String sessionName)` in the `RegistrationServiceHandler` class.**
+- [ ] 🔨 **Implement the logic for `signUpForTechEd()` and `signUpForSession(String sessionName)` in the `RegistrationServiceHandler` class.**
   - Make use of the `EventRegistrationApi` as in the previous exercise.
   - For now, we'll always assume the user is signing up for TechEd.
   - If none of the TechEd sessions match the `sessionName` we should throw an exception.
@@ -239,7 +241,7 @@ public void signUpForSession(String sessionName) {
 > 
 > So it is recommended to always obtain a fresh destination object before making a remote call. Don't worry, the SAP Cloud SDK caches the destination objects internally, so this does not come at a performance loss. You can read more about the caching strategy [here](https://sap.github.io/cloud-sdk/docs/java/features/connectivity/destination-service#configuring-caching-when-querying-the-destination-service-on-cloud-foundry).
 
-- [ ] 🔨(optional) **Verify the solution works by running `curl.exe -XPOST localhost:8080/odata/v4/SignupService/signUp` in your terminal.**
+- [ ] 🔨 (optional) **Verify the solution works by running `curl.exe -XPOST localhost:8080/odata/v4/SignupService/signUp` in your terminal.**
 
 ## Summary
 

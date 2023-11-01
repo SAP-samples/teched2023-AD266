@@ -25,19 +25,19 @@ Similarly to the OpenAPI consumption discussed in exercise 3 we need to define a
     ```
 
 // the tip below seems to be out of place
-> **Tip:** Treat the package names with caution. Depending on how you name your CDS entities and services as well as how remote services are named there may be naming clashes. 
-> 
+> **Tip:** Treat the package names with caution. Depending on how you name your CDS entities and services as well as how remote services are named there may be naming clashes.
+>
 > In our case the generated API class for the SuccessFactors service is similar to the generated entity class `cds.gen.goalservice.Goal_` of our `GoalServcie`. So the fully qualified class name is shown here.
-> 
+>
 > Feel free to rename the `cds.gen.goalservice.Goal_` entity later as an optional exercise.
 
 ## 4.2 - Fetch all Learning Goals of a User in GoalServiceHandler
 
 First, we'll write a query that fetches all goals of the user. We'll then refine the query to look for the learning goal specifically.
 
-### 4.2.1 Fetch all goals
+### 4.2.1 Fetch all Goals
 
-- [ ] 🔨 **Extend the `getLearningGoals()` method in `GoalServiceHandler` class as follows:**
+- [ ] 🔨 **Extend the `getLearningGoals()` method in `GoalServiceHandler` class ([here](../../srv/src/main/java/com/sap/cloud/sdk/demo/ad266/remote/GoalServiceHandler.java)) as follows:**
     ```java
     public List<Goal101> getLearningGoals() {
         var user = helper.getUser();
@@ -87,7 +87,7 @@ var select = Select.from(GOAL101)
                    .where(g -> g.userId().eq(user)
                            .and(g.category().eq("Learning and Growth"))
                            .and(g.name().contains("Learn something at TechEd 2023"))
-                           .and(g.status().ne("Completed"))); // g.status() is a Long. Did you mean g.state()?
+                           .and(g.state().ne("Completed")));
 ```
 
 </details>
@@ -111,7 +111,7 @@ var select = Select.from(GOAL101)
                    .where(g -> g.userId().eq(user)
                            .and(g.category().eq("Learning and Growth"))
                            .and(g.name().contains("Learn something at TechEd 2023"))
-                           .and(g.status().ne("Completed")));
+                           .and(g.state().ne("Completed")));
 ```
 
 </details>
@@ -279,6 +279,8 @@ If you like you can delete a goal you created, for example to run your `createGo
 
 The `GoalServiceHandler` has a `Result deleteGoal(CqnDelete delete)` method that you can use:
 
+- [ ] 🔨 **Adjust the `deleteGoal(CqnDelete delete)` method as follows:**
+
 ```java
 public Result deleteGoal(CqnDelete delete){
     return goalService.run(delete);
@@ -302,7 +304,7 @@ _So why does this work?_
 
 The reason this works is that we have defined `entity Goal as projection on Goal_101` and the CAP runtime automatically converts the `CqnDelete` on the `Goal` entity to a `CqnDelete` on the `Goal_101` entity.
 
-- [ ] 🔨 **Run `curl.exe -XDELETE http://localhost:8080/odata/v4/GoalService/Goal(<your-goal-id-here>)` to delete the given goal from the remote service.**
+- [ ] 🔨 **Run `curl.exe -XDELETE "http://localhost:8080/odata/v4/GoalService/Goal(<your-goal-id-here>)"` to delete the given goal from the remote service.**
 
 > As the SuccessFactors instance is shared among participants please be careful to only delete your own goals.
 
@@ -320,13 +322,11 @@ Another case where not all fields are defined in the metadata is when custom fie
 In order to deal with these cases, CDS offers the `extend` keyword.
 In fact, we are making use of this feature to add required fields to the goal and task entities.
 
-- [ ] 🔨 **Inspect the `srv/service.cds` file to see what fields are being added.**
+- [ ] 🔨 **Inspect the [srv/service.cds](../../srv/service.cds) file to see what fields are being added.**
 - [ ] 🔨 **Add your own custom field to the `Goal_101` entity.**
   - Once added run `mvn compile`.
   - Check the newly added field is present in the `Goal101` class.
   - (optional) Remove the custom field again.
-
-// TODO test what happens if you send a custom field to SFSF <-- (change just for visibility)
 
 ## 4.8 (Optional) Understanding and Improving the `GoalServiceFilter`
 
@@ -345,8 +345,6 @@ Because we are not setting any result, the CAP framework will subsequently call 
 
 - [ ] 🔨 **Move the filtering for the userID out of the `GoalServiceHandler` and add it to this before handler instead.**
 - [ ] 🔨 **Move the filtering for the view permission out of the `GoalServiceHandler` by creating an `@After` implementation in the `GoalServiceFilter` to achieve the same behaviour.**
-
-//TODO add solution, test this <-- (change just for visibility)
 
 > **Tip:** Extracting filtering logic like this may also be helpful if you need to turn it on or off depending on other factors. For example, you could annotate this class to only be loaded for specific Spring profiles.
 > 
