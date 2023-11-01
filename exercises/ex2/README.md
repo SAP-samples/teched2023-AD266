@@ -152,7 +152,7 @@ In order for the above code to function at runtime we'll need to provide a **_de
 
 **Further Resources**:
 - [BTP Connectivity: Configuring Destinations in the BTP Cockpit](https://help.sap.com/docs/connectivity/sap-btp-connectivity-cf/connectivity-administration?q=Destination%20Service)
-- [SAP Cloud SDK: Using Destinations](https://sap.github.io/cloud-sdk/docs/java/v5/features/connectivity/destination-service)
+- [SAP Cloud SDK: Using Destinations](https://sap.github.io/cloud-sdk/docs/java/features/connectivity/destination-service)
 
 Destinations are typically maintained in the BTP Cockpit and are made available to the application via the [Destination Service](https://api.sap.com/api/SAP_CP_CF_Connectivity_Destination/resource/Find_a_Destination). The service offers a variety of different authentication mechanisms, including connectivity options for on-premise systems.
 The SAP Cloud SDK automatically interacts with the Destination Service to load the destination configuration at runtime.
