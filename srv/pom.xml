@@ -103,6 +103,11 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>com.sap.cloud.sdk.datamodel</groupId>
+			<artifactId>odata-core</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -185,6 +190,36 @@
 							<apiPackage>cloudsdk.gen.registrationservice</apiPackage>
 							<modelPackage>cloudsdk.gen.registrationservice</modelPackage>
 							<compileScope>COMPILE</compileScope>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>com.sap.cloud.sdk.datamodel</groupId>
+				<artifactId>odata-generator-maven-plugin</artifactId>
+				<version>5.0.0-SNAPSHOT</version>
+				<executions>
+					<execution>
+						<id>generate-consumption</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<inputDirectory>${project.basedir}/external/Goal.edmx</inputDirectory>
+							<outputDirectory>${project.basedir}/src/gen/java</outputDirectory>
+							<deleteOutputDirectory>false</deleteOutputDirectory>
+							<packageName>cloudsdk.gen</packageName>
+							<defaultBasePath>odata/v2/</defaultBasePath>
+							<compileScope>COMPILE</compileScope>
+							<serviceMethodsPerEntitySet>true</serviceMethodsPerEntitySet>
+							<serviceNameMappingFile>${project.build.directory}/serviceNameMappings.properties</serviceNameMappingFile>
+							<overwriteFiles>true</overwriteFiles>
+							<includeEntitySets>
+								<param>Goal_101</param>
+								<param>GoalTask_101</param>
+								<param>GoalPermission_101</param>
+							</includeEntitySets>
 						</configuration>
 					</execution>
 				</executions>
